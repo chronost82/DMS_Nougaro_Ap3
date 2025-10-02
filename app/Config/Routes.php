@@ -8,26 +8,26 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 //Routes pour la gestion des clients
-$routes->get('liste-clients', 'client::affiche', ['as'=> 'admin-liste-clients']);
+$routes->get('liste-clients', 'ClientController::affiche', ['as'=> 'admin-liste-clients']);
 
-$routes->post('suppr-client', 'client::delete', ['as'=> 'admin-suppr-client']);
+$routes->post('suppr-client', 'ClientController::delete', ['as'=> 'admin-suppr-client']);
 
-$routes->get('ajout-client', 'client::ajout', ['as' => 'admin-ajout-client']);
-$routes->post('ajout-client', 'client::create', ['as' => 'admin-ajout-client']);
+$routes->get('ajout-client', 'ClientController::ajout', ['as' => 'admin-ajout-client']);
+$routes->post('ajout-client', 'ClientController::create', ['as' => 'admin-ajout-client']);
 
-$routes->get('ajout-client', 'client::ajout', ['as'=> 'admin-ajout-client']);
-$routes->post('ajout-client', 'client::create', ['as'=> 'admin-ajout-client']);
+$routes->get('ajout-client', 'ClientController::ajout', ['as'=> 'admin-ajout-client']);
+$routes->post('ajout-client', 'ClientController::create', ['as'=> 'admin-ajout-client']);
 
 //Routes pour la gestion des élèves
-$routes->get('liste-eleves', 'eleve::affiche', ['as'=> 'admin-liste-eleves']);
+$routes->get('liste-eleves', 'EleveController::affiche', ['as'=> 'admin-liste-eleves']);
 
-$routes->post('suppr-eleve', 'eleve::delete', ['as'=> 'admin-suppr-eleve']);
+$routes->post('suppr-eleve', 'EleveController::delete', ['as'=> 'admin-suppr-eleve']);
 
-$routes->get('modif-eleve', 'eleve::modif', ['as'=> 'admin-eleve-modif']);
-$routes->post('modif-eleve', 'eleve::update', ['as'=> 'admin-eleve-modif']);
+$routes->get('modif-eleve', 'EleveController::modif', ['as'=> 'admin-eleve-modif']);
+$routes->post('modif-eleve', 'EleveController::update', ['as'=> 'admin-eleve-modif']);
 
-$routes->get('ajout-eleve', 'eleve::ajout', ['as'=> 'admin-ajout-eleve']);
-$routes->post('ajout-eleve', 'eleve::create', ['as'=> 'admin-ajout-eleve']);
+$routes->get('ajout-eleve', 'EleveController::ajout', ['as'=> 'admin-ajout-eleve']);
+$routes->post('ajout-eleve', 'EleveController::create', ['as'=> 'admin-ajout-eleve']);
 
 //Routes pour la gestion des demandes
 //En attente
