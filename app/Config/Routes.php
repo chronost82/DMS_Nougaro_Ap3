@@ -8,29 +8,26 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 //Routes pour la gestion des clients
-$routes->get('liste-clients', 'client::affiche', ['as' => 'admin-liste-clients']);
+$routes->get('liste-clients', 'client::affiche', ['as'=> 'admin-liste-clients']);
 
-$routes->post('suppr-client', 'client::delete', ['as' => 'admin-suppr-client']);
-
-$routes->get('modif-client', 'client::modif', ['as' => 'admin-client-modif']);
-$routes->post('modif-client', 'client::update', ['as' => 'admin-client-modif']);
+$routes->post('suppr-client', 'client::delete', ['as'=> 'admin-suppr-client']);
 
 $routes->get('ajout-client', 'client::ajout', ['as' => 'admin-ajout-client']);
 $routes->post('ajout-client', 'client::create', ['as' => 'admin-ajout-client']);
 
+$routes->get('ajout-client', 'client::ajout', ['as'=> 'admin-ajout-client']);
+$routes->post('ajout-client', 'client::create', ['as'=> 'admin-ajout-client']);
 
 //Routes pour la gestion des élèves
-$routes->get('list-eleve', 'EleveController::affiche', ['as' => 'admin-liste-eleves']);
+$routes->get('liste-eleves', 'eleve::affiche', ['as'=> 'admin-liste-eleves']);
 
-$routes->post('/suppr-eleve', 'Eleve::delete', ['as' => 'admin-suppr-eleve']);
+$routes->post('suppr-eleve', 'eleve::delete', ['as'=> 'admin-suppr-eleve']);
 
-$routes->get('/modif-eleve', 'Eleve::modif', ['as' => 'admin-eleve-modif']);
-$routes->post('/modif-eleve', 'Eleve::update', ['as' => 'admin-eleve-modif']);
+$routes->get('modif-eleve', 'eleve::modif', ['as'=> 'admin-eleve-modif']);
+$routes->post('modif-eleve', 'eleve::update', ['as'=> 'admin-eleve-modif']);
 
-$routes->get('/ajout-eleve', 'Eleve::ajout', ['as' => 'admin-ajout-eleve']);
-$routes->post('/ajout-eleve', 'Eleve::create', ['as' => 'admin-ajout-eleve']);
-
-
+$routes->get('ajout-eleve', 'eleve::ajout', ['as'=> 'admin-ajout-eleve']);
+$routes->post('ajout-eleve', 'eleve::create', ['as'=> 'admin-ajout-eleve']);
 
 //Routes pour la gestion des demandes
 //En attente
