@@ -29,3 +29,4 @@ $routes->post('modif-eleve', 'eleve::update', ['as'=> 'admin-eleve-modif']);
 $routes->get('ajout-eleve', 'eleve::ajout', ['as'=> 'admin-ajout-eleve']);
 $routes->post('ajout eleve', 'eleve::create', ['as'=> 'admin-ajout-eleve']);
 
+$routes->get('/dashboard', 'Dashboard::index');
