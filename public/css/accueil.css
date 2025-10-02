@@ -1,15 +1,18 @@
-section#formulaire {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 20px auto;
+body {
+    background: url("../img/bg_client.jpg") no-repeat; 
+    background-size: cover;
 }
 
-form {
+.form-contact {
+    display: flex;
+    justify-content: center;
+}
+
+.form-contact form {
+    width: 50%;
     display: flex;
     flex-direction: column;
+    background-color: #A9A3A0;
 }
 
 form label {
