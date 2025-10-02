@@ -22,12 +22,12 @@
         <a class="bouton" href="<?= url_to('ajout-test') ?>">Nouveaux test</a>
         <?php
         $tableauTest = new \CodeIgniter\View\Table();
-        $tableauTest->setHeading('Nom du test', 'Modifier', 'Supprimer');
+        $tableauTest->setHeading('libelle du test', 'Modifier', 'Supprimer');
         foreach ($listeTest as $test) {
             $tableauTest->addRow(
-                $test['nom'],
-                '<a class="bouton" href="' . url_to('modif-test', $test['id']) . '">Modifier</a>',
-                '<a class="bouton" href="' . url_to('suppr-test', $test['id']) . '">Supprimer</a>'
+                $test['libelle'],
+                '<a class="bouton" href="' . url_to('modif-test', $test['idtesttechnique']) . '">Modifier</a>',
+                '<a class="bouton" href="' . url_to('suppr-test', $test['idtesttechnique']) . '">Supprimer</a>'
             );
         }
         echo $tableauTest->generate();
