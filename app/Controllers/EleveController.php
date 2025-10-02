@@ -9,7 +9,7 @@ class EleveController extends BaseController
 {
     public function affiche()
     {
-        return view('eleves/index.php');
+        return view('eleve/index.php');
     }
 
     public function delete()

@@ -57,7 +57,7 @@ class Routing extends BaseRouting
      *
      * Default: 'index'
      */
-    public string $defaultMethod = '';
+    public string $defaultMethod = 'index';
 
     /**
      * For Auto Routing.
