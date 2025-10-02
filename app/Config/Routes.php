@@ -42,10 +42,10 @@ $routes->get('ajout-demande', 'demande::ajout', ['as'=> 'admin-ajout-demande']);
 $routes->post('ajout-demande', 'demande::create', ['as'=> 'admin-ajout-demande']);
 
 //Validé
-$routes->get('liste-demandes-valides', 'demandes-valides::affiche', ['as'=> 'admin-liste-demandes-valides']);
+$routes->get('liste-demandes-valides', 'demande-valides::affiche', ['as'=> 'admin-liste-demandes-valides']);
 
 //Terminé
-$routes->get('liste-demandes-terminees', 'demandes-terminees::affiche', ['as'=> 'admin-liste-demandes-terminees']);
+$routes->get('liste-demandes-terminees', 'demande-termine::affiche', ['as'=> 'admin-liste-demandes-terminees']);
 
 //Routes pour la gestion de la liste des test du contrôle du technique
 $routes->get('liste-tests', 'test::affiche', ['as'=> 'liste-tests']);
@@ -59,7 +59,7 @@ $routes->get('ajout-test', 'test::ajout', ['as'=> 'ajout-test']);
 $routes->post('ajout-test', 'test::create', ['as'=> 'ajout-test']);
 
 //Contrôle technoque terminé
-$routes->get('resultats-contrôle-technique', 'resultats-test::affiche', ['as'=> 'resultats-tests']);
+$routes->get('resultats-contrôle-technique', 'resultat-test::affiche', ['as'=> 'resultats-tests']);
 
 
 $routes->get('/dashboard', 'Dashboard::index');
