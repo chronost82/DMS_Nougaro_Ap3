@@ -15,7 +15,7 @@
             <a href="">Liste des clients</a>
             <a href="">Liste des tests</a>
             <a href="">Demandes validées</a>
-            <a href="">Liste des élèves</a>
+            <a href="<?= url_to('admin-liste-eleves')?>">Liste des élèves</a>
         </nav>
     </main>
 </body>
