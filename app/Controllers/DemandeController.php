@@ -9,7 +9,7 @@ class ControllerDemande extends BaseController
 {
    public function affiche()
     {
-        //
+        return view('demande/liste-demandes-en-attentes');
     }
 
     public function delete()
