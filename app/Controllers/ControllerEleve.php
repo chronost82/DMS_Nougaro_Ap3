@@ -7,7 +7,30 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class ControllerEleve extends BaseController
 {
-    public function index()
+    public function affiche()
+    {
+        //
+    }
+
+    public function delete()
+    {
+        //
+    }
+
+    public function modif()
+    {
+        //
+    }
+    public function update()
+    {
+        //
+    }
+
+    public function ajout()
+    {
+        //
+    }
+    public function create()
     {
         //
     }

@@ -7,7 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class ControllerDemandeTermine extends BaseController
 {
-    public function index()
+    public function affiche()
     {
         //
     }
