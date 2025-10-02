@@ -48,7 +48,7 @@ $routes->get('liste-demandes-valides', 'demande-valides::affiche', ['as'=> 'admi
 $routes->get('liste-demandes-terminees', 'demande-termine::affiche', ['as'=> 'admin-liste-demandes-terminees']);
 
 //Routes pour la gestion de la liste des test du contrôle du technique
-$routes->get('liste-tests', 'test::affiche', ['as'=> 'liste-tests']);
+$routes->get('liste-test', 'test::affiche', ['as'=> 'liste-test']);
 
 $routes->post('suppr-test', 'test::delete', ['as'=> 'suppr-test']);
 
