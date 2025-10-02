@@ -31,35 +31,35 @@ $routes->post('ajout-eleve', 'EleveController::create', ['as'=> 'admin-ajout-ele
 
 //Routes pour la gestion des demandes
 //En attente
-$routes->get('liste-demandes-en-attentes', 'demande::affiche', ['as' => 'admin-liste-demandes-en-attentes']);
+$routes->get('liste-demandes-en-attentes', 'DemandeController::affiche', ['as' => 'admin-liste-demandes-en-attentes']);
 
-$routes->post('suppr-demande-en-attente', 'demande::delete', ['as' => 'admin-suppr-demande-en-attente']);
+$routes->post('suppr-demande-en-attente', 'DemandeController::delete', ['as' => 'admin-suppr-demande-en-attente']);
 
-$routes->get('modif-demande-en-attente', 'demande::modif', ['as' => 'admin-demande-en-attente-modif']);
-$routes->post('modif-demande-en-attente', 'demande::update', ['as' => 'admin-demande-en-attente-modif']);
+$routes->get('modif-demande-en-attente', 'DemandeController::modif', ['as' => 'admin-demande-en-attente-modif']);
+$routes->post('modif-demande-en-attente', 'DemandeController::update', ['as' => 'admin-demande-en-attente-modif']);
 
-$routes->get('ajout-demande', 'demande::ajout', ['as' => 'admin-ajout-demande']);
-$routes->post('ajout-demande', 'demande::create', ['as' => 'admin-ajout-demande']);
+$routes->get('ajout-demande', 'DemandeController::ajout', ['as' => 'admin-ajout-demande']);
+$routes->post('ajout-demande', 'DemandeController::create', ['as' => 'admin-ajout-demande']);
 
 //Validé
-$routes->get('liste-demandes-valides', 'demande-valides::affiche', ['as' => 'admin-liste-demandes-valides']);
+$routes->get('liste-demandes-valides', 'DemandeValidesController::affiche', ['as' => 'admin-liste-demandes-valides']);
 
 //Terminé
-$routes->get('liste-demandes-terminees', 'demande-termine::affiche', ['as' => 'admin-liste-demandes-terminees']);
+$routes->get('liste-demandes-terminees', 'DemandeTermineController::affiche', ['as' => 'admin-liste-demandes-terminees']);
 
 //Routes pour la gestion de la liste des test du contrôle du technique
-$routes->get('liste-test', 'test::affiche', ['as' => 'liste-test']);
+$routes->get('liste-test', 'TestController::affiche', ['as' => 'liste-test']);
 
-$routes->post('suppr-test', 'test::delete', ['as' => 'suppr-test']);
+$routes->post('suppr-test', 'TestController::delete', ['as' => 'suppr-test']);
 
-$routes->get('modif-test', 'test::modif', ['as' => 'test-modif']);
-$routes->post('modif-test', 'test::update', ['as' => 'test-modif']);
+$routes->get('modif-test', 'TestController::modif', ['as' => 'test-modif']);
+$routes->post('modif-test', 'TestController::update', ['as' => 'test-modif']);
 
-$routes->get('ajout-test', 'test::ajout', ['as' => 'ajout-test']);
-$routes->post('ajout-test', 'test::create', ['as' => 'ajout-test']);
+$routes->get('ajout-test', 'TestController::ajout', ['as' => 'ajout-test']);
+$routes->post('ajout-test', 'TestController::create', ['as' => 'ajout-test']);
 
 //Contrôle technoque terminé
-$routes->get('resultats-contrôle-technique', 'resultat-test::affiche', ['as' => 'resultats-tests']);
+$routes->get('resultats-contrôle-technique', 'ResultatTestConlleur::affiche', ['as' => 'resultats-tests']);
 
 
 $routes->get('dashboard', 'Dashboard::index');
