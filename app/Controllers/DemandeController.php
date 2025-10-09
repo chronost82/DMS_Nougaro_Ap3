@@ -95,10 +95,12 @@ class DemandeController extends BaseController
 
     public function create()
     {
-        
-
+        $demandeModel = model('Demande');
         $demande = $this->request->getPost();
-        dd($demande);
-        return redirect('accueil');
+
+        $demande['etat'] = 'attente';
+        $demandeModel->save($demande);
+        // dd($demande);
+        return view('accueil');
     }
 }
