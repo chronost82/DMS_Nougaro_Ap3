@@ -21,7 +21,8 @@
     <section>
         <div class="form-contact">
             <form action=<?=url_to('modif-test')?> method="post">
-                <label for="nom">Libéllé :</label>
+                <input type="hidden" name="id" id="id" value="<?=$idTest?>">
+                <label for="libelle">Libéllé :</label>
                 <input type="text" name="libelle" id="libelle" value="<?=$libelleTest?>">
             </form>
         </div>
