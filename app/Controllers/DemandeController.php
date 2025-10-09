@@ -90,7 +90,7 @@ class DemandeController extends BaseController
 
     public function ajout()
     {
-        //
+        return view('accueil');
     }
 
     public function create()
