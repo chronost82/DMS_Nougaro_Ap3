@@ -19,7 +19,7 @@ class DemandeController extends BaseController
                 "marque" => "Yamaha",
                 "modele" => "MT-07",
                 "immatriculation" => "AB-123-CD",
-                "etat" => "valide"
+                "etat" => "validee"
             ],
             [
                 "id" => 2,
@@ -43,7 +43,7 @@ class DemandeController extends BaseController
                 "marque" => "Kawasaki",
                 "modele" => "Ninja 400",
                 "immatriculation" => "IJ-789-KL",
-                "etat" => "termine"
+                "etat" => "terminee"
             ],
             [
                 "id" => 4,
@@ -67,7 +67,7 @@ class DemandeController extends BaseController
                 "marque" => "Ducati",
                 "modele" => "Monster 821",
                 "immatriculation" => "QR-345-ST",
-                "etat" => "valide"
+                "etat" => "validee"
             ]
         ];
         $status = 'attente';
@@ -95,6 +95,10 @@ class DemandeController extends BaseController
 
     public function create()
     {
-        //
+        
+
+        $demande = $this->request->getPost();
+        dd($demande);
+        return redirect('accueil');
     }
 }
