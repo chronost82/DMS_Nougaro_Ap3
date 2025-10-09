@@ -1,6 +1,7 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
+use PHPUnit\Framework\TestStatus\Success;
 
 /**
  * @var RouteCollection $routes
@@ -31,7 +32,7 @@ $routes->post('ajout-eleve', 'EleveController::create', ['as'=> 'admin-ajout-ele
 
 //Routes pour la gestion des demandes
 //En attente
-$routes->get('liste-demandes-en-attentes', 'DemandeController::affiche', ['as' => 'admin-liste-demandes-en-attentes']);
+$routes->get('dashboard/gestiondemandes', 'DemandeController::affiche', ['as' => 'admin-liste-demandes-en-attentes']);
 
 $routes->post('suppr-demande-en-attente', 'DemandeController::delete', ['as' => 'admin-suppr-demande-en-attente']);
 
@@ -63,3 +64,7 @@ $routes->get('resultats-contrôle-technique', 'ResultatTestConlleur::affiche', [
 
 
 $routes->get('dashboard', 'Dashboard::index');
+
+//page de connexion
+$routes->get('connexion', 'ConnexionController::index', ['as' => 'connexion']);
+$routes->post('connexion', 'ConnexionController::login', ['as' => 'connexion']);

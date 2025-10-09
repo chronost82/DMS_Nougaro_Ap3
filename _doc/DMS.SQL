@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS CT
 
 # -----------------------------------------------------------------------------
 #       INDEX DE LA TABLE CT
-# -----------------------------------------------------------------------------
+# --------------------------- --------------------------------------------------
 
 
 CREATE  INDEX I_FK_CT_ELEVES
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS DEMANDE
    TEL INTEGER(10) NULL  ,
    MARQUE VARCHAR(128) NULL  ,
    MODELE VARCHAR(128) NULL  ,
-   ETAT VARCHAR(128) NULL  
+   ETAT ENUM('attente','validee','terminee') NULL  
    , PRIMARY KEY (IDDEMANDE) 
  ) 
  comment = "";

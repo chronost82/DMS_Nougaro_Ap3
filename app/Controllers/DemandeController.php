@@ -3,13 +3,12 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 
-class ControllerDemande extends BaseController
+class DemandeController extends BaseController
 {
    public function affiche()
     {
-        return view('demande/liste-demandes-en-attentes');
+        return view('Dashboard/GestionDemandes.php');
     }
 
     public function delete()
