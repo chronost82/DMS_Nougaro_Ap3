@@ -35,7 +35,7 @@
                 <span>Email</span>
             </div>
             <div class="inputbox">
-                <input type="number" required="required">
+                <input type="tel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required="required">
                 <span>Téléphone</span>
             </div>
             <div class="inputbox">
