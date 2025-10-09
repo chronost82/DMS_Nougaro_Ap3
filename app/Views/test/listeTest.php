@@ -23,7 +23,7 @@
         <?php
         $tableauTest = new \CodeIgniter\View\Table();
         $tableauTest->setHeading('libelle du test', 'Modifier', 'Supprimer');
-        foreach ($listeTest as $test) {
+        foreach ($listeTestTechnique as $test) {
             $tableauTest->addRow(
                 $test['libelle'],
                 '<a class="bouton" href="' . url_to('modif-test', $test['idtesttechnique']) . '">Modifier</a>',
