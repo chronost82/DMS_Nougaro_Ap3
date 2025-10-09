@@ -21,7 +21,7 @@
     <div class="form-contact">
         <img src="img/bandeau_lycee.png">
         <H1>Demande de rendez-vous</H1>
-        <form action="<?= url_to('admin-ajout-demande') ?>" method="post" id="first">
+        <form action="<?= url_to('admin-ajout-demande') ?>" method="post">
             <div class="inputbox">
                 <input type="text" required="required">
                 <span>Nom</span>
@@ -53,5 +53,4 @@
         </form>
     </div>
 </body>
-
 </html>
