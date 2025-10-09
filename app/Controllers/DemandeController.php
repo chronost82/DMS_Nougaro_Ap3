@@ -4,11 +4,11 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 
-class ControllerDemande extends BaseController
+class DemandeController extends BaseController
 {
    public function affiche()
     {
-        return view('demande/listeDemandeEnCours');
+        return view('Dashboard/GestionDemandes.php');
     }
 
     public function delete()

@@ -32,7 +32,7 @@ $routes->post('ajout-eleve', 'EleveController::create', ['as'=> 'admin-ajout-ele
 
 //Routes pour la gestion des demandes
 //En attente
-$routes->get('liste-demandes-en-attentes', 'DemandeController::affiche', ['as' => 'admin-liste-demandes-en-attentes']);
+$routes->get('dashboard/gestiondemandes', 'DemandeController::affiche', ['as' => 'admin-liste-demandes-en-attentes']);
 
 $routes->post('suppr-demande-en-attente', 'DemandeController::delete', ['as' => 'admin-suppr-demande-en-attente']);
 
