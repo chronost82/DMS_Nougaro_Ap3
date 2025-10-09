@@ -18,32 +18,44 @@
 
 <body>
 
-    <section>
-        <div class="form-contact">
-            <form action="" method="post">
-                <label for="nom">Nom :</label>
-                <input type="text" name="nom" id="nom" placeholder="Prénom">
+    <div class="form-contact">
+        <form action="" method="post" id="first">
+            <H1>Demande de rendez-vous</H1>
+            <label for="nom">Nom :</label>
+            <input type="text" name="nom" id="nom">
 
-                <label for="prenom">Prénom :</label>
-                <input type="text" name="prenom" id="prenom" placeholder="Prénom">
+            <label for="prenom">Prénom :</label>
+            <input type="text" name="prenom" id="prenom">
 
-                <label for="email">Email :</label>
-                <input type="email" name="email" placeholder="Email">
+            <label for="email">Email :</label>
+            <input type="email" name="email">
 
-                <label for="telephone">Téléphone :</label>
-                <input type="tel" name="telephone" id="telephone" placeholder="Téléphone">
+            <label for="telephone">Téléphone :</label>
+            <input type="tel" name="telephone" id="telephone">
 
-                <label for="marque">Marque :</label>
-                <input type="text" name="marque" placeholder="Marque">
+            <label for="marque">Marque :</label>
+            <input type="text" name="marque">
 
-                <label for="modele">Modèle :</label>
-                <input type="text" name="modele" id="modele" placeholder="Modèle">
-                <input type="submit" value="Envoyer">
-                <a href="">Vous avez déjà fait un control technique ?</a>
-            </form>
-        </div>
-    </section>
+            <label for="modele">Modèle :</label>
+            <input type="text" name="modele" id="modele">
+            <input type="submit" value="Envoyer">
+            <a href="">Vous avez déjà fait un control technique ?</a>
+        </form>
+        <!-- <form action="" method="post" class="formulaire">
+            <button class="btn" id="prev">Vous avez déjà fait un control technique ?</button>
+            <label for="nclient">Code client :</label>
+            <input type="text" name="nom" id="nclient" placeholder="Code">
 
+            <label for="moto"></label>
+            <select name="moto" id="moto">
+                <option value="0">/ - - - Choisir sa moto - - - /</option>
+                <option value="1"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+            </select>
+            <input type="submit" value="Envoyer">
+        </form> -->
+    </div>
 </body>
 
 </html>
