@@ -95,6 +95,10 @@ class DemandeController extends BaseController
 
     public function create()
     {
-        //
+        
+
+        $demande = $this->request->getPost();
+        dd($demande);
+        return redirect('accueil');
     }
 }

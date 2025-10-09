@@ -23,27 +23,27 @@
         <H1>Demande de rendez-vous</H1>
         <form action="<?= url_to('admin-ajout-demande') ?>" method="post">
             <div class="inputbox">
-                <input type="text" required="required">
+                <input type="text" required="required" name="nom">
                 <span>Nom</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required">
+                <input type="text" required="required" name="prenom">
                 <span>Prenom</span>
             </div>
             <div class="inputbox">
-                <input type="email" required="required">
+                <input type="text" required="required" name="email">
                 <span>Email</span>
             </div>
             <div class="inputbox">
-                <input type="tel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required="required">
+                <input type="text" required="required" name="tel">
                 <span>Téléphone</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required">
+                <input type="text" required="required" name="marque">
                 <span>Marque</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required">
+                <input type="text" required="required" name="modele">
                 <span>Modèle</span>
             </div>
             <div class="inputbox">
