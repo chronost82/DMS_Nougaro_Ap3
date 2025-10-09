@@ -1,6 +1,7 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
+use PHPUnit\Framework\TestStatus\Success;
 
 /**
  * @var RouteCollection $routes
@@ -63,3 +64,7 @@ $routes->get('resultats-contrôle-technique', 'ResultatTestConlleur::affiche', [
 
 
 $routes->get('dashboard', 'Dashboard::index');
+
+//page de connexion
+$routes->get('connexion', 'ConnexionController::index', ['as' => 'connexion']);
+$routes->post('connexion', 'ConnexionController::login', ['as' => 'connexion']);
