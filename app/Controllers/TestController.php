@@ -12,38 +12,39 @@ class TestController extends BaseController
     {
         $testModel = model('TestTechniqueModel');
         $listeTest = $testModel->findall();
-        return view("test/listeTest",$listeTest); 
+        return view("test/listeTest",["listeTest"=>$listeTest]); 
     }
 
     public function delete()
     {
          $testModel = model('TestTechniqueModel');
-        $testModel->delete($_POST['id']);
-        redirect("liste-test");
+        $testModel->delete();
+        redirect("test/liste-test");
     }
 
-    public function modif()
+    public function modif($idTest)
     {
-         $testModel = model('TestTechniqueModel');
-        $testAModif = $testModel->find();
-        return view("modif-test",$testAModif);
+        $testModel = model('TestTechniqueModel');
+        $testAModif = $testModel->find($idTest);
+        dd($idTest);
+        return view("test/modifTest",["testAModif"=>$testAModif]);
     }
     public function update()
     {
         $testModel = model('TestTechniqueModel');
         $testModel->update($_POST['id']);
-        redirect("liste-test");
+        redirect("test/liste-test");
     }
 
     public function ajout()
     {
-        return view("ajout-test");
+        return view("test/ajout-test");
     }
 
     public function create()
     {
         $testModel = model('TestTechniqueModel');
         $testModel->create();
-        redirect("liste-test");
+        redirect("test/liste-test");
     }
 }
