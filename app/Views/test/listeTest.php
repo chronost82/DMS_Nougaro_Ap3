@@ -10,7 +10,7 @@
         foreach ($listeTest as $test) {
             $tableauTest->addRow(
                 $test['LIBELLE'],
-                '<a class="bouton" href="' . url_to('test-modif',$test['IDTESTTECHNIQUE']) . '">Modifier</a>',
+                '<a class="bouton" href="' . url_to('modif-test',$test['IDTESTTECHNIQUE']) . '">Modifier</a>',
                 '<a class="bouton" href="' . url_to('suppr-test',$test['IDTESTTECHNIQUE']) . '">Supprimer</a>'
             );
         }

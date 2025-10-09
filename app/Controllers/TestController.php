@@ -26,25 +26,24 @@ class TestController extends BaseController
     {
         $testModel = model('TestTechniqueModel');
         $testAModif = $testModel->find($idTest);
-        dd($idTest);
         return view("test/modifTest",["testAModif"=>$testAModif]);
     }
-    public function update()
+    public function update($idTest)
     {
         $testModel = model('TestTechniqueModel');
-        $testModel->update($_POST['id']);
+        $testModel->update($_POST['libelle'],);
         redirect("test/liste-test");
     }
 
     public function ajout()
     {
-        return view("test/ajout-test");
+        return view("test/ajoutTest");
     }
 
     public function create()
     {
         $testModel = model('TestTechniqueModel');
-        $testModel->create();
+        $testModel->create($_POST['libelle']);
         redirect("test/liste-test");
     }
 }

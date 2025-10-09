@@ -23,6 +23,7 @@
             <form action=<?=url_to('ajout-test')?> method="post">
                 <label for="nom">Libéllé :</label>
                 <input type="text" name="libelle" id="libelle">
+                <input type="submit" value="Valider">
             </form>
         </div>
     </section>

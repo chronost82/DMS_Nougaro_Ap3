@@ -53,11 +53,11 @@ $routes->get('liste-test', 'TestController::affiche', ['as' => 'liste-test']);
 
 $routes->post('suppr-test', 'TestController::delete', ['as' => 'suppr-test']);
 
-$routes->get('modif-test', 'TestController::modif/$1', ['as' => 'test-modif']);
-$routes->post('modif-test', 'TestController::update', ['as' => 'test-modif']);
+$routes->get('modif-test/(:num)', 'TestController::modif/$1', ['as' => 'modif-test']);
+$routes->post('modif-test/(:num)', 'TestController::update/$1', ['as' => 'test-modif']);
 
 $routes->get('ajout-test', 'TestController::ajout', ['as' => 'ajout-test']);
-$routes->post('sajout-test', 'TestController::create', ['as' => 'ajout-test']);
+$routes->post('ajout-test/(:num)', 'TestController::create/$1', ['as' => 'ajout-test']);
 
 //Contrôle technoque terminé
 $routes->get('resultats-contrôle-technique', 'ResultatTestConlleur::affiche', ['as' => 'resultats-tests']);
