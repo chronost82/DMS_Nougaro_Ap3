@@ -20,7 +20,7 @@ class DemandeValidesController extends BaseController
                 "marque" => "Yamaha",
                 "modele" => "MT-07",
                 "immatriculation" => "AB-123-CD",
-                "etat" => "valide"
+                "etat" => "validee"
             ],
             [
                 "id" => 2,
@@ -44,7 +44,7 @@ class DemandeValidesController extends BaseController
                 "marque" => "Kawasaki",
                 "modele" => "Ninja 400",
                 "immatriculation" => "IJ-789-KL",
-                "etat" => "termine"
+                "etat" => "terminee"
             ],
             [
                 "id" => 4,
@@ -68,10 +68,10 @@ class DemandeValidesController extends BaseController
                 "marque" => "Ducati",
                 "modele" => "Monster 821",
                 "immatriculation" => "QR-345-ST",
-                "etat" => "valide"
+                "etat" => "validee"
             ]
         ];
-        $status = 'valide';
+        $status = 'validee';
         return view('Dashboard/GestionDemandes.php', ['clients' => $client, 'status' => $status]);
     }
 }

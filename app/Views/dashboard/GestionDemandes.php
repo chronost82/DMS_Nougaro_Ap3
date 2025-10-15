@@ -29,10 +29,10 @@ $statusBadgeClass = [
             </div>
             <div class="filters" role="radiogroup" aria-label="Filtrer par statut (un seul à la fois)">
                 <span class="muted" aria-hidden="true">Filtrer</span>
-                <label class="check"><input type="radio" name="statusFilter" data-status="tous" <?= $status==='tous' ? 'checked' : '' ?>> <span>Tous</span></label>
-                <label class="check"><input type="radio" name="statusFilter" data-status="en-attente" <?= $status==='attente' ? 'checked' : '' ?>> <span>En attente</span></label>
-                <label class="check"><input type="radio" name="statusFilter" data-status="validee" <?= $status==='validee' ? 'checked' : '' ?>> <span>Validé</span></label>
-                <label class="check"><input type="radio" name="statusFilter" data-status="terminee" <?= $status==='terminee' ? 'checked' : '' ?>> <span>Terminé</span></label>
+                <label class="check"><input type="radio" name="statusFilter" data-status="tous" <?= $status === 'tous' ? 'checked' : '' ?>> <span>Tous</span></label>
+                <label class="check"><input type="radio" name="statusFilter" data-status="en-attente" <?= $status === 'attente' ? 'checked' : '' ?>> <span>En attente</span></label>
+                <label class="check"><input type="radio" name="statusFilter" data-status="validee" <?= $status === 'validee' ? 'checked' : '' ?>> <span>Validé</span></label>
+                <label class="check"><input type="radio" name="statusFilter" data-status="terminee" <?= $status === 'terminee' ? 'checked' : '' ?>> <span>Terminé</span></label>
             </div>
         </div>
 
@@ -47,7 +47,7 @@ $statusBadgeClass = [
                         <th>Téléphone</th>
                         <th>Marque</th>
                         <th>Modèle</th>
-                        <th>Immatriculation</th>
+                        <th class="action-set" data-actions-for="validee">Immatriculation</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -79,9 +79,8 @@ $statusBadgeClass = [
                                 data-telephone="<?= esc($c['telephone']) ?>"
                                 data-marque="<?= esc($c['marque']) ?>"
                                 data-modele="<?= esc($c['modele']) ?>"
-                                data-immatriculation="<?= esc($c['immatriculation']) ?>"
-                                data-heure="<?= esc($c['heure']) ?>"
-                            >
+                                data-immatriculation="<?= esc($c['immatriculation']) ?? "" ?>"
+                                data-heure="<?= esc($c['heure']) ?>">
                                 <td><?= $c['nom'] ?></td>
                                 <td><?= $c['prenom'] ?></td>
                                 <td>
@@ -94,22 +93,23 @@ $statusBadgeClass = [
                                 <td><?= $c['telephone'] ?></td>
                                 <td><?= $c['marque'] ?></td>
                                 <td><?= $c['modele'] ?></td>
-                                <td><?= $c['immatriculation'] ?></td>
+                                <td class="action-set" data-actions-for="validee"><?= $c['immatriculation'] ?? "" ?></td>
                                 <td class="actions">
                                     <div class="action-buttons">
-                                        <?php if ($statut === 'en-attente'): ?>
+                                        <div class="action-set" data-actions-for="en-attente" style="display:none">
                                             <button type="button" class="btn-small btn-edit" title="Modifier" data-role="edit">Modifier</button>
                                             <form method="post" action="<?= site_url('demandes/valider') ?>" style="display:inline">
                                                 <input type="hidden" name="id" value="<?= esc($c['id']) ?>">
-                                                <button type="submit" class="btn-small" title="Valider">Valider</button>
+                                                <button type="submit" class="btn" title="Valider">Valider</button>
                                             </form>
-                                        <?php endif; ?>
-                                        <?php if ($statut !== 'terminee'): ?>
-                                            <form method="post" action="<?= site_url('demandes/terminer') ?>" style="display:inline">
-                                                <input type="hidden" name="id" value="<?= esc($c['id']) ?>">
-                                                <button type="submit" class="btn-small" title="Terminer">Terminer</button>
-                                            </form>
-                                        <?php endif; ?>
+                                        </div>
+                                        <div class="action-set" data-actions-for="validee" style="display:none">
+                                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn">Faire CT</a>
+                                            <a href="" class="btn">Supprimer</a>
+                                        </div>
+                                        <div class="action-set" data-actions-for="terminee" style="display:none">
+                                            <!-- Actions pour terminée -->
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -141,6 +141,16 @@ $statusBadgeClass = [
                 const status = r.getAttribute('data-status');
                 const show = (selected === 'tous') || (status === selected);
                 r.style.display = show ? '' : 'none';
+
+                // Affichage des actions selon le filtre
+                const actionSets = r.querySelectorAll('.action-set');
+                actionSets.forEach(s => {
+                    const target = s.getAttribute('data-actions-for');
+                    // Si filtre "tous", on affiche le set du statut de la ligne
+                    const shouldShow = (selected === 'tous' && target === status) || (selected !== 'tous' && target === selected);
+                    s.style.display = shouldShow ? '' : 'none';
+                });
+
                 if (show) visible++;
             });
             counter.textContent = visible + (visible > 1 ? ' éléments' : ' élément');
@@ -164,7 +174,7 @@ $statusBadgeClass = [
             heure: document.getElementById('f-heure')
         };
 
-        function openModal(tr){
+        function openModal(tr) {
             if (!tr) return;
             fields.id.value = tr.dataset.id || '';
             fields.nom.value = tr.dataset.nom || '';
@@ -179,9 +189,10 @@ $statusBadgeClass = [
             modal.classList.add('open');
             fields.nom.focus();
         }
-        function closeModal(){
+
+        function closeModal() {
             modal.classList.remove('open');
-            modal.setAttribute('hidden','hidden');
+            modal.setAttribute('hidden', 'hidden');
         }
         document.addEventListener('click', e => {
             if (e.target.closest('.btn-edit')) {
@@ -192,7 +203,9 @@ $statusBadgeClass = [
             }
             if (e.target === modal) closeModal();
         });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+        });
     });
 </script>
 

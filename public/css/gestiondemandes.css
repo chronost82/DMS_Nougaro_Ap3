@@ -1,5 +1,5 @@
 :root {
-    --bg: #f5f7fb;
+    --bg: #f6f8fa;
     --card: #ffffff;
     --text: #1f2937;
     --muted: #6b7280;
@@ -18,7 +18,7 @@ body {
     margin: 0;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
     color: var(--text);
-    background: linear-gradient(135deg, #eef2ff 0%, #f2fbfd 100%);
+    background: var(--bg);
     min-height: 100vh;
     padding: 32px;
 }
@@ -186,6 +186,7 @@ tbody tr:hover {
     font-size: 13px;
     cursor: pointer;
     transition: transform 0.05s ease, background 0.2s ease, border-color 0.2s ease;
+    text-decoration: none;
 }
 
 .btn:hover {
