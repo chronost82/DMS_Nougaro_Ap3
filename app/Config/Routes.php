@@ -9,15 +9,15 @@ use PHPUnit\Framework\TestStatus\Success;
 $routes->get('/', 'Home::index');
 
 //Routes pour la gestion des clients
-$routes->get('liste-clients', 'ClientController::affiche', ['as' => 'admin-liste-clients']);
+$routes->get('liste-clients', 'ClientController::affiche', ['as' => 'liste-clients']);
 
-$routes->post('suppr-client', 'ClientController::delete', ['as' => 'admin-suppr-client']);
+$routes->get('suppr-client/(:num)', 'ClientController::delete/$1', ['as' => 'client-suppr']);
 
-$routes->get('ajout-client', 'ClientController::ajout', ['as' => 'admin-ajout-client']);
-$routes->post('ajout-client', 'ClientController::create', ['as' => 'admin-ajout-client']);
+$routes->get('ajout-client', 'ClientController::ajout', ['as' => 'ajout-client']);
+$routes->post('ajout-client', 'ClientController::create', ['as' => 'client-ajout']);
 
-$routes->get('ajout-client', 'ClientController::ajout', ['as' => 'admin-ajout-client']);
-$routes->post('ajout-client', 'ClientController::create', ['as' => 'admin-ajout-client']);
+$routes->get('modif-client/(:num)', 'ClientController::modif/$1', ['as' => 'modif-client']);
+$routes->post('modif-client', 'ClientController::update', ['as' => 'client-modif']);
 
 //Routes pour la gestion des élèves
 $routes->get('liste-eleves', 'EleveController::affiche', ['as' => 'admin-liste-eleves']);
