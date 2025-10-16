@@ -40,21 +40,7 @@ CREATE TABLE IF NOT EXISTS ELEVES
    , PRIMARY KEY (IDELEVE) 
  ) 
  comment = "";
-
-# -----------------------------------------------------------------------------
-#       TABLE : UTILISATEUR
-# -----------------------------------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS UTILISATEUR
- (
-   IDUTILISATEUR INTEGER(5) NOT NULL  ,
-   LOGIN VARCHAR(128) NULL  ,
-   MDP VARCHAR(128) NULL  ,
-   ROLE INTEGER(2) NULL  
-   , PRIMARY KEY (IDUTILISATEUR) 
- ) 
- comment = "";
-
+ 
 # -----------------------------------------------------------------------------
 #       TABLE : VEHICULE
 # -----------------------------------------------------------------------------
