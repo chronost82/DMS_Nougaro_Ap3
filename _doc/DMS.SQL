@@ -40,7 +40,11 @@ CREATE TABLE IF NOT EXISTS ELEVES
    , PRIMARY KEY (IDELEVE) 
  ) 
  comment = "";
+<<<<<<< HEAD
+
+=======
  
+>>>>>>> 678591eaa7bb71bfbef686392145b55fa68fdc70
 # -----------------------------------------------------------------------------
 #       TABLE : VEHICULE
 # -----------------------------------------------------------------------------
@@ -96,6 +100,7 @@ CREATE TABLE IF NOT EXISTS DEMANDE
    TEL VARCHAR(20) NULL  ,
    MARQUE VARCHAR(128) NULL  ,
    MODELE VARCHAR(128) NULL  ,
+   DATEDEMANDE DATE NULL  ,
    ETAT ENUM('attente','validee','terminee') NULL  
    , PRIMARY KEY (IDDEMANDE) 
  ) 

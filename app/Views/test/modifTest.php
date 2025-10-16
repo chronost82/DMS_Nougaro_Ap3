@@ -1,5 +1,6 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
+<h1>Modification du test : <?=$testAModif['LIBELLE']?></h1>
     <section>
         <div class="form-contact">
             <form action=<?=url_to('test-modif')?> method="post">
