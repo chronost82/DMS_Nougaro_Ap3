@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
     <link rel="stylesheet" href="css/accueil.css">
-    <script src="js/accueil.js"></script>
 
     <!-- STYLES -->
 
@@ -32,12 +31,12 @@
                 <span>Prenom</span>
             </div>
             <div class="inputbox">
-                <input type="email" required="required" name="email">
-                <span>Email</span>
+                <input type="text" required="required" name="email" id="email">
+                <span class="" id="errorEmail">Email</span>
             </div>
             <div class="inputbox">
-                <input type="tel" required="required" name="tel" pattern="^0[1-9]( ?\d{2}){4}$">
-                <span>Téléphone</span>
+                <input type="text" required="required" name="tel" id="tel">
+                <span class="" id="errorTel">Téléphone</span>
             </div>
             <div class="inputbox">
                 <input type="text" required="required" name="marque">
@@ -48,11 +47,14 @@
                 <span>Modèle</span>
             </div>
             <div class="inputbox">
-                <input type="submit" value="Envoyer">
+                <input type="submit" id="valid" value="Envoyer">
             </div>
             <a href="">Vous avez déjà fait un contrôle technique ?</a>
         </form>
     </div>
+
+    <script src="js/accueil.js"></script>
+
 </body>
 
 </html>

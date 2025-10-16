@@ -95,16 +95,27 @@ form {
 }
 
 .form-contact .inputbox input:focus~span,
-.form-contact .inputbox input:valid~span {
+.form-contact .inputbox input:valid~span,
+.form-contact .inputbox input:not(:empty)~span {
     transform: translateX(-13px) translateY(-35px);
     font-size: 1em;
+}
+
+.error-msg {
+    position: absolute;
+    color: red;
+    top: 35%;
+    left: 20px;
+    font-size: 1em;
+    transition: 0.6s;
+    font-family: sans-serif;
 }
 
 .form-contact .inputbox:hover input[type="submit"] {
     background-color: #702e30;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 576px) {
     .form-contact {
         width: 90%;
     }
