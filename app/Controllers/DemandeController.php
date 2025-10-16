@@ -6,72 +6,70 @@ use App\Controllers\BaseController;
 
 class DemandeController extends BaseController
 {
+    /**
+     * Génère un identifiant client au format AAAA-1234-AAAA
+     */
+    private function generateClientNumber(): string
+    {
+        $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $digits  = '0123456789';
+
+        $randFrom = function (string $pool, int $len): string {
+            $out = '';
+            $max = strlen($pool) - 1;
+            for ($i = 0; $i < $len; $i++) {
+                $out .= $pool[random_int(0, $max)];
+            }
+            return $out;
+        };
+
+        return $randFrom($letters, 4) . '-' . $randFrom($digits, 4) . '-' . $randFrom($letters, 4);
+    }
+
+    /**
+     * Valide le format AAAA-1234-AAAA
+     */
+    private function isValidClientNumber(?string $num): bool
+    {
+        if ($num === null) return false;
+        return (bool) preg_match('/^[A-Z]{4}-[0-9]{4}-[A-Z]{4}$/', strtoupper($num));
+    }
+
+    /**
+     * Vérifie si un NUMRANDOM existe déjà (hors ID exclu)
+     */
+    private function numRandomExists(string $num, $excludeId = null): bool
+    {
+        $clientModel = model('ClientModel');
+        $builder = $clientModel->where('NUMRANDOM', $num);
+        if (!empty($excludeId)) {
+            $builder = $builder->where('IDCLIENT !=', $excludeId);
+        }
+        return (bool) $builder->first();
+    }
+
+    /**
+     * Génère une valeur unique pour NUMRANDOM
+     */
+    private function generateUniqueClientNumber($excludeId = null, int $maxAttempts = 10): string
+    {
+        for ($i = 0; $i < $maxAttempts; $i++) {
+            $candidate = $this->generateClientNumber();
+            if (!$this->numRandomExists($candidate, $excludeId)) {
+                return $candidate;
+            }
+        }
+        // En cas d'épuisement (hautement improbable), on ajoute un suffixe temps
+        return $this->generateClientNumber();
+    }
+
     public function affiche()
     {
-        $client = [
-            [
-                "id" => 1,
-                "nom" => "Dupont",
-                "prenom" => "Jean",
-                "email" => "@gmail.com",
-                "heure" => "14:30",
-                "telephone" => "06 12 34 56 78",
-                "marque" => "Yamaha",
-                "modele" => "MT-07",
-                "immatriculation" => "AB-123-CD",
-                "etat" => "validee"
-            ],
-            [
-                "id" => 2,
-                "nom" => "Durand",
-                "prenom" => "Marie",
-                "email" => "@yahoo.fr",
-                "heure" => "16:00",
-                "telephone" => "06 98 76 54 32",
-                "marque" => "Honda",
-                "modele" => "CB500F",
-                "immatriculation" => "EF-456-GH",
-                "etat" => "attente"
-            ],
-            [
-                "id" => 3,
-                "nom" => "Martin",
-                "prenom" => "Paul",
-                "email" => "@hotmail.com",
-                "heure" => "10:00",
-                "telephone" => "06 11 22 33 44",
-                "marque" => "Kawasaki",
-                "modele" => "Ninja 400",
-                "immatriculation" => "IJ-789-KL",
-                "etat" => "terminee"
-            ],
-            [
-                "id" => 4,
-                "nom" => "Bernard",
-                "prenom" => "Sophie",
-                "email" => "@orange.fr",
-                "heure" => "11:30",
-                "telephone" => "06 55 66 77 88",
-                "marque" => "Suzuki",
-                "modele" => "GSX-S750",
-                "immatriculation" => "MN-012-OP",
-                "etat" => "attente"
-            ],
-            [
-                "id" => 5,
-                "nom" => "Lefevre",
-                "prenom" => "Luc",
-                "email" => "@free.fr",
-                "heure" => "15:00",
-                "telephone" => "06 99 88 77 66",
-                "marque" => "Ducati",
-                "modele" => "Monster 821",
-                "immatriculation" => "QR-345-ST",
-                "etat" => "validee"
-            ]
-        ];
+
+        $demandeModel = model('Demande');
+        $demandes = $demandeModel->findAll();
         $status = 'attente';
-        return view('Dashboard/GestionDemandes.php', ['clients' => $client, 'status' => $status]);
+        return view('Dashboard/GestionDemandes.php', ['clients' => $demandes, 'status' => $status]);
     }
 
     public function delete()
@@ -81,11 +79,32 @@ class DemandeController extends BaseController
 
     public function modif()
     {
-        //
+        // Réservé pour une future implémentation
     }
+
     public function update()
     {
-        //
+        $clientModel = model('ClientModel');
+
+        $currentId = $this->request->getPost('id');
+        $numRandomPost = strtoupper(trim((string) ($this->request->getPost('numrandom') ?? '')));
+
+        // Si la valeur fournie n'est pas valide ou déjà prise (hors même client), on génère une valeur unique
+        if (!$this->isValidClientNumber($numRandomPost) || $this->numRandomExists($numRandomPost, $currentId)) {
+            $numRandomFinal = $this->generateUniqueClientNumber($currentId);
+        } else {
+            $numRandomFinal = $numRandomPost;
+        }
+
+        $client = [
+            'IDCLIENT' => $currentId,
+            'NOM' => $this->request->getPost('nom'),
+            'PRENOM' => $this->request->getPost('prenom'),
+            'MAIL' => $this->request->getPost('email'),
+            'TEL' => $this->request->getPost('telephone'),
+            'NUMRANDOM' => $numRandomFinal,
+        ];
+        $clientModel->save($client);
     }
 
     public function ajout()

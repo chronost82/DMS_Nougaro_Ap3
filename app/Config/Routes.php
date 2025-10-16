@@ -36,7 +36,6 @@ $routes->get('dashboard/list-demande-en-attente', 'DemandeController::affiche', 
 
 $routes->post('dashboard/suppr-demande-en-attente', 'DemandeController::delete', ['as' => 'admin-suppr-demande-en-attente']);
 
-$routes->get('dashboard/modif-demande-en-attente', 'DemandeController::modif', ['as' => 'admin-demande-en-attente-modif']);
 $routes->post('dashboard/modif-demande-en-attente', 'DemandeController::update', ['as' => 'admin-demande-en-attente-modif']);
 
 $routes->get('ajout-demande', 'DemandeController::ajout', ['as' => 'admin-ajout-demande']);

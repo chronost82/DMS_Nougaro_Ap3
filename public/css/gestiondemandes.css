@@ -1,16 +1,4 @@
 /* === Gestion des Demandes ======================================== */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(17, 24, 39, 0.05);
-    overflow: hidden;
-}
 
 .header {
     padding: 20px 24px;
@@ -300,12 +288,4 @@ td.actions .btn+.btn {
     font-size: 13px;
     color: var(--muted);
     margin-bottom: 6px;
-}
-
-.input {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    font-size: 14px;
 }
