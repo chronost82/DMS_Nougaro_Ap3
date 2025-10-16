@@ -49,15 +49,15 @@ $routes->get('dashboard/liste-demandes-valides', 'DemandeValidesController::affi
 $routes->get('dashboard/liste-demandes-terminees', 'DemandeTermineController::affiche', ['as' => 'admin-liste-demandes-terminees']);
 
 //Routes pour la gestion de la liste des test du contrôle du technique
-$routes->get('liste-test', 'TestController::affiche', ['as' => 'liste-test']);
+$routes->get('liste-test', 'TestController::affiche', ['as' => 'test-liste']);
 
-$routes->post('suppr-test', 'TestController::delete', ['as' => 'suppr-test']);
+$routes->get('suppr-test/(:num)', 'TestController::delete/$1', ['as' => 'test-suppr']);
 
 $routes->get('modif-test/(:num)', 'TestController::modif/$1', ['as' => 'modif-test']);
-$routes->post('modif-test/(:num)', 'TestController::update/$1', ['as' => 'test-modif']);
+$routes->post('modif-test', 'TestController::update', ['as' => 'test-modif']);
 
 $routes->get('ajout-test', 'TestController::ajout', ['as' => 'ajout-test']);
-$routes->post('ajout-test/(:num)', 'TestController::create/$1', ['as' => 'ajout-test']);
+$routes->post('create-test', 'TestController::create', ['as' => 'test-ajout']);
 
 //Contrôle technoque terminé
 $routes->get('resultats-contrôle-technique', 'ResultatTestConlleur::affiche', ['as' => 'resultats-tests']);

@@ -12,27 +12,33 @@ class TestController extends BaseController
     {
         $testModel = model('TestTechniqueModel');
         $listeTest = $testModel->findall();
-        return view("test/listeTest",["listeTest"=>$listeTest]); 
+        return view("test/listeTest", ["listeTest" => $listeTest]);
     }
 
-    public function delete()
+    public function delete($idTest)
     {
-         $testModel = model('TestTechniqueModel');
-        $testModel->delete();
-        redirect("test/liste-test");
+        $testModel = model('TestTechniqueModel');
+        $testModel->delete($idTest);
+       return redirect("test-liste");
     }
 
     public function modif($idTest)
     {
         $testModel = model('TestTechniqueModel');
         $testAModif = $testModel->find($idTest);
-        return view("test/modifTest",["testAModif"=>$testAModif]);
+        return view("test/modifTest", ["testAModif" => $testAModif]);
     }
-    public function update($idTest)
+
+     public function update()
     {
         $testModel = model('TestTechniqueModel');
-        $testModel->update($_POST['libelle'],);
-        redirect("test/liste-test");
+
+        $testAModif = [
+            'IDTESTTECHNIQUE' => $this->request->getPost('id'),
+            'LIBELLE' => $this->request->getPost('libelle')
+        ];
+        $testModel->save($testAModif);
+        return redirect('test-liste');
     }
 
     public function ajout()
@@ -43,7 +49,11 @@ class TestController extends BaseController
     public function create()
     {
         $testModel = model('TestTechniqueModel');
-        $testModel->create($_POST['libelle']);
-        redirect("test/liste-test");
+        $ajoutTest =[
+            'LIBELLE'=> $this->request->getPost('libelle')
+        ];
+        $testModel->save($ajoutTest);
+
+        return redirect('test-liste');
     }
 }
