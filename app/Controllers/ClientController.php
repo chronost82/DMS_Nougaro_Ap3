@@ -5,34 +5,62 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class ControllerClient extends BaseController
+class ClientController extends BaseController
 {
     public function affiche()
     {
-        //
+        $ClientsModel = model('ClientModel');
+        $listeClients = $ClientsModel->findall();
+        return view("clients/listeClient", ["listeClients" => $listeClients]);
     }
 
-    public function delete()
+    public function delete($idClient)
     {
-        //
+        $ClientsModel = model('ClientModel');
+        $ClientsModel->delete($idClient);
+        return redirect("clients-liste");
     }
 
-    public function modif()
+    public function modif($idClient)
     {
-        //
+        $ClientsModel = model('ClientModel');
+        $clientAModif = $ClientsModel->find($idClient);
+        return view("clients/modifClient", ["clientAModif" => $clientAModif]);
     }
+
     public function update()
     {
-        //
+        $ClientsModel = model('ClientModel');
+
+        $clientAModif = [
+            'IDCLIENT' => $this->request->getPost('id'),
+            'NOM' => $this->request->getPost('nom'),
+            'PRENOM' => $this->request->getPost('prenom'),
+            'TEL' => $this->request->getPost('mail'),
+            'MAIL' => $this->request->getPost('mail'),
+            'NUMRANDOM' => $this->request->getPost('numrandom')
+        ];
+        $ClientsModel->save($clientAModif);
+        return redirect('client-liste');
     }
 
     public function ajout()
     {
-        //
+        return view("client/ajoutclient");
     }
 
     public function create()
     {
-        //
+        $ClientsModel = model('ClientModel');
+        $ajoutclient = [
+            'NOM' => $this->request->getPost('nom'),
+            'PRENOM' => $this->request->getPost('prenom'),
+            'TEL' => $this->request->getPost('mail'),
+            'MAIL' => $this->request->getPost('mail'),
+            'NUMRANDOM' => $this->request->getPost('numrandom')
+        ];
+        $ClientsModel->save($ajoutclient);
+
+        return redirect('client-liste');
     }
 }
