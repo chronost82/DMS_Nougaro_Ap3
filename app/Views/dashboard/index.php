@@ -13,7 +13,7 @@
     <nav class="nav-grid" aria-label="Navigation principale">
         <a href="<?= url_to('admin-liste-demandes-en-attentes')?>">Liste des demandes</a>
         <a href="<?= url_to('admin-liste-clients')?>">Liste des clients</a>
-        <a href="<?= url_to('liste-test') ?>">Liste des tests</a>
+        <a href="<?= url_to('test-liste') ?>">Liste des tests</a>
         <a href="<?= url_to('admin-liste-demandes-valides') ?>">Demandes validées</a>
         <a href="<?= url_to('admin-liste-eleves') ?>">Liste des élèves</a>
     </nav>
