@@ -287,7 +287,7 @@ $valOrPlaceholder = static function ($v) {
             </div>
             <div>
                 <label>Heure
-                    <input type="text" name="heure" id="f-heure" placeholder="HH:MM">
+                    <input type="time" name="heure" id="f-heure" placeholder="HH:MM">
                 </label>
             </div>
             <div class="modal-footer">
