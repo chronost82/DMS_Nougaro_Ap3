@@ -9,15 +9,15 @@ use PHPUnit\Framework\TestStatus\Success;
 $routes->get('/', 'Home::index');
 
 //Routes pour la gestion des clients
-$routes->get('liste-clients', 'ClientController::affiche', ['as' => 'admin-liste-clients']);
+$routes->get('liste-clients', 'ClientController::affiche', ['as' => 'liste-clients']);
 
-$routes->post('suppr-client', 'ClientController::delete', ['as' => 'admin-suppr-client']);
+$routes->get('suppr-client/(:num)', 'ClientController::delete/$1', ['as' => 'client-suppr']);
 
-$routes->get('ajout-client', 'ClientController::ajout', ['as' => 'admin-ajout-client']);
-$routes->post('ajout-client', 'ClientController::create', ['as' => 'admin-ajout-client']);
+$routes->get('ajout-client', 'ClientController::ajout', ['as' => 'ajout-client']);
+$routes->post('ajout-client', 'ClientController::create', ['as' => 'client-ajout']);
 
-$routes->get('ajout-client', 'ClientController::ajout', ['as' => 'admin-ajout-client']);
-$routes->post('ajout-client', 'ClientController::create', ['as' => 'admin-ajout-client']);
+$routes->get('modif-client/(:num)', 'ClientController::modif/$1', ['as' => 'modif-client']);
+$routes->post('modif-client', 'ClientController::update', ['as' => 'client-modif']);
 
 //Routes pour la gestion des élèves
 $routes->get('liste-eleves', 'EleveController::affiche', ['as' => 'admin-liste-eleves']);
@@ -36,7 +36,6 @@ $routes->get('dashboard/list-demande-en-attente', 'DemandeController::affiche', 
 
 $routes->post('dashboard/suppr-demande-en-attente', 'DemandeController::delete', ['as' => 'admin-suppr-demande-en-attente']);
 
-$routes->get('dashboard/modif-demande-en-attente', 'DemandeController::modif', ['as' => 'admin-demande-en-attente-modif']);
 $routes->post('dashboard/modif-demande-en-attente', 'DemandeController::update', ['as' => 'admin-demande-en-attente-modif']);
 
 $routes->get('ajout-demande', 'DemandeController::ajout', ['as' => 'admin-ajout-demande']);
@@ -49,15 +48,15 @@ $routes->get('dashboard/liste-demandes-valides', 'DemandeValidesController::affi
 $routes->get('dashboard/liste-demandes-terminees', 'DemandeTermineController::affiche', ['as' => 'admin-liste-demandes-terminees']);
 
 //Routes pour la gestion de la liste des test du contrôle du technique
-$routes->get('dashboard/liste-test', 'TestController::affiche', ['as' => 'liste-test']);
+$routes->get('liste-test', 'TestController::affiche', ['as' => 'test-liste']);
 
-$routes->post('dashboard/suppr-test', 'TestController::delete', ['as' => 'suppr-test']);
+$routes->get('suppr-test/(:num)', 'TestController::delete/$1', ['as' => 'test-suppr']);
 
-$routes->get('dashboard/modif-test', 'TestController::modif', ['as' => 'test-modif']);
-$routes->post('dashboard/modif-test', 'TestController::update', ['as' => 'test-modif']);
+$routes->get('modif-test/(:num)', 'TestController::modif/$1', ['as' => 'modif-test']);
+$routes->post('modif-test', 'TestController::update', ['as' => 'test-modif']);
 
-$routes->get('dashboard/ajout-test', 'TestController::ajout', ['as' => 'ajout-test']);
-$routes->post('dashboard/ajout-test', 'TestController::create', ['as' => 'ajout-test']);
+$routes->get('ajout-test', 'TestController::ajout', ['as' => 'ajout-test']);
+$routes->post('create-test', 'TestController::create', ['as' => 'test-ajout']);
 
 //Contrôle technoque terminé
 $routes->get('resultats-contrôle-technique', 'ResultatTestConlleur::affiche', ['as' => 'resultats-tests']);

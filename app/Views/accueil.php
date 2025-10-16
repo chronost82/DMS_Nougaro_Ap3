@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
     <link rel="stylesheet" href="css/accueil.css">
+    <script src="js/accueil.js"></script>
 
     <!-- STYLES -->
 
@@ -23,7 +24,7 @@
         <H1>Demande de rendez-vous</H1>
         <form action="<?= url_to('admin-ajout-demande') ?>" method="post">
             <div class="inputbox">
-                <input type="text" required="required" name="nom">
+                <input type="text" required="required" name="nom" id="name">
                 <span>Nom</span>
             </div>
             <div class="inputbox">
@@ -53,4 +54,5 @@
         </form>
     </div>
 </body>
+
 </html>

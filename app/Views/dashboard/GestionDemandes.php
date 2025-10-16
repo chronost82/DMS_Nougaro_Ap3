@@ -56,12 +56,14 @@ $valOrPlaceholder = static function ($v) {
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Email</th>
-                        <th>Heure</th>
                         <th>Téléphone</th>
                         <th>Marque</th>
                         <th>Modèle</th>
                         <!-- Pour afficher/masquer cette colonne selon le statut, utilisez data-visible-for sur le TH. -->
                         <th data-visible-for="validee">Immatriculation</th>
+                        <th data-visible-for="en-attente">Date demande</th>
+                        <th data-visible-for="validee">Date</th>
+                        <th data-visible-for="validee">Heure</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -69,40 +71,44 @@ $valOrPlaceholder = static function ($v) {
                     <?php if (!empty($clients) && is_iterable($clients)) : ?>
                         <?php foreach ($clients as $c):
                             // Statut de la ligne
-                            $statut = $mapStatus[$c['etat']] ?? 'en-attente';
+                            $statut = $mapStatus[$c['ETAT']] ?? 'en-attente';
                             $badgeClass = $statusBadgeClass[$statut] ?? '';
                             $label = $statusLabels[$statut] ?? '';
-                            $email = $c['email'];
+                            $email = $c['EMAIL'];
                         ?>
                             <tr data-status="<?= esc($statut) ?>"
-                                data-id="<?= esc($c['id']) ?>"
-                                data-nom="<?= esc($c['nom']) ?>"
-                                data-prenom="<?= esc($c['prenom']) ?>"
-                                data-email="<?= esc($c['email']) ?>"
-                                data-telephone="<?= esc($c['telephone']) ?>"
-                                data-marque="<?= esc($c['marque']) ?>"
-                                data-modele="<?= esc($c['modele']) ?>"
-                                data-immatriculation="<?= esc($c['immatriculation']) ?? "" ?>"
-                                data-heure="<?= esc($c['heure']) ?>">
-                                <td><?= esc($c['nom']) ?></td>
-                                <td><?= esc($c['prenom']) ?></td>
+                                data-id="<?= esc($c['IDDEMANDE']) ?>"
+                                data-nom="<?= esc($c['NOM']) ?>"
+                                data-prenom="<?= esc($c['PRENOM']) ?>"
+                                data-email="<?= esc($c['EMAIL']) ?>"
+                                data-telephone="<?= esc($c['TEL']) ?>"
+                                data-marque="<?= esc($c['MARQUE']) ?>"
+                                data-modele="<?= esc($c['MODELE']) ?>"
+                                data-immatriculation="<?= esc($c['IMMATRICULATION'] ?? "") ?>"
+                                data-datedemande="<?= esc($c['DATEDEMANDE'] ?? "") ?>"
+                                data-date="<?= esc($c['DATE'] ?? "") ?>"
+                                data-heure="<?= esc($c['HEURE'] ?? "") ?>">
+                                <td><?= esc($c['NOM']) ?></td>
+                                <td><?= esc($c['PRENOM']) ?></td>
                                 <td>
                                     <span class="email-cell">
                                         <span class="email-text"><?= esc($email) ?></span>
                                         <span class="badge <?= esc($badgeClass) ?>"><?= esc($label) ?></span>
                                     </span>
                                 </td>
-                                <td><?= $valOrPlaceholder($c['heure'] ?? null) ?></td>
-                                <td><?= $valOrPlaceholder($c['telephone'] ?? null) ?></td>
-                                <td><?= $valOrPlaceholder($c['marque'] ?? null) ?></td>
-                                <td><?= $valOrPlaceholder($c['modele'] ?? null) ?></td>
-                                <td data-visible-for="validee"><?= $valOrPlaceholder($c['immatriculation'] ?? null) ?></td>
+                                <td><?= $valOrPlaceholder($c['TEL'] ?? null) ?></td>
+                                <td><?= $valOrPlaceholder($c['MARQUE'] ?? null) ?></td>
+                                <td><?= $valOrPlaceholder($c['MODELE'] ?? null) ?></td>
+                                <td data-visible-for="validee"><?= $valOrPlaceholder($c['IMMATRICULATION'] ?? null) ?></td>
+                                <td data-visible-for="attente"><?= $valOrPlaceholder($c['DATEDEMANDE'] ?? null) ?></td>
+                                <td data-visible-for="validee"><?= $valOrPlaceholder($c['DATE'] ?? null) ?></td>
+                                <td><?= $valOrPlaceholder($c['HEURE'] ?? null) ?></td>
                                 <td class="actions">
                                     <div class="action-buttons">
                                         <div class="action-set" data-actions-for="en-attente" style="display:none">
                                             <button type="button" class="btn-small btn-edit" title="Modifier" data-role="edit">Modifier</button>
                                             <form method="post" action="<?= site_url('demandes/valider') ?>" style="display:inline">
-                                                <input type="hidden" name="id" value="<?= esc($c['id']) ?>">
+                                                <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE']) ?>">
                                                 <button type="submit" class="btn" title="Valider">Valider</button>
                                             </form>
                                         </div>
@@ -256,7 +262,7 @@ $valOrPlaceholder = static function ($v) {
             <h2 id="editModalTitle">Modifier la demande</h2>
             <button type="button" class="modal-close" data-close-modal aria-label="Fermer">×</button>
         </div>
-        <form method="post" action="<?= site_url('demandes/modifier') ?>" id="editForm" class="modal-body">
+        <form method="post" action="<?= url_to('admin-demande-en-attente-modif') ?>" id="editForm" class="modal-body">
             <input type="hidden" name="id" id="f-id">
             <div class="grid-2">
                 <label>Nom
@@ -271,28 +277,68 @@ $valOrPlaceholder = static function ($v) {
                     <input type="email" name="email" id="f-email" required>
                 </label>
                 <label>Téléphone
-                    <input type="text" name="telephone" id="f-telephone">
+                    <input type="text" name="telephone" id="f-telephone" required>
                 </label>
             </div>
             <div class="grid-3">
                 <label>Marque
-                    <input type="text" name="marque" id="f-marque">
+                    <input type="text" name="marque" id="f-marque" required>
                 </label>
                 <label>Modèle
-                    <input type="text" name="modele" id="f-modele">
+                    <input type="text" name="modele" id="f-modele" required>
                 </label>
                 <label>Immatriculation
-                    <input type="text" name="immatriculation" id="f-immatriculation">
+                    <input type="text" name="immatriculation" id="f-immatriculation" required
+                           pattern="^(?:[A-Z]{2}[- ]?[0-9]{3}[- ]?[A-Z]{2}|[0-9]{1,4}[- ]?[A-Z]{1,3}[- ]?[0-9]{2})$"
+                           title="Format accepté: AA-123-AA (SIV) ou 1234 AB 56 (ancien)"
+                           oninput="this.value = this.value.toUpperCase()" maxlength="10">
                 </label>
             </div>
-            <div>
+            <div class="grid-2">
+                <label>Année
+                    <input type="number" name="annee" id="f-annee" placeholder="AAAA" min="1900" max="2100" required>
+                </label>
+                <label>Numéro chassis
+                    <input type="text" name="chassis" id="f-chassis" placeholder="17 caractères" required
+                           pattern="^[A-HJ-NPR-Z0-9]{17}$" minlength="17" maxlength="17"
+                           title="17 caractères alphanumériques sans I, O, Q"
+                           oninput="this.value = this.value.toUpperCase()">
+                </label>
+            </div>
+            <div class="grid-2">
+                <label>Date Controle Technique
+                    <input type="date" name="date" id="f-date" placeholder="JJ/MM/AAAA" required>
+                </label>
                 <label>Heure
-                    <input type="time" name="heure" id="f-heure" placeholder="HH:MM">
+                    <input type="time" name="heure" id="f-heure" step="1800" placeholder="HH:MM" list="times-30min" min="08:00" max="18:00" pattern="^([0-1][0-9]|2[0-3]):(00|30)$" required>
+                    <datalist id="times-30min">
+                        <option value="08:00"></option>
+                        <option value="08:30"></option>
+                        <option value="09:00"></option>
+                        <option value="09:30"></option>
+                        <option value="10:00"></option>
+                        <option value="10:30"></option>
+                        <option value="11:00"></option>
+                        <option value="11:30"></option>
+                        <option value="12:00"></option>
+                        <option value="12:30"></option>
+                        <option value="13:00"></option>
+                        <option value="13:30"></option>
+                        <option value="14:00"></option>
+                        <option value="14:30"></option>
+                        <option value="15:00"></option>
+                        <option value="15:30"></option>
+                        <option value="16:00"></option>
+                        <option value="16:30"></option>
+                        <option value="17:00"></option>
+                        <option value="17:30"></option>
+                        <option value="18:00"></option>
+                    </datalist>
                 </label>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" data-close-modal>Annuler</button>
-                <button type="submit" class="btn-primary">Enregistrer</button>
+                <button type="submit" class="btn-primary">Valider</button>
             </div>
         </form>
     </div>

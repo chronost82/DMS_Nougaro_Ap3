@@ -67,6 +67,19 @@ tbody tr:hover {
     overflow-x: auto;
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(17, 24, 39, 0.05);
+    overflow: hidden;
+}
+
 .badge {
     display: inline-block;
     padding: 4px 8px;
@@ -75,6 +88,18 @@ tbody tr:hover {
     font-weight: 600;
     margin-left: 8px;
     vertical-align: middle;
+}
+
+.warning {
+    background: #fff7ed;
+    color: #b40909;
+    border: 1px solid #fd8a8a;
+}
+
+.success {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
 }
 
 .btn-primary,
