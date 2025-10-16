@@ -49,18 +49,4 @@ class ClientController extends BaseController
         return view("client/ajoutclient");
     }
 
-    public function create()
-    {
-        $ClientsModel = model('ClientModel');
-        $ajoutclient = [
-            'NOM' => $this->request->getPost('nom'),
-            'PRENOM' => $this->request->getPost('prenom'),
-            'TEL' => $this->request->getPost('mail'),
-            'MAIL' => $this->request->getPost('mail'),
-            'NUMRANDOM' => $this->request->getPost('numrandom')
-        ];
-        $ClientsModel->save($ajoutclient);
-
-        return redirect('client-liste');
-    }
 }
