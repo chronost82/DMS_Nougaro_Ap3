@@ -5,6 +5,16 @@
 <?php $this->endSection() ?>
 
 <?php
+// Convertit $status au format utilisé par la page
+$mapStatus = [
+    'attente'  => 'en-attente',
+    'validee'  => 'validee',
+    'terminee' => 'terminee',
+    'tous'     => 'tous',
+];
+$status = $mapStatus[$status ?? 'tous'] ?? 'tous';
+
+// Noms affichés et classes de badge
 $statusLabels = [
     'en-attente' => 'En attente',
     'validee'     => 'Validé',
@@ -16,7 +26,10 @@ $statusBadgeClass = [
     'validee'     => 'status-valide',
     'terminee'    => 'status-termine',
 ];
-
+// Affiche la valeur ou "Pas de donnée" en italique
+$valOrPlaceholder = static function ($v) {
+    return !empty($v) ? esc($v) : '<em class="muted">Pas de donnée</em>';
+};
 ?>
 
 <?= $this->section('content') ?>
@@ -29,10 +42,10 @@ $statusBadgeClass = [
             </div>
             <div class="filters" role="radiogroup" aria-label="Filtrer par statut (un seul à la fois)">
                 <span class="muted" aria-hidden="true">Filtrer</span>
-                <label class="check"><input type="radio" name="statusFilter" data-status="tous" <?= $status==='tous' ? 'checked' : '' ?>> <span>Tous</span></label>
-                <label class="check"><input type="radio" name="statusFilter" data-status="en-attente" <?= $status==='attente' ? 'checked' : '' ?>> <span>En attente</span></label>
-                <label class="check"><input type="radio" name="statusFilter" data-status="validee" <?= $status==='validee' ? 'checked' : '' ?>> <span>Validé</span></label>
-                <label class="check"><input type="radio" name="statusFilter" data-status="terminee" <?= $status==='terminee' ? 'checked' : '' ?>> <span>Terminé</span></label>
+                <label class="check"><input type="radio" name="statusFilter" data-status="tous" <?= $status === 'tous' ? 'checked' : '' ?>> <span>Tous</span></label>
+                <label class="check"><input type="radio" name="statusFilter" data-status="en-attente" <?= $status === 'en-attente' ? 'checked' : '' ?>> <span>En attente</span></label>
+                <label class="check"><input type="radio" name="statusFilter" data-status="validee" <?= $status === 'validee' ? 'checked' : '' ?>> <span>Validé</span></label>
+                <label class="check"><input type="radio" name="statusFilter" data-status="terminee" <?= $status === 'terminee' ? 'checked' : '' ?>> <span>Terminé</span></label>
             </div>
         </div>
 
@@ -47,28 +60,18 @@ $statusBadgeClass = [
                         <th>Téléphone</th>
                         <th>Marque</th>
                         <th>Modèle</th>
-                        <th>Immatriculation</th>
+                        <!-- Pour afficher/masquer cette colonne selon le statut, utilisez data-visible-for sur le TH. -->
+                        <th data-visible-for="validee">Immatriculation</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (!empty($clients) && is_iterable($clients)) : ?>
                         <?php foreach ($clients as $c):
-                            switch ($c['etat']) {
-                                case 'attente':
-                                    $statut = 'en-attente';
-                                    break;
-                                case 'validee':
-                                    $statut = 'validee';
-                                    break;
-                                case 'terminee':
-                                    $statut = 'terminee';
-                                    break;
-                                default:
-                                    $statut = 'en-attente';
-                            }
-                            $badgeClass = $statusBadgeClass[$statut];
-                            $label = $statusLabels[$statut];
+                            // Statut de la ligne
+                            $statut = $mapStatus[$c['etat']] ?? 'en-attente';
+                            $badgeClass = $statusBadgeClass[$statut] ?? '';
+                            $label = $statusLabels[$statut] ?? '';
                             $email = $c['email'];
                         ?>
                             <tr data-status="<?= esc($statut) ?>"
@@ -79,37 +82,37 @@ $statusBadgeClass = [
                                 data-telephone="<?= esc($c['telephone']) ?>"
                                 data-marque="<?= esc($c['marque']) ?>"
                                 data-modele="<?= esc($c['modele']) ?>"
-                                data-immatriculation="<?= esc($c['immatriculation']) ?>"
-                                data-heure="<?= esc($c['heure']) ?>"
-                            >
-                                <td><?= $c['nom'] ?></td>
-                                <td><?= $c['prenom'] ?></td>
+                                data-immatriculation="<?= esc($c['immatriculation']) ?? "" ?>"
+                                data-heure="<?= esc($c['heure']) ?>">
+                                <td><?= esc($c['nom']) ?></td>
+                                <td><?= esc($c['prenom']) ?></td>
                                 <td>
                                     <span class="email-cell">
                                         <span class="email-text"><?= esc($email) ?></span>
                                         <span class="badge <?= esc($badgeClass) ?>"><?= esc($label) ?></span>
                                     </span>
                                 </td>
-                                <td><?= $c['heure'] ?></td>
-                                <td><?= $c['telephone'] ?></td>
-                                <td><?= $c['marque'] ?></td>
-                                <td><?= $c['modele'] ?></td>
-                                <td><?= $c['immatriculation'] ?></td>
+                                <td><?= $valOrPlaceholder($c['heure'] ?? null) ?></td>
+                                <td><?= $valOrPlaceholder($c['telephone'] ?? null) ?></td>
+                                <td><?= $valOrPlaceholder($c['marque'] ?? null) ?></td>
+                                <td><?= $valOrPlaceholder($c['modele'] ?? null) ?></td>
+                                <td data-visible-for="validee"><?= $valOrPlaceholder($c['immatriculation'] ?? null) ?></td>
                                 <td class="actions">
                                     <div class="action-buttons">
-                                        <?php if ($statut === 'en-attente'): ?>
+                                        <div class="action-set" data-actions-for="en-attente" style="display:none">
                                             <button type="button" class="btn-small btn-edit" title="Modifier" data-role="edit">Modifier</button>
                                             <form method="post" action="<?= site_url('demandes/valider') ?>" style="display:inline">
                                                 <input type="hidden" name="id" value="<?= esc($c['id']) ?>">
-                                                <button type="submit" class="btn-small" title="Valider">Valider</button>
+                                                <button type="submit" class="btn" title="Valider">Valider</button>
                                             </form>
-                                        <?php endif; ?>
-                                        <?php if ($statut !== 'terminee'): ?>
-                                            <form method="post" action="<?= site_url('demandes/terminer') ?>" style="display:inline">
-                                                <input type="hidden" name="id" value="<?= esc($c['id']) ?>">
-                                                <button type="submit" class="btn-small" title="Terminer">Terminer</button>
-                                            </form>
-                                        <?php endif; ?>
+                                        </div>
+                                        <div class="action-set" data-actions-for="validee" style="display:none">
+                                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn">Faire CT</a>
+                                            <a href="" class="btn">Supprimer</a>
+                                        </div>
+                                        <div class="action-set" data-actions-for="terminee" style="display:none">
+                                            <!-- Actions pour terminée -->
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -128,28 +131,73 @@ $statusBadgeClass = [
 </div>
 
 <script>
-    // Filtrage + modal édition
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Éléments principaux
         const radios = document.querySelectorAll('input[name="statusFilter"]');
-        const rows = document.querySelectorAll('#contactsTable tbody tr');
+        const table = document.getElementById('contactsTable');
+        const rows = table ? table.querySelectorAll('tbody tr') : [];
+        const headerCells = table ? table.querySelectorAll('thead th[data-visible-for]') : [];
         const counter = document.getElementById('counter');
 
+        // Aide: colonnes visibles selon le statut
+        function parseVisibleFor(value) {
+            if (!value) return new Set();
+            return new Set(String(value).split(',').map(s => s.trim()).filter(Boolean));
+        }
+
+        function headerVisible(selected, visibleStatuses, visibleFor) {
+            if (!visibleFor || visibleFor.size === 0) return true;
+            if (visibleFor.has('*') || visibleFor.has('tous')) return true;
+            if (selected === 'tous') {
+                for (const st of visibleFor)
+                    if (visibleStatuses.has(st)) return true;
+                return false;
+            }
+            return visibleFor.has(selected);
+        }
+
+        // Applique le filtre
         function applyFilter() {
-            const selected = document.querySelector('input[name="statusFilter"]:checked').dataset.status;
-            let visible = 0;
-            rows.forEach(r => {
-                const status = r.getAttribute('data-status');
+            const selected = (document.querySelector('input[name="statusFilter"]:checked')?.dataset.status) || 'tous';
+            let visibleCount = 0;
+            const visibleStatuses = new Set();
+
+            rows.forEach(row => {
+                const status = row.getAttribute('data-status');
                 const show = (selected === 'tous') || (status === selected);
-                r.style.display = show ? '' : 'none';
-                if (show) visible++;
+                row.style.display = show ? '' : 'none';
+
+                // Boutons d'action selon le statut
+                row.querySelectorAll('.action-set').forEach(set => {
+                    const target = set.getAttribute('data-actions-for');
+                    const showSet = (selected === 'tous' && target === status) || (selected !== 'tous' && target === selected);
+                    set.style.display = showSet ? '' : 'none';
+                });
+
+                if (show) {
+                    visibleCount++;
+                    visibleStatuses.add(status);
+                }
             });
-            counter.textContent = visible + (visible > 1 ? ' éléments' : ' élément');
+
+            // Colonnes qui dépendent du statut (entête + lignes)
+            headerCells.forEach(th => {
+                const vfor = parseVisibleFor(th.getAttribute('data-visible-for'));
+                const mustShow = headerVisible(selected, visibleStatuses, vfor);
+                th.style.display = mustShow ? '' : 'none';
+                const colIdx = th.cellIndex;
+                rows.forEach(r => {
+                    if (r.cells && r.cells.length > colIdx) r.cells[colIdx].style.display = mustShow ? '' : 'none';
+                });
+            });
+
+            if (counter) counter.textContent = `${visibleCount} ${visibleCount > 1 ? 'éléments' : 'élément'}`;
         }
 
         radios.forEach(r => r.addEventListener('change', applyFilter));
         applyFilter();
 
-        // Modal
+        // Fenêtre de modification (modal)
         const modal = document.getElementById('editModal');
         const form = document.getElementById('editForm');
         const fields = {
@@ -164,35 +212,40 @@ $statusBadgeClass = [
             heure: document.getElementById('f-heure')
         };
 
-        function openModal(tr){
+        function openModal(tr) {
             if (!tr) return;
-            fields.id.value = tr.dataset.id || '';
-            fields.nom.value = tr.dataset.nom || '';
-            fields.prenom.value = tr.dataset.prenom || '';
-            fields.email.value = tr.dataset.email || '';
-            fields.telephone.value = tr.dataset.telephone || '';
-            fields.marque.value = tr.dataset.marque || '';
-            fields.modele.value = tr.dataset.modele || '';
-            fields.immatriculation.value = tr.dataset.immatriculation || '';
-            fields.heure.value = tr.dataset.heure || '';
+            const map = {
+                id: 'id',
+                nom: 'nom',
+                prenom: 'prenom',
+                email: 'email',
+                telephone: 'telephone',
+                marque: 'marque',
+                modele: 'modele',
+                immatriculation: 'immatriculation',
+                heure: 'heure'
+            };
+            for (const [field, key] of Object.entries(map)) {
+                if (fields[field]) fields[field].value = tr.dataset[key] || '';
+            }
             modal.removeAttribute('hidden');
             modal.classList.add('open');
-            fields.nom.focus();
+            fields.nom?.focus();
         }
-        function closeModal(){
+
+        function closeModal() {
             modal.classList.remove('open');
-            modal.setAttribute('hidden','hidden');
+            modal.setAttribute('hidden', 'hidden');
         }
-        document.addEventListener('click', e => {
-            if (e.target.closest('.btn-edit')) {
-                openModal(e.target.closest('tr'));
-            }
-            if (e.target.matches('[data-close-modal]')) {
-                closeModal();
-            }
-            if (e.target === modal) closeModal();
+
+        document.addEventListener('click', (e) => {
+            const editBtn = e.target.closest('.btn-edit');
+            if (editBtn) openModal(editBtn.closest('tr'));
+            if (e.target.matches('[data-close-modal]') || e.target === modal) closeModal();
         });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+        });
     });
 </script>
 
@@ -234,7 +287,7 @@ $statusBadgeClass = [
             </div>
             <div>
                 <label>Heure
-                    <input type="text" name="heure" id="f-heure" placeholder="HH:MM">
+                    <input type="time" name="heure" id="f-heure" placeholder="HH:MM">
                 </label>
             </div>
             <div class="modal-footer">

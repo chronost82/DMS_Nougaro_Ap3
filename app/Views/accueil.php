@@ -31,11 +31,11 @@
                 <span>Prenom</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required" name="email">
+                <input type="email" required="required" name="email">
                 <span>Email</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required" name="tel">
+                <input type="tel" required="required" name="tel" pattern="^0[1-9]( ?\d{2}){4}$">
                 <span>Téléphone</span>
             </div>
             <div class="inputbox">
@@ -49,7 +49,7 @@
             <div class="inputbox">
                 <input type="submit" value="Envoyer">
             </div>
-            <a href="">Vous avez déjà fait un control technique ?</a>
+            <a href="">Vous avez déjà fait un contrôle technique ?</a>
         </form>
     </div>
 </body>

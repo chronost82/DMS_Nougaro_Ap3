@@ -64,10 +64,10 @@ body {
 }
 
 .form-contact .inputbox input[type="submit"] {
-    position: static;          
+    position: static;
     display: block;
     width: 50%;
-    margin: 0 auto;         
+    margin: 0 auto;
     padding: 10px 0;
     background: #A24246;
     color: #fff;

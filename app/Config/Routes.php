@@ -39,8 +39,8 @@ $routes->post('dashboard/suppr-demande-en-attente', 'DemandeController::delete',
 $routes->get('dashboard/modif-demande-en-attente', 'DemandeController::modif', ['as' => 'admin-demande-en-attente-modif']);
 $routes->post('dashboard/modif-demande-en-attente', 'DemandeController::update', ['as' => 'admin-demande-en-attente-modif']);
 
-$routes->get('dashboard/ajout-demande', 'DemandeController::ajout', ['as' => 'admin-ajout-demande']);
-$routes->post('dashboard/ajout-demande', 'DemandeController::create', ['as' => 'admin-ajout-demande']);
+$routes->get('ajout-demande', 'DemandeController::ajout', ['as' => 'admin-ajout-demande']);
+$routes->post('ajout-demande', 'DemandeController::create', ['as' => 'admin-ajout-demande']);
 
 //Validé
 $routes->get('dashboard/liste-demandes-valides', 'DemandeValidesController::affiche', ['as' => 'admin-liste-demandes-valides']);
