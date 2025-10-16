@@ -65,6 +65,6 @@ $routes->get('resultats-contrôle-technique', 'ResultatTestConlleur::affiche', [
 
 $routes->get('dashboard', 'Dashboard::index');
 
-//page de connexion
-$routes->get('connexion', 'ConnexionController::index', ['as' => 'connexion']);
-$routes->post('connexion', 'ConnexionController::login', ['as' => 'connexion']);
+//login et logout
+service('auth')->routes($routes);
+$routes->get('/logout', 'LogoutController::logout', ['as' => 'logout']);
