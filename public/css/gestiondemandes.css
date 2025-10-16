@@ -1,28 +1,4 @@
-:root {
-    --bg: #f5f7fb;
-    --card: #ffffff;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --primary: #6366f1;
-    --border: #e5e7eb;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --neutral: #9ca3af;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-    color: var(--text);
-    background: linear-gradient(135deg, #eef2ff 0%, #f2fbfd 100%);
-    min-height: 100vh;
-    padding: 32px;
-}
-
+/* === Gestion des Demandes ======================================== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -44,16 +20,6 @@ body {
     gap: 16px;
     border-bottom: 1px solid var(--border);
     background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-}
-
-h1 {
-    font-size: 20px;
-    margin: 0;
-}
-
-.muted {
-    color: var(--muted);
-    font-size: 13px;
 }
 
 .filters {
@@ -86,50 +52,6 @@ h1 {
 
 .check input {
     accent-color: var(--primary);
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-thead th {
-    text-align: left;
-    padding: 14px 16px;
-    background: #fafafa;
-    font-size: 13px;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-}
-
-tbody td {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-}
-
-/* Empêcher les retours à la ligne dans tout le tableau */
-#contactsTable th,
-#contactsTable td {
-    white-space: nowrap;
-}
-
-tbody tr:hover {
-    background: #fcfcff;
-}
-
-.badge {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-left: 8px;
-    vertical-align: middle;
 }
 
 .status-attente {
@@ -173,61 +95,6 @@ tbody tr:hover {
 #contactsTable tbody td:nth-child(3) .badge {
     flex: 0 0 auto;
     margin-left: auto;
-}
-
-/* Boutons d'action */
-.btn {
-    appearance: none;
-    border: 1px solid var(--border);
-    background: #fff;
-    color: var(--text);
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: transform 0.05s ease, background 0.2s ease, border-color 0.2s ease;
-}
-
-.btn:hover {
-    background: #fafafa;
-}
-
-.btn:active {
-    transform: translateY(1px);
-}
-
-.btn+.btn {
-    margin-left: 8px;
-}
-
-.btn-primary {
-    border-color: #c7d2fe;
-    background: #eef2ff;
-    color: #3730a3;
-}
-
-.btn-primary:hover {
-    background: #e0e7ff;
-}
-
-.btn-success {
-    border-color: #a7f3d0;
-    background: #ecfdf5;
-    color: #065f46;
-}
-
-.btn-success:hover {
-    background: #d1fae5;
-}
-
-.btn-warning {
-    border-color: #fde68a;
-    background: #fffbeb;
-    color: #92400e;
-}
-
-.btn-warning:hover {
-    background: #fef3c7;
 }
 
 /* Actions sur une seule ligne sans flex */
@@ -363,8 +230,7 @@ td.actions .btn+.btn {
   gap: .35rem;
 }
 
-.modal-body input[type=text],
-.modal-body input[type=email] {
+.modal-body input{
   border: 1px solid #cbd5e1;
   background: #fff;
   border-radius: 6px;
@@ -374,68 +240,11 @@ td.actions .btn+.btn {
   line-height: 1.2;
   transition: border-color .2s, box-shadow .2s, background .2s;
 }
-.modal-body input[type=text]:focus,
-.modal-body input[type=email]:focus {
+.modal-body input:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37,99,235,.25);
   background: #fff;
-}
-
-.btn-primary,
-.btn-secondary,
-.btn-small.btn-edit {
-  font: inherit;
-  font-size: .8rem;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  line-height: 1.1;
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  border: none;
-  transition: background .2s, box-shadow .2s, transform .15s;
-  letter-spacing: .3px;
-}
-
-.btn-primary {
-  background: #2563eb;
-  color: #fff;
-  padding: .65rem 1rem;
-  box-shadow: 0 2px 4px -1px rgba(37,99,235,.6), 0 1px 2px rgba(0,0,0,.08);
-}
-.btn-primary:hover {
-  background: #1d4ed8;
-}
-.btn-primary:active {
-  transform: translateY(1px);
-}
-
-.btn-secondary {
-  background: #e2e8f0;
-  color: #1e293b;
-  padding: .65rem .95rem;
-}
-.btn-secondary:hover {
-  background: #cfd8e3;
-}
-.btn-secondary:active {
-  transform: translateY(1px);
-}
-
-.btn-small.btn-edit {
-  background: #6366f1;
-  color: #fff;
-  padding: .45rem .7rem;
-  font-size: .72rem;
-  border-radius: 5px;
-}
-.btn-small.btn-edit:hover {
-  background: #4f46e5;
-}
-.btn-small.btn-edit:active {
-  transform: translateY(1px);
 }
 
 .modal-window:focus-visible {
