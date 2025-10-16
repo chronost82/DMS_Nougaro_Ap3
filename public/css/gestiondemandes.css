@@ -175,62 +175,6 @@ tbody tr:hover {
     margin-left: auto;
 }
 
-/* Boutons d'action */
-.btn {
-    appearance: none;
-    border: 1px solid var(--border);
-    background: #fff;
-    color: var(--text);
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: transform 0.05s ease, background 0.2s ease, border-color 0.2s ease;
-    text-decoration: none;
-}
-
-.btn:hover {
-    background: #fafafa;
-}
-
-.btn:active {
-    transform: translateY(1px);
-}
-
-.btn+.btn {
-    margin-left: 8px;
-}
-
-.btn-primary {
-    border-color: #c7d2fe;
-    background: #eef2ff;
-    color: #3730a3;
-}
-
-.btn-primary:hover {
-    background: #e0e7ff;
-}
-
-.btn-success {
-    border-color: #a7f3d0;
-    background: #ecfdf5;
-    color: #065f46;
-}
-
-.btn-success:hover {
-    background: #d1fae5;
-}
-
-.btn-warning {
-    border-color: #fde68a;
-    background: #fffbeb;
-    color: #92400e;
-}
-
-.btn-warning:hover {
-    background: #fef3c7;
-}
-
 /* Actions sur une seule ligne sans flex */
 td.actions {
     white-space: nowrap;
@@ -364,9 +308,7 @@ td.actions .btn+.btn {
   gap: .35rem;
 }
 
-.modal-body input[type=text],
-.modal-body input[type=email],
-.modal-body input[type=time]{
+.modal-body input{
   border: 1px solid #cbd5e1;
   background: #fff;
   border-radius: 6px;
@@ -376,9 +318,7 @@ td.actions .btn+.btn {
   line-height: 1.2;
   transition: border-color .2s, box-shadow .2s, background .2s;
 }
-.modal-body input[type=text]:focus,
-.modal-body input[type=email]:focus,
-.modal-body input[type=time]:focus {
+.modal-body input:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37,99,235,.25);
