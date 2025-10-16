@@ -1,28 +1,4 @@
-:root {
-    --bg: #f6f8fa;
-    --card: #ffffff;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --primary: #6366f1;
-    --border: #e5e7eb;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --neutral: #9ca3af;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-    color: var(--text);
-    background: var(--bg);
-    min-height: 100vh;
-    padding: 32px;
-}
-
+/* === Gestion des Demandes ======================================== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -44,16 +20,6 @@ body {
     gap: 16px;
     border-bottom: 1px solid var(--border);
     background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-}
-
-h1 {
-    font-size: 20px;
-    margin: 0;
-}
-
-.muted {
-    color: var(--muted);
-    font-size: 13px;
 }
 
 .filters {
@@ -86,50 +52,6 @@ h1 {
 
 .check input {
     accent-color: var(--primary);
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-thead th {
-    text-align: left;
-    padding: 14px 16px;
-    background: #fafafa;
-    font-size: 13px;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-}
-
-tbody td {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-}
-
-/* Empêcher les retours à la ligne dans tout le tableau */
-#contactsTable th,
-#contactsTable td {
-    white-space: nowrap;
-}
-
-tbody tr:hover {
-    background: #fcfcff;
-}
-
-.badge {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-left: 8px;
-    vertical-align: middle;
 }
 
 .status-attente {
