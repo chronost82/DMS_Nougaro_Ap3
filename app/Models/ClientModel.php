@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ClientModel extends Model
+class CLIENTModel extends Model
 {
     protected $table            = 'CLIENT';
     protected $primaryKey       = 'IDCLIENT';
@@ -46,9 +46,9 @@ class ClientModel extends Model
 
     public function findJoinAllWithEtat(): array
     {
-        return $this->select('client.IDCLIENT AS ID, client.NOM, client.PRENOM, client.EMAIL, client.TEL, client.NUMRANDOM, demande.ETAT as ETAT')
-            ->join('demande', 'demande.IDCLIENT = client.IDCLIENT', 'left')
-            ->orderBy('client.IDCLIENT', 'ASC')
+        return $this->select('CLIENT.IDCLIENT AS ID, CLIENT.NOM, CLIENT.PRENOM, CLIENT.EMAIL, CLIENT.TEL, CLIENT.NUMRANDOM, DEMANDE.ETAT as ETAT')
+            ->join('DEMANDE', 'DEMANDE.IDCLIENT = CLIENT.IDCLIENT', 'left')
+            ->orderBy('CLIENT.IDCLIENT', 'ASC')
             ->findAll();
     }
 }

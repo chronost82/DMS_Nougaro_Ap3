@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PossedeModel extends Model
+class POSSEDEModel extends Model
 {
     protected $table            = 'POSSEDE';
     protected $primaryKey       = 'IDCLIENT, IDVEHICULE, IDCT';
@@ -46,10 +46,10 @@ class PossedeModel extends Model
 
     public function findJoinAll(): array 
     {
-        return $this->select('possede.IDCLIENT, possede.IDVEHICULE, possede.IDCT, client.NOM as client, vehicule.MODELE as vehicule, controle_technique.DATECT as controle_technique')
-            ->join('client', 'client.IDCLIENT = possede.IDCLIENT', 'left')
-            ->join('vehicule', 'vehicule.IDVEHICULE = possede.IDVEHICULE', 'left')
-            ->join('ct', 'ct.IDCT = possede.IDCT', 'left')
+        return $this->select('POSSEDE.IDCLIENT, POSSEDE.IDVEHICULE, POSSEDE.IDCT, CLIENT.NOM as CLIENT, VEHICULE.MODELE as VEHICULE, CT.DATECT')
+            ->join('CLIENT', 'CLIENT.IDCLIENT = POSSEDE.IDCLIENT', 'left')
+            ->join('VEHICULE', 'VEHICULE.IDVEHICULE = POSSEDE.IDVEHICULE', 'left')
+            ->join('CT', 'CT.IDCT = POSSEDE.IDCT', 'left')
             ->findAll();
     }
 }
