@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Demande extends Model
+class PossedeModel extends Model
 {
-    protected $table            = 'demande';
-    protected $primaryKey       = 'iddemande';
+    protected $table            = 'possede';
+    protected $primaryKey       = 'IDCLIENT, IDVEHICULE, IDCT';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -44,12 +44,12 @@ class Demande extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function findJoinAll(): array
+    public function findJoinAll(): array 
     {
-        return $this->select('demande.IDDEMANDE AS ID, demande.IDCLIENT, demande.NOM, demande.PRENOM, demande.EMAIL, demande.TEL, demande.MARQUE, demande.MODELE, demande.DATEDEMANDE, demande.ETAT, possede.IMAT as IMMATRICULATION, possede.ANNEE, possede.NUMCHASSIS as CHASSIS, client.NUMRANDOM')
-            ->join('client', 'demande.IDCLIENT = client.IDCLIENT', 'left')
-            ->join('possede', 'possede.IDCLIENT = client.IDCLIENT', 'left')
-            ->orderBy('demande.DATEDEMANDE', 'ASC')
+        return $this->select('possede.IDCLIENT, possede.IDVEHICULE, possede.IDCT, client.NOM as client, vehicule.MODELE as vehicule, controle_technique.DATECT as controle_technique')
+            ->join('client', 'client.IDCLIENT = possede.IDCLIENT', 'left')
+            ->join('vehicule', 'vehicule.IDVEHICULE = possede.IDVEHICULE', 'left')
+            ->join('ct', 'ct.IDCT = possede.IDCT', 'left')
             ->findAll();
     }
 }

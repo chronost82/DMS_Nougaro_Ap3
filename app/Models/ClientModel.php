@@ -43,4 +43,12 @@ class ClientModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function findJoinAllWithEtat(): array
+    {
+        return $this->select('client.IDCLIENT AS ID, client.NOM, client.PRENOM, client.EMAIL, client.TEL, client.NUMRANDOM, demande.ETAT as ETAT')
+            ->join('demande', 'demande.IDCLIENT = client.IDCLIENT', 'left')
+            ->orderBy('client.IDCLIENT', 'ASC')
+            ->findAll();
+    }
 }
