@@ -39,13 +39,26 @@
                 <span class="" id="errorTel">Téléphone</span>
             </div>
             <div class="inputbox">
+                <select name="marque" id="marque" required="required">
+                    <option value="" disabled selected>Marque</option>
+                    <?php foreach ($marques as $marque): ?>
+                        <option value="<?= esc($marque['MARQUE']) ?>"><?= esc($marque['MARQUE']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="inputbox">
+                <select name="modele" id="modele" required="required">
+                    <option value="" disabled selected>Modèle</option>
+                </select>
+            </div>
+            <!-- <div class="inputbox">
                 <input type="text" required="required" name="marque">
                 <span>Marque</span>
             </div>
             <div class="inputbox">
                 <input type="text" required="required" name="modele">
                 <span>Modèle</span>
-            </div>
+            </div> -->
             <div class="inputbox">
                 <input type="submit" id="valid" value="Envoyer">
             </div>
@@ -54,6 +67,11 @@
     </div>
 
     <script src="js/accueil.js"></script>
+
+    <!-- Données véhicules (MARQUE, MODELE) pour le filtrage côté client -->
+    <script id="vehicules-data" type="application/json">
+        <?= json_encode($vehicules ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
+    </script>
 
 </body>
 

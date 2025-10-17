@@ -12,7 +12,10 @@ class VehiculeModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'MARQUE',
+        'MODELE'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,4 +46,12 @@ class VehiculeModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function findVehicule($marque, $modele): array
+    {
+        return $this->select('IDVEHICULE')
+            ->where('MARQUE', $marque)
+            ->where('MODELE', $modele)
+            ->first();
+    }
 }

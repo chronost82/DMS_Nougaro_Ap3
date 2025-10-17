@@ -84,6 +84,19 @@ class DemandeController extends BaseController
 
     public function update()
     {
+        // recupérer l'id du véhicule grace a marque et modele de demande verifier 
+        // si il existe sinon afficher une erreur
+        $vehiculeModel = model('VehiculeModel');
+        $vehiculeExisting = $vehiculeModel->findVehicule(
+            $this->request->getPost('marque'),
+            $this->request->getPost('modele')
+        );
+        if ($vehiculeExisting) {
+            $idVehicule = $vehiculeExisting['IDVEHICULE'];
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Véhicule non trouvé. Veuillez vérifier la marque et le modèle.');
+        }
+
         $clientModel = model('ClientModel');
 
         $currentId = $this->request->getPost('id');
@@ -112,25 +125,28 @@ class DemandeController extends BaseController
 
         $ctModel = model('CTModel');
         $idCT = $ctModel->insert([
-            'DATECT' => $this->request->getPost('date') ,
+            'DATECT' => $this->request->getPost('date'),
             'HEURE' => $this->request->getPost('heure'),
-        ]);
+        ], true);
 
         $possedeModel = model('PossedeModel');
         $possedeModel->insert([
-            'IDVEHICULE' => null,
+            'IDVEHICULE' => $idVehicule,
             'IDCLIENT' => $idClient,
             'IDCT' => $idCT,
             'NUMCHASSIS' => $this->request->getPost('chassis'),
             'IMAT' => $this->request->getPost('immatriculation'),
             'ANNEE' => $this->request->getPost('annee')
         ]);
-        return redirect()->to(url_to('admin-liste-demandes-en-attentes'));
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande validée avec succès.');
     }
 
     public function ajout()
     {
-        return view('accueil');
+        $vehiculeModel = model('VehiculeModel');
+        $marques = $vehiculeModel->distinct()->select('MARQUE')->orderBy('MARQUE', 'ASC')->findAll();
+        $vehicules = $vehiculeModel->select('MARQUE, MODELE')->orderBy('MARQUE', 'ASC')->orderBy('MODELE', 'ASC')->findAll();
+        return view('accueil', ['marques' => $marques, 'vehicules' => $vehicules]);
     }
 
     public function create()
@@ -138,9 +154,14 @@ class DemandeController extends BaseController
         $demandeModel = model('Demande');
         $demande = $this->request->getPost();
 
-        $demande['etat'] = 'attente';
+        $demande['ETAT'] = 'attente';
+        $demande['DATEDEMANDE'] = date('Y-m-d');
         $demandeModel->save($demande);
         // dd($demande);
-        return view('accueil');
+        $vehiculeModel = model('VehiculeModel');
+        $marques = $vehiculeModel->distinct()->select('MARQUE')->orderBy('MARQUE', 'ASC')->findAll();
+        // Fournit la liste des paires Marque/Modèle pour filtrer côté client
+        $vehicules = $vehiculeModel->select('MARQUE, MODELE')->orderBy('MARQUE', 'ASC')->orderBy('MODELE', 'ASC')->findAll();
+        return view('accueil', ['marques' => $marques, 'vehicules' => $vehicules]);
     }
 }
