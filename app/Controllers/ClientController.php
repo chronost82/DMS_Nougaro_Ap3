@@ -18,7 +18,7 @@ class ClientController extends BaseController
     {
         $ClientsModel = model('ClientModel');
         $ClientsModel->delete($idClient);
-        return redirect("clients-liste");
+        return redirect("liste-clients");
     }
 
     public function modif($idClient)
@@ -41,12 +41,6 @@ class ClientController extends BaseController
             'NUMRANDOM' => $this->request->getPost('numrandom')
         ];
         $ClientsModel->save($clientAModif);
-        return redirect('client-liste');
+        return redirect('liste-clients');
     }
-
-    public function ajout()
-    {
-        return view("client/ajoutclient");
-    }
-
 }
