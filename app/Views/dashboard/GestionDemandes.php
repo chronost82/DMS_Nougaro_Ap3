@@ -77,7 +77,8 @@ $valOrPlaceholder = static function ($v) {
                             $email = $c['EMAIL'];
                         ?>
                             <tr data-status="<?= esc($statut) ?>"
-                                data-id="<?= esc($c['IDDEMANDE']) ?>"
+                                data-iddemande="<?= esc($c['IDDEMANDE'] ?? '') ?>"
+                                data-idclient="<?= esc($c['IDCLIENT'] ?? '') ?>"
                                 data-nom="<?= esc($c['NOM']) ?>"
                                 data-prenom="<?= esc($c['PRENOM']) ?>"
                                 data-email="<?= esc($c['EMAIL']) ?>"
@@ -108,7 +109,7 @@ $valOrPlaceholder = static function ($v) {
                                         <div class="action-set" data-actions-for="en-attente" style="display:none">
                                             <button type="button" class="btn-small btn-edit" title="Modifier" data-role="edit">Modifier</button>
                                             <form method="post" action="<?= site_url('demandes/valider') ?>" style="display:inline">
-                                                <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE']) ?>">
+                                                <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE'] ?? '') ?>">
                                                 <button type="submit" class="btn" title="Valider">Valider</button>
                                             </form>
                                         </div>
@@ -215,13 +216,15 @@ $valOrPlaceholder = static function ($v) {
             marque: document.getElementById('f-marque'),
             modele: document.getElementById('f-modele'),
             immatriculation: document.getElementById('f-immatriculation'),
+            annee: document.getElementById('f-annee'),
+            chassis: document.getElementById('f-chassis'),
+            date: document.getElementById('f-date'),
             heure: document.getElementById('f-heure')
         };
 
         function openModal(tr) {
             if (!tr) return;
             const map = {
-                id: 'id',
                 nom: 'nom',
                 prenom: 'prenom',
                 email: 'email',
@@ -229,8 +232,23 @@ $valOrPlaceholder = static function ($v) {
                 marque: 'marque',
                 modele: 'modele',
                 immatriculation: 'immatriculation',
+                annee: 'annee',
+                chassis: 'chassis',
+                date: 'date',
                 heure: 'heure'
             };
+            // Sélectionne l'identifiant selon le statut (en-attente -> IDDEMANDE, validee -> IDCLIENT)
+            const status = tr.getAttribute('data-status');
+            let idValue = '';
+            if (status === 'en-attente') {
+                idValue = tr.dataset.iddemande || '';
+            } else if (status === 'validee') {
+                idValue = tr.dataset.idclient || '';
+            } else {
+                // par défaut, on tente IDCLIENT puis IDDEMANDE
+                idValue = tr.dataset.idclient || tr.dataset.iddemande || '';
+            }
+            if (fields.id) fields.id.value = idValue;
             for (const [field, key] of Object.entries(map)) {
                 if (fields[field]) fields[field].value = tr.dataset[key] || '';
             }
