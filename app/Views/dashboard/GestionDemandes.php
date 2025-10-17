@@ -237,7 +237,7 @@ $valOrPlaceholder = static function ($v) {
                 date: 'date',
                 heure: 'heure'
             };
-            // Sélectionne l'identifiant selon le statut (en-attente -> IDDEMANDE, validee -> IDCLIENT)
+            // Selectionne l'identifiant selon le statut (en-attente -> IDDEMANDE, validee -> IDCLIENT)
             const status = tr.getAttribute('data-status');
             let idValue = '';
             if (status === 'en-attente') {
@@ -245,7 +245,7 @@ $valOrPlaceholder = static function ($v) {
             } else if (status === 'validee') {
                 idValue = tr.dataset.idclient || '';
             } else {
-                // par défaut, on tente IDCLIENT puis IDDEMANDE
+                // par défaut on tente IDCLIENT puis IDDEMANDE
                 idValue = tr.dataset.idclient || tr.dataset.iddemande || '';
             }
             if (fields.id) fields.id.value = idValue;
