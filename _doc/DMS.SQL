@@ -9,7 +9,7 @@ USE dmsDB;
 CREATE TABLE IF NOT EXISTS CT
  (
    IDCT INTEGER(10) NOT NULL AUTO_INCREMENT ,
-   IDELEVE INTEGER(2) NOT NULL  ,
+   IDELEVE INTEGER(2) NULL  ,
    NUMCT INTEGER(20) NULL  ,
    DATECT DATE NULL  ,
    HEURE TIME NULL  ,
@@ -40,11 +40,6 @@ CREATE TABLE IF NOT EXISTS ELEVES
    , PRIMARY KEY (IDELEVE) 
  ) 
  comment = "";
-<<<<<<< HEAD
-
-=======
- 
->>>>>>> 678591eaa7bb71bfbef686392145b55fa68fdc70
 # -----------------------------------------------------------------------------
 #       TABLE : VEHICULE
 # -----------------------------------------------------------------------------
@@ -68,7 +63,7 @@ CREATE TABLE IF NOT EXISTS CLIENT
    NOM VARCHAR(128) NULL  ,
    PRENOM VARCHAR(128) NULL  ,
    TEL VARCHAR(10) NULL  ,
-   MAIL VARCHAR(128) NULL  ,
+   EMAIL VARCHAR(128) NULL  ,
    NUMRANDOM VARCHAR(128) NULL  
    , PRIMARY KEY (IDCLIENT) 
  ) 
