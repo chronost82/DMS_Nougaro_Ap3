@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class PossedeModel extends Model
 {
-    protected $table            = 'possede';
+    protected $table            = 'POSSEDE';
     protected $primaryKey       = 'IDCLIENT, IDVEHICULE, IDCT';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

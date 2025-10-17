@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class CTModel extends Model
 {
-    protected $table            = 'ct';
+    protected $table            = 'CT';
     protected $primaryKey       = 'IDCT';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
