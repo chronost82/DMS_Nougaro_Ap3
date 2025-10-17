@@ -67,9 +67,9 @@ class DemandeController extends BaseController
     {
 
         $demandeModel = model('Demande');
-        $demandes = $demandeModel->findAll();
+        $demandes = $demandeModel->findJoinAll();
         $status = 'attente';
-        return view('Dashboard/GestionDemandes.php', ['clients' => $demandes, 'status' => $status]);
+        return view('dashboard/GestionDemandes.php', ['clients' => $demandes, 'status' => $status]);
     }
 
     public function delete()
@@ -89,7 +89,6 @@ class DemandeController extends BaseController
         $currentId = $this->request->getPost('id');
         $numRandomPost = strtoupper(trim((string) ($this->request->getPost('numrandom') ?? '')));
 
-        // Si la valeur fournie n'est pas valide ou déjà prise (hors même client), on génère une valeur unique
         if (!$this->isValidClientNumber($numRandomPost) || $this->numRandomExists($numRandomPost, $currentId)) {
             $numRandomFinal = $this->generateUniqueClientNumber($currentId);
         } else {
@@ -97,14 +96,36 @@ class DemandeController extends BaseController
         }
 
         $client = [
-            'IDCLIENT' => $currentId,
             'NOM' => $this->request->getPost('nom'),
             'PRENOM' => $this->request->getPost('prenom'),
-            'MAIL' => $this->request->getPost('email'),
+            'EMAIL' => $this->request->getPost('email'),
             'TEL' => $this->request->getPost('telephone'),
             'NUMRANDOM' => $numRandomFinal,
         ];
-        $clientModel->save($client);
+        $idClient = $clientModel->insert($client, true);
+
+        $demandeModel = model('Demande');
+        $demandeModel->update($currentId, [
+            'IDCLIENT' => $idClient,
+            'ETAT' => 'validee',
+        ]);
+
+        $ctModel = model('CTModel');
+        $idCT = $ctModel->insert([
+            'DATECT' => $this->request->getPost('date') ,
+            'HEURE' => $this->request->getPost('heure'),
+        ]);
+
+        $possedeModel = model('PossedeModel');
+        $possedeModel->insert([
+            'IDVEHICULE' => null,
+            'IDCLIENT' => $idClient,
+            'IDCT' => $idCT,
+            'NUMCHASSIS' => $this->request->getPost('chassis'),
+            'IMAT' => $this->request->getPost('immatriculation'),
+            'ANNEE' => $this->request->getPost('annee')
+        ]);
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes'));
     }
 
     public function ajout()
