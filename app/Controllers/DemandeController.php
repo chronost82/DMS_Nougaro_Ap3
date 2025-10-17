@@ -84,22 +84,28 @@ class DemandeController extends BaseController
 
     public function update()
     {
-        // recupérer l'id du véhicule grace a marque et modele de demande verifier 
-        // si il existe sinon afficher une erreur
+        // Récupérer l'id du véhicule grâce à la marque et au modèle de la demande
+        // Si introuvable, afficher une erreur
         $vehiculeModel = model('VehiculeModel');
-        $vehiculeExisting = $vehiculeModel->findVehicule(
-            $this->request->getPost('marque'),
-            $this->request->getPost('modele')
-        );
+        $marque = trim((string) ($this->request->getPost('marque') ?? ''));
+        $modele = trim((string) ($this->request->getPost('modele') ?? ''));
+        $vehiculeExisting = $vehiculeModel->findVehicule($marque, $modele);
         if ($vehiculeExisting) {
             $idVehicule = $vehiculeExisting['IDVEHICULE'];
         } else {
             return redirect()->back()->withInput()->with('error', 'Véhicule non trouvé. Veuillez vérifier la marque et le modèle.');
         }
 
+        $db = \Config\Database::connect();
+        $db->transStart();
         $clientModel = model('ClientModel');
 
-        $currentId = $this->request->getPost('id');
+        // Selon le filtre actif côté UI, on peut avoir reçu un id de client (valide) ou de demande (en-attente)
+        // On utilise id_type pour déterminer l'identifiant de la demande à mettre à jour
+        $idType = (string) ($this->request->getPost('id_type') ?? '');
+        $postedId = $this->request->getPost('id');
+        $postedIdDemande = $this->request->getPost('iddemande');
+        $currentId = ($idType === 'client') ? ($postedIdDemande ?: $postedId) : $postedId; // fallback au besoin
         $numRandomPost = strtoupper(trim((string) ($this->request->getPost('numrandom') ?? '')));
 
         if (!$this->isValidClientNumber($numRandomPost) || $this->numRandomExists($numRandomPost, $currentId)) {
@@ -138,6 +144,12 @@ class DemandeController extends BaseController
             'IMAT' => $this->request->getPost('immatriculation'),
             'ANNEE' => $this->request->getPost('annee')
         ]);
+        $db->transComplete();
+
+        if ($db->transStatus() === false) {
+            return redirect()->back()->withInput()->with('error', "Une erreur est survenue lors de la validation de la demande.");
+        }
+
         return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande validée avec succès.');
     }
 

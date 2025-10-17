@@ -35,6 +35,17 @@ $valOrPlaceholder = static function ($v) {
 <?= $this->section('content') ?>
 <div class="container">
     <div class="card">
+        <?php
+        $successMsg = session()->getFlashdata('success');
+        $errorMsg = session()->getFlashdata('error');
+        if ($successMsg || $errorMsg):
+        ?>
+            <div style="display:flex; justify-content:flex-end; margin: 8px 0;">
+                <div class="alert <?= $successMsg ? 'alert-success' : 'alert-error' ?>" role="alert" aria-live="polite">
+                    <?= esc($successMsg ?: $errorMsg) ?>
+                </div>
+            </div>
+        <?php endif; ?>
         <div class="header">
             <div>
                 <h1>Dashboard</h1>
@@ -101,7 +112,7 @@ $valOrPlaceholder = static function ($v) {
                                 <td><?= $valOrPlaceholder($c['MARQUE'] ?? null) ?></td>
                                 <td><?= $valOrPlaceholder($c['MODELE'] ?? null) ?></td>
                                 <td data-visible-for="validee"><?= $valOrPlaceholder($c['IMMATRICULATION'] ?? null) ?></td>
-                                <td data-visible-for="attente"><?= $valOrPlaceholder($c['DATEDEMANDE'] ?? null) ?></td>
+                                <td data-visible-for="en-attente"><?= $valOrPlaceholder($c['DATEDEMANDE'] ?? null) ?></td>
                                 <td data-visible-for="validee"><?= $valOrPlaceholder($c['DATE'] ?? null) ?></td>
                                 <td><?= $valOrPlaceholder($c['HEURE'] ?? null) ?></td>
                                 <td class="actions">
@@ -109,6 +120,7 @@ $valOrPlaceholder = static function ($v) {
                                         <div class="action-set" data-actions-for="en-attente" style="display:none">
                                             <button type="button" class="btn-small btn-edit" title="Modifier" data-role="edit">Modifier</button>
                                             <form method="post" action="<?= site_url('demandes/valider') ?>" style="display:inline">
+                                                <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE'] ?? '') ?>">
                                                 <button type="submit" class="btn" title="Valider">Valider</button>
                                             </form>
@@ -209,6 +221,8 @@ $valOrPlaceholder = static function ($v) {
         const form = document.getElementById('editForm');
         const fields = {
             id: document.getElementById('f-id'),
+            idType: document.getElementById('f-id-type'),
+            idDemande: document.getElementById('f-id-demande'),
             nom: document.getElementById('f-nom'),
             prenom: document.getElementById('f-prenom'),
             email: document.getElementById('f-email'),
@@ -237,18 +251,33 @@ $valOrPlaceholder = static function ($v) {
                 date: 'date',
                 heure: 'heure'
             };
-            // Selectionne l'identifiant selon le statut (en-attente -> IDDEMANDE, validee -> IDCLIENT)
-            const status = tr.getAttribute('data-status');
+            // Choix de l'identifiant selon le radio sélectionné
+            const selectedFilter = (document.querySelector('input[name="statusFilter"]:checked')?.dataset.status) || 'tous';
             let idValue = '';
-            if (status === 'en-attente') {
+            let idType = '';
+            if (selectedFilter === 'en-attente') {
                 idValue = tr.dataset.iddemande || '';
-            } else if (status === 'validee') {
+                idType = 'demande';
+            } else if (selectedFilter === 'validee') {
                 idValue = tr.dataset.idclient || '';
+                idType = 'client';
             } else {
-                // par défaut on tente IDCLIENT puis IDDEMANDE
-                idValue = tr.dataset.idclient || tr.dataset.iddemande || '';
+                // fallback: selon le statut de la ligne
+                const status = tr.getAttribute('data-status');
+                if (status === 'en-attente') {
+                    idValue = tr.dataset.iddemande || '';
+                    idType = 'demande';
+                } else if (status === 'validee') {
+                    idValue = tr.dataset.idclient || '';
+                    idType = 'client';
+                } else {
+                    idValue = tr.dataset.idclient || tr.dataset.iddemande || '';
+                    idType = tr.dataset.idclient ? 'client' : (tr.dataset.iddemande ? 'demande' : '');
+                }
             }
             if (fields.id) fields.id.value = idValue;
+            if (fields.idType) fields.idType.value = idType;
+            if (fields.idDemande) fields.idDemande.value = tr.dataset.iddemande || '';
             for (const [field, key] of Object.entries(map)) {
                 if (fields[field]) fields[field].value = tr.dataset[key] || '';
             }
@@ -281,7 +310,10 @@ $valOrPlaceholder = static function ($v) {
             <button type="button" class="modal-close" data-close-modal aria-label="Fermer">×</button>
         </div>
         <form method="post" action="<?= url_to('admin-demande-en-attente-modif') ?>" id="editForm" class="modal-body">
+            <?= csrf_field() ?>
             <input type="hidden" name="id" id="f-id">
+            <input type="hidden" name="id_type" id="f-id-type">
+            <input type="hidden" name="iddemande" id="f-id-demande">
             <div class="grid-2">
                 <label>Nom
                     <input type="text" name="nom" id="f-nom" required>
@@ -307,9 +339,9 @@ $valOrPlaceholder = static function ($v) {
                 </label>
                 <label>Immatriculation
                     <input type="text" name="immatriculation" id="f-immatriculation" required
-                           pattern="^(?:[A-Z]{2}[- ]?[0-9]{3}[- ]?[A-Z]{2}|[0-9]{1,4}[- ]?[A-Z]{1,3}[- ]?[0-9]{2})$"
-                           title="Format accepté: AA-123-AA (SIV) ou 1234 AB 56 (ancien)"
-                           oninput="this.value = this.value.toUpperCase()" maxlength="10">
+                        pattern="^(?:[A-Z]{2}[- ]?[0-9]{3}[- ]?[A-Z]{2}|[0-9]{1,4}[- ]?[A-Z]{1,3}[- ]?[0-9]{2})$"
+                        title="Format accepté: AA-123-AA (SIV) ou 1234 AB 56 (ancien)"
+                        oninput="this.value = this.value.toUpperCase()" maxlength="10">
                 </label>
             </div>
             <div class="grid-2">
@@ -318,9 +350,9 @@ $valOrPlaceholder = static function ($v) {
                 </label>
                 <label>Numéro chassis
                     <input type="text" name="chassis" id="f-chassis" placeholder="17 caractères" required
-                           pattern="^[A-HJ-NPR-Z0-9]{17}$" minlength="17" maxlength="17"
-                           title="17 caractères alphanumériques sans I, O, Q"
-                           oninput="this.value = this.value.toUpperCase()">
+                        pattern="^[A-HJ-NPR-Z0-9]{17}$" minlength="17" maxlength="17"
+                        title="17 caractères alphanumériques sans I, O, Q"
+                        oninput="this.value = this.value.toUpperCase()">
                 </label>
             </div>
             <div class="grid-2">

@@ -46,9 +46,14 @@ class DEMANDE extends Model
 
     public function findJoinAll(): array
     {
-        return $this->select('DEMANDE.IDDEMANDE AS ID, DEMANDE.IDCLIENT, DEMANDE.NOM, DEMANDE.PRENOM, DEMANDE.EMAIL, DEMANDE.TEL, DEMANDE.MARQUE, DEMANDE.MODELE, DEMANDE.DATEDEMANDE, DEMANDE.ETAT, POSSEDE.IMAT as IMMATRICULATION, POSSEDE.ANNEE, POSSEDE.NUMCHASSIS as CHASSIS, CLIENT.NUMRANDOM')
+        // Sous-requête: dernière ligne POSSEDE par client (basée sur IDCT max)
+        $sub = 'SELECT p.* FROM POSSEDE p INNER JOIN (SELECT IDCLIENT, MAX(IDCT) AS max_idct FROM POSSEDE GROUP BY IDCLIENT) last ON last.IDCLIENT = p.IDCLIENT AND last.max_idct = p.IDCT';
+
+        return $this->select('DEMANDE.IDDEMANDE AS IDDEMANDE, DEMANDE.IDCLIENT, DEMANDE.NOM, DEMANDE.PRENOM, DEMANDE.EMAIL, DEMANDE.TEL, DEMANDE.MARQUE, DEMANDE.MODELE, DEMANDE.DATEDEMANDE, DEMANDE.ETAT, LP.IMAT as IMMATRICULATION, LP.ANNEE, LP.NUMCHASSIS as CHASSIS, CLIENT.NUMRANDOM, CT.DATECT AS DATE, CT.HEURE AS HEURE')
             ->join('CLIENT', 'DEMANDE.IDCLIENT = CLIENT.IDCLIENT', 'left')
-            ->join('POSSEDE', 'POSSEDE.IDCLIENT = CLIENT.IDCLIENT', 'left')
+            // Joint la dernière possession par client pour stabiliser l’affichage
+            ->join("($sub) LP", 'LP.IDCLIENT = CLIENT.IDCLIENT', 'left', false)
+            ->join('CT', 'CT.IDCT = LP.IDCT', 'left')
             ->orderBy('DEMANDE.DATEDEMANDE', 'ASC')
             ->findAll();
     }

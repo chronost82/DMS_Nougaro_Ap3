@@ -47,11 +47,14 @@ class VehiculeModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function findVehicule($marque, $modele): array
+    public function findVehicule(string $marque, string $modele): ?array
     {
+        $marque = trim($marque);
+        $modele = trim($modele);
         return $this->select('IDVEHICULE')
             ->where('MARQUE', $marque)
             ->where('MODELE', $modele)
+            ->orderBy('IDVEHICULE', 'DESC')
             ->first();
     }
 }
