@@ -2,18 +2,16 @@
 <?= $this->section('content') ?>
 <section>
     <div class="form-contact">
-        <form action=<?= url_to('ajout-client') ?> method="post">
+        <form action=<?= url_to('eleve-ajout') ?> method="post">
             <label for="nom">Nom :</label>
             <input type="text" name="nom" id="nom" placeholder="Nom">
 
             <label for="prenom">Prénom :</label>
             <input type="text" name="prenom" id="prenom" placeholder="Prénom">
 
-            <label for="email">Email :</label>
-            <input type="email" name="email" placeholder="Email">
-
-            <label for="telephone">Téléphone :</label>
-            <input type="tel" name="telephone" id="telephone" placeholder="Téléphone">
+            <label for="text">Année de Promotion :</label>
+            <input type="text" name="annee" placeholder="Annee">
+            <input type="submit" value="Valider">
         </form>
     </div>
 </section>
