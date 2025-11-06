@@ -1,11 +1,17 @@
+/* =============================================================
+   Dashboard.css — Styles spécifiques à la page d'accueil / tableau de bord
+   S'appuie sur les tokens globaux de layout.css quand c'est pertinent.
+   ============================================================= */
 :root {
     --bg1: #eef2ff;
+    /* Dégradés/accents de fond optionnels */
     --bg2: #fdf2f8;
     --card: #ffffff;
     --border: #e5e7eb;
     --text: #1f2937;
     --muted: #6b7280;
     --focus: #f16363;
+    /* Accent de focus/hover pour cartes */
 }
 
 /* Conteneur centré pour la page dashboard (évite de toucher au body) */
@@ -16,6 +22,7 @@
     align-items: center;
 }
 
+/* Bloc principal du dashboard */
 main {
     background-color: #ffffff;
     padding: 24px;
@@ -25,6 +32,7 @@ main {
     box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
 }
 
+/* Ajustements mobiles pour le main et éventuels liens en grille */
 @media (max-width: 640px) {
     main {
         max-width: 90%;
@@ -35,12 +43,13 @@ main {
     }
 }
 
-/* Nouvelle mise en page du dashboard */
+/* Grille principale du dashboard */
 .dashboard {
     display: grid;
     gap: 22px;
 }
 
+/* En-tête de section du dashboard */
 .dashboard-hero h1 {
     margin: 0 0 6px;
     font-size: 1.25rem;
@@ -50,12 +59,14 @@ main {
     margin: 0;
 }
 
+/* Grille des cartes de statistiques */
 .dashboard-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 14px;
 }
 
+/* Carte de statistique cliquable */
 .stat-card {
     display: flex;
     align-items: center;
@@ -80,6 +91,7 @@ main {
     display: inline-flex;
 }
 
+/* Libellé / valeur dans les cartes */
 .stat-meta .label {
     font-weight: 600;
 }
@@ -89,12 +101,14 @@ main {
     font-size: .9rem;
 }
 
+/* Grille des cartes d'actions */
 .dashboard-actions {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 16px;
 }
 
+/* Carte d'action cliquable avec icône à gauche */
 .action-card {
     display: grid;
     grid-template-columns: 44px 1fr;
@@ -132,4 +146,4 @@ main {
     font-size: .9rem;
 }
 
-/* .top-left-fixed est défini globalement dans layout.css */
+/* Rappel: .top-left-fixed est défini globalement dans layout.css */
