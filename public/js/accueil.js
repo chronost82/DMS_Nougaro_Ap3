@@ -30,17 +30,21 @@ if (validBtn) {
         var emailVal = emailEl ? emailEl.value : '';
         if (!isValidEmail(emailVal)) {
             formValide = false;
-            if (errorEmailEl) errorEmailEl.textContent = "Email incorrect";
+            errorEmailEl.textContent = "Email incorrect";
+            errorEmailEl.style.color = 'red';
         } else {
-            if (errorEmailEl) errorEmailEl.textContent = "Email";
+            errorEmailEl.textContent = "Email";
+            errorEmailEl.style.color = 'black';
         }
 
         var telVal = telEl ? telEl.value : '';
         if (!isValidPhone(telVal)) {
             formValide = false;
-            if (errorTelEl) errorTelEl.textContent = "Téléphone incorrect";
+            errorTelEl.textContent = "Téléphone incorrect";
+            errorTelEl.style.color = 'red';
         } else {
-            if (errorTelEl) errorTelEl.textContent = "Téléphone";
+            errorTelEl.textContent = "Téléphone";
+            errorTelEl.style.color = 'black';
         }
 
         return formValide;

@@ -83,7 +83,7 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             // 'honeypot',
-            'csrf',
+            // 'csrf',
             // 'invalidchars',
             'session' => ['except' => ['/','login*','auth/a/*', 'logout', 'ajout-demande']],
         ],
@@ -107,8 +107,6 @@ class Filters extends BaseFilters
      * @var array<string, list<string>>
      */
     public array $methods = [
-        'GET' => ['csrf'],
-        'POST' => ['csrf']
     ];
 
     /**
