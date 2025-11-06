@@ -1,19 +1,31 @@
 <?php $this->extend('layout') ?>
 <?= $this->section('content') ?>
-<h1>Liste des élèves</h1>
-<a class="bouton" href="<?= url_to('ajout-eleve') ?>">Ajouter un eleve</a>
-<?php
-$tableauEleves = new \CodeIgniter\View\Table();
-$tableauEleves->setHeading('Nom', 'Prénom', 'Année de Promotion', 'Actions', ' ');
-foreach ($listeEleves as $eleve) {
-    $tableauEleves->addRow(
-        $eleve['NOM'],
-        $eleve['PRENOM'],
-        $eleve['ANNEE'],
-        '<a class="bouton" href="' . url_to('eleve-modif', $eleve['IDELEVE']) . '">Modifier</a>',
-        '<a class="bouton" href="' . url_to('suppr-eleve', $eleve['IDELEVE']) . '">Supprimer</a>'
-    );
-}
-echo $tableauEleves->generate();
-?>
-<?php $this->endSection() ?>
+<section class="container">
+    <div class="card">
+        <div style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <h1>Liste des élèves</h1>
+            <a class="btn-primary" href="<?= url_to('ajout-eleve') ?>">Ajouter un élève</a>
+        </div>
+        <div class="table-wrap" style="padding: 8px 12px 16px;">
+            <?php
+            $tableauEleves = new \CodeIgniter\View\Table();
+            $tableauEleves->setTemplate([
+                'table_open' => '<table id="elevesTable">'
+            ]);
+            $tableauEleves->setHeading('Nom', 'Prénom', 'Année de Promotion', 'Actions', ' ');
+            foreach ($listeEleves as $eleve) {
+                $tableauEleves->addRow(
+                    esc($eleve['NOM']),
+                    esc($eleve['PRENOM']),
+                    esc($eleve['ANNEE']),
+                    '<a class="btn-warning" href="' . url_to('eleve-modif', $eleve['IDELEVE']) . '">Modifier</a>',
+                    '<a class="btn btn-danger" href="' . url_to('suppr-eleve', $eleve['IDELEVE']) . '">Supprimer</a>'
+                );
+            }
+            echo $tableauEleves->generate();
+            ?>
+        </div>
+    </div>
+
+</section>
+<?= $this->endSection() ?>

@@ -1,22 +1,32 @@
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
-<section>
-    <h1>Liste des clients</h1>
-    <?php
-    $tableauclient = new \CodeIgniter\View\Table();
-    $tableauclient->setHeading('Nom', 'Prénom', 'Tel', 'Mail', 'Actions', ' ');
-    foreach ($listeClients as $client) {
-        $tableauclient->addRow(
-            $client['NOM'],
-            $client['PRENOM'],
-            $client['TEL'],
-            $client['EMAIL'],
-            '<a class="btn-warning" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
-            '<a class="btn btn-danger" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Supprimer</a>'
-        );
-    }
-    echo $tableauclient->generate();
-    ?>
+<section class="container">
+    <div class="card">
+        <div style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <h1>Liste des clients</h1>
+        </div>
+        <div class="table-wrap" style="padding: 8px 12px 16px;">
+            <?php
+            $tableauclient = new \CodeIgniter\View\Table();
+            // Optionnel: ajouter une classe à la table (les styles globaux s'appliquent aussi sans)
+            $tableauclient->setTemplate([
+                'table_open' => '<table id="clientsTable">'
+            ]);
+            $tableauclient->setHeading('Nom', 'Prénom', 'Tel', 'Mail', 'Actions', ' ');
+            foreach ($listeClients as $client) {
+                $tableauclient->addRow(
+                    esc($client['NOM']),
+                    esc($client['PRENOM']),
+                    esc($client['TEL']),
+                    esc($client['EMAIL']),
+                    '<a class="btn-warning" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
+                    '<a class="btn btn-danger" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Supprimer</a>'
+                );
+            }
+            echo $tableauclient->generate();
+            ?>
+        </div>
+    </div>
 </section>
 <?= $this->endSection() ?>
