@@ -330,6 +330,7 @@ label {
 
 input[type=text],
 input[type=email],
+input[type=tel],
 input[type=time],
 input[type=password],
 select {
@@ -345,6 +346,7 @@ select {
 
 input[type=text]:focus,
 input[type=email]:focus,
+input[type=tel]:focus,
 input[type=time]:focus,
 input[type=password]:focus,
 select:focus {
@@ -371,19 +373,27 @@ select:focus {
     border-top: 1px solid var(--border);
 }
 
-.form-grid-2,
-.form-grid-3 {
-    display: grid;
+.form-row {
+    /* Ligne de champs: plusieurs colonnes possibles */
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
+    align-items: flex-start;
     margin-bottom: 1rem;
 }
 
-.form-grid-2 {
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+/* .form-col reste un simple conteneur sémantique (aucune règle directe) */
+
+/* Un léger espacement entre label et champ uniquement dans ces colonnes */
+.form-col>label {
+    margin-bottom: .35rem;
 }
 
+/* Compat: les anciennes classes de grid n'utilisent plus le layout grid */
+.form-grid-2,
 .form-grid-3 {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    display: block;
+    margin-bottom: 1rem;
 }
 
 @media (max-width: 640px) {
@@ -392,11 +402,7 @@ select:focus {
         border-radius: 10px;
     }
 
-    .form-grid-2,
-    .form-grid-3 {
-        gap: .75rem;
-        margin-bottom: .9rem;
-    }
+    /* les lignes s'empilent naturellement via wrap */
 
     .btn-primary,
     .btn-secondary {

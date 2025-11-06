@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guide d’utilisation – Composants UI</title>
+    <!-- Lien vers vos styles globaux -->
+    <link rel="stylesheet" href="../public/css/layout.css" />
+    <!-- Styles légers pour afficher les extraits de code dans cette page de doc -->
+    <style>
+        .doc-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .doc-header {
+            margin-bottom: 20px;
+        }
+
+        .example-section {
+            margin: 18px 0;
+        }
+
+        .example-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .example-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .example-card__hd {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            background: #fafafa;
+        }
+
+        .example-card__bd {
+            padding: 16px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .live {
+            padding: 14px;
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .code {
+            position: relative;
+        }
+
+        pre {
+            margin: 0;
+            padding: 12px 14px;
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 10px;
+            overflow: auto;
+            font-size: 13px;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+        }
+
+        .doc-note {
+            font-size: 13px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="doc-container">
+        <header class="doc-header">
+            <h1>Guide d’utilisation des composants UI</h1>
+            <p class="muted">Cette page montre comment utiliser les classes définies dans
+                <code>public/css/layout.css</code> avec des exemples et le code correspondant.
+            </p>
+        </header>
+
+        <div class="example-grid">
+
+            <!-- Boutons -->
+            <section class="example-card" id="boutons">
+                <div class="example-card__hd">
+                    <strong>Boutons</strong>
+                </div>
+                <div class="example-card__bd">
+                    <div class="live">
+                        <button class="btn">Bouton (neutre)</button>
+                        <button class="btn-primary">Action primaire</button>
+                        <button class="btn-secondary">Secondaire</button>
+                        <button class="btn-success">Valider</button>
+                        <button class="btn-warning">Attention</button>
+                        <button class="btn-danger">Supprimer</button>
+                        <a class="disconnect" href="#">Se déconnecter</a>
+                    </div>
+                    <div class="code">
+                        <button class="copy-btn btn btn-secondary" data-copy-for="code-btns">Copier</button>
+                        <pre id="code-btns"><code>&lt;button class="btn"&gt;Bouton (neutre)&lt;/button&gt;
+&lt;button class="btn-primary"&gt;Action primaire&lt;/button&gt;
+&lt;button class="btn-secondary"&gt;Secondaire&lt;/button&gt;
+&lt;button class="btn-success"&gt;Valider&lt;/button&gt;
+&lt;button class="btn-warning"&gt;Attention&lt;/button&gt;
+&lt;button class="btn-danger"&gt;Supprimer&lt;/button&gt;
+&lt;a class="disconnect" href="#"&gt;Se déconnecter&lt;/a&gt;</code></pre>
+                    </div>
+                    <p class="doc-note">Tous les boutons partagent la même hauteur.</p>
+                </div>
+            </section>
+
+            <!-- Messages (alertes) -->
+            <section class="example-card" id="messages">
+                <div class="example-card__hd">
+                    <strong>Messages d’état</strong>
+                </div>
+                <div class="example-card__bd">
+                    <div class="live">
+                        <div class="success">Votre action a été effectuée avec succès.</div>
+                        <br>
+                        <div class="warning">Attention, vérifiez les informations saisies.</div>
+                    </div>
+                    <div class="code">
+                        <button class="copy-btn btn btn-secondary" data-copy-for="code-alerts">Copier</button>
+                        <pre id="code-alerts"><code>&lt;div class="success"&gt;Votre action a été effectuée avec succès.&lt;/div&gt;
+&lt;div class="warning"&gt;Attention, vérifiez les informations saisies.&lt;/div&gt;</code></pre>
+                    </div>
+                    <p class="doc-note">Les classes <code>.success</code> et <code>.warning</code> sont prévues pour des
+                        messages d’information.</p>
+                </div>
+            </section>
+
+            <!-- Carte -->
+            <section class="example-card" id="card">
+                <div class="example-card__hd">
+                    <strong>Carte (card)</strong>
+                </div>
+                <div class="example-card__bd">
+                    <div class="live">
+                        <div class="card">
+                            <div
+                                style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; font-weight:600">
+                                En-tête</div>
+                            <div style="padding:16px">Contenu de la carte avec du texte et des actions.</div>
+                            <div style="padding:12px 16px; border-top:1px solid var(--border); text-align:right">
+                                <button class="btn-secondary">Annuler</button>
+                                <button class="btn-primary">Confirmer</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code">
+                        <button class="copy-btn btn btn-secondary" data-copy-for="code-card">Copier</button>
+                        <pre id="code-card"><code>&lt;div class="card"&gt;
+	&lt;div style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; font-weight:600"&gt;En-tête&lt;/div&gt;
+	&lt;div style="padding:16px"&gt;Contenu de la carte avec du texte et des actions.&lt;/div&gt;
+	&lt;div style="padding:12px 16px; border-top:1px solid var(--border); text-align:right"&gt;
+		&lt;button class="btn-secondary"&gt;Annuler&lt;/button&gt;
+		&lt;button class="btn-primary"&gt;Confirmer&lt;/button&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Formulaire -->
+            <section class="example-card" id="formulaire">
+                <div class="example-card__hd">
+                    <strong>Formulaire</strong>
+                </div>
+                <div class="example-card__bd">
+                    <div class="live">
+                        <form class="form-panel" onsubmit="return false" autocomplete="on">
+                            <fieldset style="border:0; padding:0; margin:0 0 1rem 0;">
+                                <legend class="muted" style="font-size:.8rem; margin-bottom:.5rem;">Informations
+                                    personnelles</legend>
+                                <div class="form-row">
+                                    <div>
+                                        <label for="lastName">Nom <span class="muted"
+                                                aria-hidden="true">*</span></label>
+                                        <input id="lastName" name="lastName" type="text" placeholder="Dupont" required
+                                            autocomplete="family-name" />
+                                    </div>
+                                    <div>
+                                        <label for="firstName">Prénom <span class="muted"
+                                                aria-hidden="true">*</span></label>
+                                        <input id="firstName" name="firstName" type="text" placeholder="Jean" required
+                                            autocomplete="given-name" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset style="border:0; padding:0; margin:0;">
+                                <legend class="muted" style="font-size:.8rem; margin-bottom:.5rem;">Coordonnées</legend>
+                                <div class="form-row">
+                                    <div>
+                                        <label for="email">Email <span class="muted" aria-hidden="true">*</span></label>
+                                        <input id="email" name="email" type="email"
+                                            placeholder="jean.dupont@example.com" required autocomplete="email" />
+                                    </div>
+                                    <div>
+                                        <label for="time">Heure</label>
+                                        <input id="time" name="time" type="time" />
+                                    </div>
+                                    <div>
+                                        <label for="role">Profil</label>
+                                        <select id="role" name="role">
+                                            <option value="user">Utilisateur</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="form-footer">
+                                <button class="btn-secondary" type="reset">Réinitialiser</button>
+                                <button class="btn-primary" type="submit">Envoyer</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="code">
+                        <button class="copy-btn btn btn-secondary" data-copy-for="code-form">Copier</button>
+                        <pre id="code-form"><code>&lt;form class="form-panel" autocomplete="on"&gt;
+    &lt;fieldset style="border:0; padding:0; margin:0 0 1rem 0;"&gt;
+        &lt;legend class="muted" style="font-size:.8rem; margin-bottom:.5rem;"&gt;Informations personnelles&lt;/legend&gt;
+        &lt;div class="form-row"&gt;
+            &lt;div&gt;
+                &lt;label for="lastName"&gt;Nom &lt;span class="muted" aria-hidden="true"&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input id="lastName" name="lastName" type="text" placeholder="Dupont" required autocomplete="family-name" /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;label for="firstName"&gt;Prénom &lt;span class="muted" aria-hidden="true"&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input id="firstName" name="firstName" type="text" placeholder="Jean" required autocomplete="given-name" /&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset style="border:0; padding:0; margin:0;"&gt;
+        &lt;legend class="muted" style="font-size:.8rem; margin-bottom:.5rem;"&gt;Coordonnées&lt;/legend&gt;
+        &lt;div class="form-row"&gt;
+            &lt;div&gt;
+                &lt;label for="email"&gt;Email &lt;span class="muted" aria-hidden="true"&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input id="email" name="email" type="email" placeholder="jean.dupont@example.com" required autocomplete="email" /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;label for="time"&gt;Heure&lt;/label&gt;
+                &lt;input id="time" name="time" type="time" /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;label for="role"&gt;Profil&lt;/label&gt;
+                &lt;select id="role" name="role"&gt;
+                    &lt;option value="user"&gt;Utilisateur&lt;/option&gt;
+                    &lt;option value="admin"&gt;Admin&lt;/option&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+
+    &lt;div class="form-footer"&gt;
+        &lt;button class="btn-secondary" type="reset"&gt;Réinitialiser&lt;/button&gt;
+            &lt;button class="btn-primary" type="submit"&gt;Envoyer&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tableau -->
+            <section class="example-card" id="tableau">
+                <div class="example-card__hd">
+                    <strong>Tableau</strong>
+                </div>
+                <div class="example-card__bd">
+                    <div class="live table-wrap">
+                        <table id="contactsTable">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dupont Jean</td>
+                                    <td>jean.dupont@example.com</td>
+                                    <td>Actif</td>
+                                </tr>
+                                <tr>
+                                    <td>Martin Alice</td>
+                                    <td>alice.martin@example.com</td>
+                                    <td>Invité</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="code">
+                        <button class="copy-btn btn btn-secondary" data-copy-for="code-table">Copier</button>
+                        <pre id="code-table"><code>&lt;div class="table-wrap"&gt;
+    &lt;table id="contactsTable"&gt;
+	    &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Nom&lt;/th&gt;
+                &lt;th&gt;Email&lt;/th&gt;
+                &lt;th&gt;Statut&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Dupont Jean&lt;/td&gt;
+                &lt;td&gt;jean.dupont@example.com&lt;/td&gt;
+                &lt;td&gt;Actif&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Martin Alice&lt;/td&gt;
+                &lt;td&gt;alice.martin@example.com&lt;/td&gt;
+                &lt;td&gt;Invité&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Liste (card + header + table + actions) -->
+            <section class="example-card" id="liste">
+                <div class="example-card__hd">
+                    <strong>Liste (mise en page complète)</strong>
+                </div>
+                <div class="example-card__bd">
+                    <div class="live">
+                        <section class="container">
+                            <div class="card">
+                                <div
+                                    style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+                                    <h1 style="margin:0;">Liste des éléments</h1>
+                                    <a class="btn-primary" href="#">Ajouter</a>
+                                </div>
+                                <div class="table-wrap" style="padding: 8px 12px 16px;">
+                                    <table id="demoListTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th>Prénom</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Dupont</td>
+                                                <td>Jean</td>
+                                                <td>
+                                                    <a class="btn-warning" href="#">Modifier</a>
+                                                    <a class="btn btn-danger" href="#">Supprimer</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Martin</td>
+                                                <td>Alice</td>
+                                                <td>
+                                                    <a class="btn-warning" href="#">Modifier</a>
+                                                    <a class="btn btn-danger" href="#">Supprimer</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="code">
+                        <button class="copy-btn btn btn-secondary" data-copy-for="code-list">Copier</button>
+                        <pre id="code-list"><code>&lt;section class="container"&gt;
+    &lt;div class="card"&gt;
+        &lt;div style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px;"&gt;
+            &lt;h1 style="margin:0;"&gt;Liste des éléments&lt;/h1&gt;
+            &lt;a class="btn-primary" href="&lt;?= url_to('route-ajout') ?&gt;"&gt;Ajouter&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class="table-wrap" style="padding: 8px 12px 16px;"&gt;
+            &lt;?php
+            $table = new \CodeIgniter\View\Table();
+            // Optionnel: personnaliser l'ouverture de la table (id, classes...)
+            $table-&gt;setTemplate([
+                'table_open' =&gt; '&lt;table id="demoListTable"&gt;'
+            ]);
+
+            $table-&gt;setHeading('Nom', 'Prénom', 'Actions');
+
+            foreach ($liste as $row) {
+                $table-&gt;addRow(
+                    esc($row['nom']),
+                    esc($row['prenom']),
+                    '&lt;a class="btn-warning" href="' . url_to('route-modif', $row['id']) . '"&gt;Modifier&lt;/a&gt; '
+                    . '&lt;a class="btn btn-danger" href="' . url_to('route-suppr', $row['id']) . '"&gt;Supprimer&lt;/a&gt;'
+                );
+            }
+
+            echo $table-&gt;generate();
+            ?&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+                    </div>
+                    <p class="doc-note">Le code ci-dessus utilise le générateur de table CodeIgniter
+                        (\CodeIgniter\View\Table) et produit un HTML stylé automatiquement par votre fichier
+                        <code>layout.css</code>.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Script: bouton Copier pour les extraits -->
+    <script>
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('[data-copy-for]');
+            if (!btn) return;
+            const id = btn.getAttribute('data-copy-for');
+            const pre = document.getElementById(id);
+            if (!pre) return;
+            const text = pre.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.textContent;
+                btn.textContent = 'Copié !';
+                setTimeout(() => (btn.textContent = original), 1200);
+            });
+        });
+    </script>
+</body>
+
+</html>

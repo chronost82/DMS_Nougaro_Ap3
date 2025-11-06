@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let vehicules = [];
         const vEl = document.getElementById('vehicules-data');
         if (vEl) {
-            try { vehicules = JSON.parse(vEl.textContent || '[]'); } catch(e) { vehicules = []; }
+            try { vehicules = JSON.parse(vEl.textContent || '[]'); } catch (e) { vehicules = []; }
         }
         for (let i = 0; i < vehicules.length; i++) {
             const item = vehicules[i] || {};
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let marquesList = [];
         const mEl = document.getElementById('marques-data');
         if (mEl) {
-            try { marquesList = JSON.parse(mEl.textContent || '[]'); } catch(e) { marquesList = []; }
+            try { marquesList = JSON.parse(mEl.textContent || '[]'); } catch (e) { marquesList = []; }
         }
         // Si le backend ne fournit pas, fallback sur les clés de la map
         let marques = [];
@@ -156,9 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 seen[m] = true;
                 marques.push(m);
             }
-            marques.sort((a,b) => a.localeCompare(b));
+            marques.sort((a, b) => a.localeCompare(b));
         } else {
-            marques = Object.keys(map).sort((a,b) => a.localeCompare(b));
+            marques = Object.keys(map).sort((a, b) => a.localeCompare(b));
         }
         for (let i = 0; i < marques.length; i++) {
             const m = marques[i];
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectModele.disabled = true;
             return;
         }
-        const list = Array.from(map[marque]).sort((a,b) => a.localeCompare(b));
+        const list = Array.from(map[marque]).sort((a, b) => a.localeCompare(b));
         for (let i = 0; i < list.length; i++) {
             const mod = list[i];
             const opt = document.createElement('option');
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
             heure: 'heure'
         };
         // Choix de l'identifiant selon le radio sélectionné
-    const selectedFilter = getSelectedStatus();
+        const selectedFilter = getSelectedStatus();
         let idValue = '';
         let idType = '';
         if (selectedFilter === 'en-attente') {
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.addEventListener('click', (e) => {
-        const editBtn = e.target.closest('.btn-edit');
+        const editBtn = e.target.closest('[data-role="edit"]');
         if (editBtn) openModal(editBtn.closest('tr'));
         if (e.target.matches('[data-close-modal]') || e.target === modal) closeModal();
     });
