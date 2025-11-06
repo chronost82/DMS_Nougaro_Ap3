@@ -10,7 +10,7 @@
 
 /* Conteneur centré pour la page dashboard (évite de toucher au body) */
 .dashboard-container {
-    min-height: 100vh;
+    min-height: 75vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,16 +29,26 @@ main {
     main {
         max-width: 90%;
     }
-    .nav-grid a{
+
+    .nav-grid a {
         width: 90%;
     }
 }
 
 /* Nouvelle mise en page du dashboard */
-.dashboard { display: grid; gap: 22px; }
+.dashboard {
+    display: grid;
+    gap: 22px;
+}
 
-.dashboard-hero h1 { margin: 0 0 6px; font-size: 1.25rem; }
-.dashboard-hero .muted { margin: 0; }
+.dashboard-hero h1 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+}
+
+.dashboard-hero .muted {
+    margin: 0;
+}
 
 .dashboard-stats {
     display: grid;
@@ -57,14 +67,27 @@ main {
     padding: 14px 16px;
     color: var(--text);
     transition: transform .18s, box-shadow .25s, border-color .25s, background .25s;
-    box-shadow: 0 6px 18px -6px rgba(17,24,39,.12);
+    box-shadow: 0 6px 18px -6px rgba(17, 24, 39, .12);
 }
 
-.stat-card:hover { transform: translateY(-2px); border-color: var(--focus); }
+.stat-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--focus);
+}
 
-.stat-icon { color: var(--focus); display: inline-flex; }
-.stat-meta .label { font-weight: 600; }
-.stat-meta .value { color: var(--muted); font-size: .9rem; }
+.stat-icon {
+    color: var(--focus);
+    display: inline-flex;
+}
+
+.stat-meta .label {
+    font-weight: 600;
+}
+
+.stat-meta .value {
+    color: var(--muted);
+    font-size: .9rem;
+}
 
 .dashboard-actions {
     display: grid;
@@ -83,12 +106,30 @@ main {
     padding: 16px;
     color: var(--text);
     transition: transform .18s, box-shadow .25s, border-color .25s, background .25s;
-    box-shadow: 0 6px 20px -6px rgba(17,24,39,.12);
+    box-shadow: 0 6px 20px -6px rgba(17, 24, 39, .12);
 }
 
-.action-card:hover { transform: translateY(-2px); border-color: var(--focus); }
-.action-icon { color: var(--focus); display: inline-flex; align-items: center; justify-content: center; }
-.action-content h3 { margin: 0 0 4px; font-size: 1rem; }
-.action-content p { margin: 0; color: var(--muted); font-size: .9rem; }
+.action-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--focus);
+}
+
+.action-icon {
+    color: var(--focus);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-content h3 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+}
+
+.action-content p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .9rem;
+}
 
 /* .top-left-fixed est défini globalement dans layout.css */

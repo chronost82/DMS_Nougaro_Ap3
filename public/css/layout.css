@@ -416,11 +416,52 @@ select:focus {
     top: 0;
     z-index: 500;
     margin-bottom: 16px;
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(17, 24, 39, 0.05);
+    padding: 8px 10px;
+}
+
+.top-nav__bar {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-end;
+    /* le bouton menu reste à droite */
+    gap: 8px;
+    max-width: 1300px;
+    margin: 0 auto;
+    position: relative;
+    /* permet de centrer la marque en absolu */
+    min-height: 48px;
+    /* assure un alignement vertical confortable */
+}
+
+/* Centrage horizontal et vertical de la marque dans la barre */
+.top-nav__brand {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.top-nav__brand a {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-weight: 700;
+    color: #111827;
+    text-decoration: none;
+}
+
+.top-nav__toggle {
+    display: none;
 }
 
 .top-nav__inner {
+    max-width: 1300px;
+    margin: 6px auto 0;
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
@@ -434,4 +475,19 @@ select:focus {
     top: 16px;
     left: 16px;
     z-index: 1000;
+}
+
+/* Responsive: menu replié sur petits écrans */
+@media (max-width: 800px) {
+    .top-nav__toggle {
+        display: inline-flex;
+    }
+
+    .top-nav__inner {
+        display: none;
+    }
+
+    .top-nav.is-open .top-nav__inner {
+        display: flex;
+    }
 }
