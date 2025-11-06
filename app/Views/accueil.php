@@ -51,7 +51,6 @@
             </div>
             <a href="">Vous avez déjà fait un contrôle technique ?</a>
         </form>
-        <button id="btntest">ok</button>
     </div>
 
 
