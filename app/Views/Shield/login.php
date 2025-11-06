@@ -1,16 +1,21 @@
-<?= $this->extend('layout') ?>
+<!DOCTYPE html>
+<html lang="fr">
 
-<?= $this->section('title') ?><?= lang('Auth.login') ?><?= $this->endSection() ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?= base_url('css/layout.css') ?>">
+    <title><?= esc($title ?? 'Atelier MV') ?></title>
+</head>
 
-<?= $this->section('content') ?>
 <div class="container" style="max-width:560px;">
     <div class="card form-panel">
         <h1 style="margin:0 0 .75rem 0; font-size:1.25rem;"><?= lang('Auth.login') ?></h1>
 
         <?php if (session('error') !== null) : ?>
-            <div class="warning" role="alert" aria-live="polite"><?= esc(session('error')) ?></div>
+            <div class="warning"><?= esc(session('error')) ?></div><br>
         <?php elseif (session('errors') !== null) : ?>
-            <div class="warning" role="alert" aria-live="polite">
+            <div class="warning">
                 <?php if (is_array(session('errors'))) : ?>
                     <?php foreach (session('errors') as $error) : ?>
                         <?= esc($error) ?><br>
@@ -18,11 +23,11 @@
                 <?php else : ?>
                     <?= esc(session('errors')) ?>
                 <?php endif ?>
-            </div>
+            </div><br>
         <?php endif ?>
 
         <?php if (session('message') !== null) : ?>
-            <div class="success" role="status" aria-live="polite"><?= esc(session('message')) ?></div>
+            <div class="success"><?= esc(session('message')) ?></div><br>
         <?php endif ?>
 
         <form action="<?= url_to('login') ?>" method="post" novalidate>
@@ -64,4 +69,3 @@
         </form>
     </div>
 </div>
-<?= $this->endSection() ?>
