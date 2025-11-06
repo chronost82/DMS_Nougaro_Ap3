@@ -6,7 +6,7 @@ function isValidEmail(email) {
 }
 
 function isValidPhone(tel) {
-    let regex = /^((\+|00)33\s?|0)[67](\s?\d{2}){4}$/;
+    let regex = /^((\+|00)33\s?|0)[567](\s?\d{2}){4}$/;
     return regex.test(tel);
 }
 
