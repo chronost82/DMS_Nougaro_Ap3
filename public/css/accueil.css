@@ -57,18 +57,14 @@ form {
 
 .form-contact .inputbox input:not([type="submit"]),
 .form-contact .inputbox select {
-    position: absolute;
-    top: 0;
-    left: 0;
-    max-width: 100%;
-    width: 100%;
+    width: 90%;
     border: 2px solid #000;
     outline: none;
     background: none;
     padding: 10px;
     border-radius: 10px;
     font-size: 1.2em;
-    
+    align-items: center;
 }
 
 .form-contact .inputbox input[type="submit"] {
