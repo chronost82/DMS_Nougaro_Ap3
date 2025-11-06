@@ -34,10 +34,10 @@
             <?= csrf_field() ?>
 
             <div class="form-grid-2">
-                <label for="usernameInput"><?= lang('Auth.username') ?>
+                <label style="flex-direction: column" for="usernameInput"><?= lang('Auth.username') ?>
                     <input type="text" id="usernameInput" name="username" inputmode="username" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required>
                 </label>
-                <label for="passwordInput"><?= lang('Auth.password') ?>
+                <label style="flex-direction: column" for="passwordInput"><?= lang('Auth.password') ?>
                     <input type="password" id="passwordInput" name="password" inputmode="text" autocomplete="current-password" placeholder="<?= lang('Auth.password') ?>" required>
                 </label>
             </div>
