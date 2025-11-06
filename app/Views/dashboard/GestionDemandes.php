@@ -2,6 +2,7 @@
 
 <?= $this->section('meta') ?>
 <link rel="stylesheet" href="<?= base_url('css/gestiondemandes.css') ?>">
+<script src="<?= base_url('js/gestiondemandes.js') ?>" defer></script>
 <?php $this->endSection() ?>
 
 <?php
@@ -122,7 +123,7 @@ $valOrPlaceholder = static function ($v) {
                                             <form method="post" action="<?= site_url('demandes/valider') ?>" style="display:inline">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE'] ?? '') ?>">
-                                                <button type="submit" class="btn" title="Valider">Valider</button>
+                                                <!-- <button type="submit" class="btn" title="Valider">Valider</button> -->
                                             </form>
                                         </div>
                                         <div class="action-set" data-actions-for="validee" style="display:none">
@@ -148,159 +149,6 @@ $valOrPlaceholder = static function ($v) {
         <div class="footer" id="counter"></div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Éléments principaux
-        const radios = document.querySelectorAll('input[name="statusFilter"]');
-        const table = document.getElementById('contactsTable');
-        const rows = table ? table.querySelectorAll('tbody tr') : [];
-        const headerCells = table ? table.querySelectorAll('thead th[data-visible-for]') : [];
-        const counter = document.getElementById('counter');
-
-        // Aide: colonnes visibles selon le statut
-        function parseVisibleFor(value) {
-            if (!value) return new Set();
-            return new Set(String(value).split(',').map(s => s.trim()).filter(Boolean));
-        }
-
-        function headerVisible(selected, visibleStatuses, visibleFor) {
-            if (!visibleFor || visibleFor.size === 0) return true;
-            if (visibleFor.has('*') || visibleFor.has('tous')) return true;
-            if (selected === 'tous') {
-                for (const st of visibleFor)
-                    if (visibleStatuses.has(st)) return true;
-                return false;
-            }
-            return visibleFor.has(selected);
-        }
-
-        // Applique le filtre
-        function applyFilter() {
-            const selected = (document.querySelector('input[name="statusFilter"]:checked')?.dataset.status) || 'tous';
-            let visibleCount = 0;
-            const visibleStatuses = new Set();
-
-            rows.forEach(row => {
-                const status = row.getAttribute('data-status');
-                const show = (selected === 'tous') || (status === selected);
-                row.style.display = show ? '' : 'none';
-
-                // Boutons d'action selon le statut
-                row.querySelectorAll('.action-set').forEach(set => {
-                    const target = set.getAttribute('data-actions-for');
-                    const showSet = (selected === 'tous' && target === status) || (selected !== 'tous' && target === selected);
-                    set.style.display = showSet ? '' : 'none';
-                });
-
-                if (show) {
-                    visibleCount++;
-                    visibleStatuses.add(status);
-                }
-            });
-
-            // Colonnes qui dépendent du statut (entête + lignes)
-            headerCells.forEach(th => {
-                const vfor = parseVisibleFor(th.getAttribute('data-visible-for'));
-                const mustShow = headerVisible(selected, visibleStatuses, vfor);
-                th.style.display = mustShow ? '' : 'none';
-                const colIdx = th.cellIndex;
-                rows.forEach(r => {
-                    if (r.cells && r.cells.length > colIdx) r.cells[colIdx].style.display = mustShow ? '' : 'none';
-                });
-            });
-
-            if (counter) counter.textContent = `${visibleCount} ${visibleCount > 1 ? 'éléments' : 'élément'}`;
-        }
-
-        radios.forEach(r => r.addEventListener('change', applyFilter));
-        applyFilter();
-
-        // Fenêtre de modification (modal)
-        const modal = document.getElementById('editModal');
-        const form = document.getElementById('editForm');
-        const fields = {
-            id: document.getElementById('f-id'),
-            idType: document.getElementById('f-id-type'),
-            idDemande: document.getElementById('f-id-demande'),
-            nom: document.getElementById('f-nom'),
-            prenom: document.getElementById('f-prenom'),
-            email: document.getElementById('f-email'),
-            telephone: document.getElementById('f-telephone'),
-            marque: document.getElementById('f-marque'),
-            modele: document.getElementById('f-modele'),
-            immatriculation: document.getElementById('f-immatriculation'),
-            annee: document.getElementById('f-annee'),
-            chassis: document.getElementById('f-chassis'),
-            date: document.getElementById('f-date'),
-            heure: document.getElementById('f-heure')
-        };
-
-        function openModal(tr) {
-            if (!tr) return;
-            const map = {
-                nom: 'nom',
-                prenom: 'prenom',
-                email: 'email',
-                telephone: 'telephone',
-                marque: 'marque',
-                modele: 'modele',
-                immatriculation: 'immatriculation',
-                annee: 'annee',
-                chassis: 'chassis',
-                date: 'date',
-                heure: 'heure'
-            };
-            // Choix de l'identifiant selon le radio sélectionné
-            const selectedFilter = (document.querySelector('input[name="statusFilter"]:checked')?.dataset.status) || 'tous';
-            let idValue = '';
-            let idType = '';
-            if (selectedFilter === 'en-attente') {
-                idValue = tr.dataset.iddemande || '';
-                idType = 'demande';
-            } else if (selectedFilter === 'validee') {
-                idValue = tr.dataset.idclient || '';
-                idType = 'client';
-            } else {
-                // fallback: selon le statut de la ligne
-                const status = tr.getAttribute('data-status');
-                if (status === 'en-attente') {
-                    idValue = tr.dataset.iddemande || '';
-                    idType = 'demande';
-                } else if (status === 'validee') {
-                    idValue = tr.dataset.idclient || '';
-                    idType = 'client';
-                } else {
-                    idValue = tr.dataset.idclient || tr.dataset.iddemande || '';
-                    idType = tr.dataset.idclient ? 'client' : (tr.dataset.iddemande ? 'demande' : '');
-                }
-            }
-            if (fields.id) fields.id.value = idValue;
-            if (fields.idType) fields.idType.value = idType;
-            if (fields.idDemande) fields.idDemande.value = tr.dataset.iddemande || '';
-            for (const [field, key] of Object.entries(map)) {
-                if (fields[field]) fields[field].value = tr.dataset[key] || '';
-            }
-            modal.removeAttribute('hidden');
-            modal.classList.add('open');
-            fields.nom?.focus();
-        }
-
-        function closeModal() {
-            modal.classList.remove('open');
-            modal.setAttribute('hidden', 'hidden');
-        }
-
-        document.addEventListener('click', (e) => {
-            const editBtn = e.target.closest('.btn-edit');
-            if (editBtn) openModal(editBtn.closest('tr'));
-            if (e.target.matches('[data-close-modal]') || e.target === modal) closeModal();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
-        });
-    });
-</script>
 
 <!-- Modal d'édition -->
 <div class="modal-overlay" id="editModal" hidden aria-modal="true" role="dialog" aria-labelledby="editModalTitle">
@@ -332,10 +180,16 @@ $valOrPlaceholder = static function ($v) {
             </div>
             <div class="grid-3">
                 <label>Marque
-                    <input type="text" name="marque" id="f-marque" required>
+                    <!-- Options peuplées côté JS depuis marques-data (backend) -->
+                    <select name="marque" id="f-marque" required="required">
+                        <option value="" disabled selected>Marque</option>
+                    </select>
                 </label>
                 <label>Modèle
-                    <input type="text" name="modele" id="f-modele" required>
+                    <!-- Options filtrées côté JS à partir de vehicules-data selon la marque -->
+                    <select name="modele" id="f-modele" required="required">
+                        <option value="" disabled selected>Modèle</option>
+                    </select>
                 </label>
                 <label>Immatriculation
                     <input type="text" name="immatriculation" id="f-immatriculation" required
@@ -393,4 +247,11 @@ $valOrPlaceholder = static function ($v) {
         </form>
     </div>
 </div>
+<!-- Données pour le remplissage JS (autorité: backend) -->
+<script id="marques-data" type="application/json">
+<?= json_encode($marques ?? [], JSON_UNESCAPED_UNICODE) ?>
+</script>
+<script id="vehicules-data" type="application/json">
+<?= json_encode($vehicules ?? [], JSON_UNESCAPED_UNICODE) ?>
+</script>
 <?= $this->endSection() ?>

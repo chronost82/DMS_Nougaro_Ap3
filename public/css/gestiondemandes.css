@@ -248,7 +248,7 @@ td.actions .btn+.btn {
   gap: .35rem;
 }
 
-.modal-body input {
+.modal-body input, .modal-body select {
   border: 1px solid #cbd5e1;
   background: #fff;
   border-radius: 6px;
@@ -259,7 +259,7 @@ td.actions .btn+.btn {
   transition: border-color .2s, box-shadow .2s, background .2s;
 }
 
-.modal-body input:focus {
+.modal-body input:focus, .modal-body select:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, .25);
@@ -267,16 +267,6 @@ td.actions .btn+.btn {
 }
 
 .modal-window:focus-visible {
-  outline: 2px solid #2563eb;
-  outline-offset: 2px;
-}
-
-/* Accessibilité focus visible */
-.modal-body input:focus-visible,
-.btn-primary:focus-visible,
-.btn-secondary:focus-visible,
-.btn-small.btn-edit:focus-visible,
-.modal-close:focus-visible {
   outline: 2px solid #2563eb;
   outline-offset: 2px;
 }

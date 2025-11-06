@@ -68,8 +68,13 @@ class DemandeController extends BaseController
 
         $demandeModel = model('Demande');
         $demandes = $demandeModel->findJoinAll();
+
+        $vehiculeModel = model('VehiculeModel');
+        $marques = $vehiculeModel->distinct()->select('MARQUE')->orderBy('MARQUE', 'ASC')->findAll();
+        $vehicules = $vehiculeModel->select('MARQUE, MODELE')->orderBy('MARQUE', 'ASC')->orderBy('MODELE', 'ASC')->findAll();
+
         $status = 'attente';
-        return view('dashboard/GestionDemandes.php', ['clients' => $demandes, 'status' => $status]);
+        return view('dashboard/GestionDemandes.php', ['clients' => $demandes, 'status' => $status, 'marques' => $marques, 'vehicules' => $vehicules]);
     }
 
     public function delete()

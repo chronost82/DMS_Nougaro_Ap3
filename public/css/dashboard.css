@@ -14,8 +14,8 @@ body {
     background: #f6f8fa;
     color: var(--text);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     min-height: 100vh;
 }
 
@@ -24,7 +24,10 @@ main {
     padding: 20px;
     border-radius: 8px;
     max-width: 600px;
-    margin: 40px auto;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -67,4 +70,12 @@ main {
     transform: translateY(-2px);
     box-shadow: 0 8px 30px -4px rgba(17, 24, 39, .12);
     border-color: var(--focus);
+}
+
+/* Utilitaire: garder un bouton en haut à gauche */
+.top-left-fixed {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
 }

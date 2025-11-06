@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <a href="<?= url_to("logout"); ?>">Déconnexion</a>
+    <a class="btn disconnect top-left-fixed" href="<?= url_to("logout"); ?>">Déconnexion</a>
     <?= $this->renderSection('content') ?>
 </body>
 
