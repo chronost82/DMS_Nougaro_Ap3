@@ -1,0 +1,15 @@
+composer install si besoin
+php spark shield:setup => dire non à tout sauf a migrate
+php spark shield:user create
+username : prof
+email : admin@admin.com
+password : 123456789123
+
+
+
+
+EN PROD
+-----------------------------------------------
+username : prof
+email : prof@prof.fr
+password : lyceenougaro
