@@ -37,7 +37,7 @@ class ClientController extends BaseController
             'NOM' => $this->request->getPost('nom'),
             'PRENOM' => $this->request->getPost('prenom'),
             'TEL' => $this->request->getPost('mail'),
-            'MAIL' => $this->request->getPost('mail'),
+            'EMAIL' => $this->request->getPost('mail'),
             'NUMRANDOM' => $this->request->getPost('numrandom')
         ];
         $ClientsModel->save($clientAModif);
