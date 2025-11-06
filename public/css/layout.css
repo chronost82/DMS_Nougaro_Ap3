@@ -103,13 +103,11 @@ tbody tr:hover {
     border: 1px solid #a7f3d0;
 }
 
-.btn-primary,
-.btn-secondary,
-.btn-small.btn-edit {
+.btn-primary {
     font: inherit;
-    font-size: .8rem;
+    font-size: .9rem;
     font-weight: 600;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     line-height: 1.1;
     display: inline-flex;
@@ -118,6 +116,7 @@ tbody tr:hover {
     border: none;
     transition: background .2s, box-shadow .2s, transform .15s;
     letter-spacing: .3px;
+    text-decoration: none;
 }
 
 .btn-primary {
@@ -135,35 +134,29 @@ tbody tr:hover {
     transform: translateY(1px);
 }
 
-.btn-secondary {
-    background: #e2e8f0;
-    color: #1e293b;
-    padding: .65rem .95rem;
+/* Les anciennes variantes sont aliasées vers les styles de base pour compatibilité */
+.btn-secondary,
+.btn-success,
+.btn-warning {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: transform 0.05s ease, background 0.2s ease, border-color 0.2s ease;
+    text-decoration: none;
 }
 
-.btn-secondary:hover {
-    background: #cfd8e3;
-}
+.btn-secondary:hover,
+.btn-success:hover,
+.btn-warning:hover { background: #fafafa; }
 
-.btn-secondary:active {
-    transform: translateY(1px);
-}
-
-.btn-small.btn-edit {
-    background: #6366f1;
-    color: #fff;
-    padding: .45rem .7rem;
-    font-size: .72rem;
-    border-radius: 5px;
-}
-
-.btn-small.btn-edit:hover {
-    background: #4f46e5;
-}
-
-.btn-small.btn-edit:active {
-    transform: translateY(1px);
-}
+.btn-secondary:active,
+.btn-success:active,
+.btn-warning:active { transform: translateY(1px); }
 
 /* Boutons d'action */
 .btn {
@@ -191,25 +184,7 @@ tbody tr:hover {
     margin-left: 8px;
 }
 
-.btn-success {
-    border-color: #a7f3d0;
-    background: #ecfdf5;
-    color: #065f46;
-}
-
-.btn-success:hover {
-    background: #d1fae5;
-}
-
-.btn-warning {
-    border-color: #fde68a;
-    background: #fffbeb;
-    color: #92400e;
-}
-
-.btn-warning:hover {
-    background: #fef3c7;
-}
+/* (déprécié) Les variantes success/warning sont désormais traitées comme des boutons normaux */
 
 /* Bouton de déconnexion / danger */
 .btn-danger,
@@ -282,7 +257,7 @@ input[type=text],
 input[type=email],
 input[type=time],
 input[type=password],
-select {
+select{
     border: 1px solid #cbd5e1;
     background: #fff;
     border-radius: 6px;
@@ -340,4 +315,30 @@ select:focus {
     .form-panel { padding: .9rem 1rem 1.1rem; border-radius: 10px; }
     .form-grid-2, .form-grid-3 { gap: .75rem; margin-bottom: .9rem; }
     .btn-primary, .btn-secondary { padding: .55rem .85rem; }
+}
+
+/* Barre de navigation globale */
+.top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.top-nav__inner {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Utilitaire: bouton en haut à gauche (global) */
+.top-left-fixed {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
 }
