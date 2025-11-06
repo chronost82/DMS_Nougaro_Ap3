@@ -17,40 +17,6 @@ window.onload = function () {
     }
 };
 
-var validBtn = document.getElementById('valid');
-if (validBtn) {
-    validBtn.onclick = function () {
-        var emailEl = document.getElementById('email');
-        var telEl = document.getElementById('tel');
-        var errorEmailEl = document.getElementById('errorEmail');
-        var errorTelEl = document.getElementById('errorTel');
-
-        var formValide = true;
-
-        var emailVal = emailEl ? emailEl.value : '';
-        if (!isValidEmail(emailVal)) {
-            formValide = false;
-            errorEmailEl.textContent = "Email incorrect";
-            errorEmailEl.style.color = 'red';
-        } else {
-            errorEmailEl.textContent = "Email";
-            errorEmailEl.style.color = 'black';
-        }
-
-        var telVal = telEl ? telEl.value : '';
-        if (!isValidPhone(telVal)) {
-            formValide = false;
-            errorTelEl.textContent = "Téléphone incorrect";
-            errorTelEl.style.color = 'red';
-        } else {
-            errorTelEl.textContent = "Téléphone";
-            errorTelEl.style.color = 'black';
-        }
-
-        return formValide;
-    };
-}
-
 // Filtre les modèles selon la marque choisie (sans requête serveur)
 document.addEventListener('DOMContentLoaded', function () {
     var selectMarque = document.getElementById('marque');
@@ -67,15 +33,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Au chargement, si aucune marque n'est choisie, griser le modèle par défaut
     if (!selectMarque.value) {
         selectModele.disabled = true;
     }
 
-    // Active le filtrage uniquement si on a des paires (MARQUE, MODELE)
     if (Array.isArray(data) && data.length > 0) {
         function rebuildModeles(marque) {
-            // Reset
             selectModele.innerHTML = '';
             var optPlaceholder = document.createElement('option');
             optPlaceholder.value = '';
@@ -104,12 +67,111 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         selectMarque.addEventListener('change', function () { rebuildModeles(selectMarque.value); });
-        // Si une valeur est préremplie (avec withInput), reconstruire
         if (selectMarque.value) {
             rebuildModeles(selectMarque.value);
         } else {
-            // Au chargement, griser le modèle tant qu'aucune marque n'est choisie
             selectModele.disabled = true;
         }
+    }
+
+    // Modal + soumission contrôlée
+    var form = document.querySelector('.form-contact form') || document.querySelector('form');
+    var submitBtn = document.getElementById('valid');
+    var emailEl = document.getElementById('email');
+    var telEl = document.getElementById('tel');
+    var errorEmailEl = document.getElementById('errorEmail');
+    var errorTelEl = document.getElementById('errorTel');
+    var modal = document.getElementById('modal');
+    var btntest = document.getElementById('btntest');
+    var modalConfirm = modal ? modal.querySelector('.modal-close') : null;
+    var modalOverlay = modal ? modal.querySelector('.modal-overlay') : null;
+
+    function validateForm() {
+        var ok = true;
+        var emailVal = emailEl ? emailEl.value : '';
+        var telVal = telEl ? telEl.value : '';
+
+        if (!isValidEmail(emailVal)) {
+            ok = false;
+            if (errorEmailEl) { errorEmailEl.textContent = "Email incorrect"; errorEmailEl.style.color = 'red'; }
+        } else {
+            if (errorEmailEl) { errorEmailEl.textContent = "Email"; errorEmailEl.style.color = 'black'; }
+        }
+
+        if (!isValidPhone(telVal)) {
+            ok = false;
+            if (errorTelEl) { errorTelEl.textContent = "Téléphone incorrect"; errorTelEl.style.color = 'red'; }
+        } else {
+            if (errorTelEl) { errorTelEl.textContent = "Téléphone"; errorTelEl.style.color = 'black'; }
+        }
+
+        return ok;
+    }
+
+    function openModal() {
+        if (!modal) return;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        // focus bouton de confirmation si présent
+        if (modalConfirm && typeof modalConfirm.focus === 'function') modalConfirm.focus();
+    }
+
+    function closeModal() {
+        if (!modal) return;
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (btntest && typeof btntest.focus === 'function') btntest.focus();
+    }
+
+    // Interception de l'envoi : ouvrir la modal avant la soumission effective
+    if (form && submitBtn) {
+        form.addEventListener('submit', function (e) {
+            // On intercepte toujours, on soumetra manuellement après confirmation si tout est OK
+            e.preventDefault();
+
+            if (!validateForm()) {
+                // erreurs affichées par validateForm(); ne pas ouvrir la modal
+                return;
+            }
+
+            // Validation OK -> ouvrir la modal
+            openModal();
+
+            // un seul handler de confirmation pour soumettre après clic sur "D'accord"
+            var onConfirm = function () {
+                // fermer modal puis soumettre le formulaire
+                closeModal();
+                // retirer le listener pour éviter double-soumission
+                if (modalConfirm) modalConfirm.removeEventListener('click', onConfirm);
+                form.submit();
+            };
+
+            if (modalConfirm) {
+                // retirer écouteurs précédents pour sécurité puis ajouter
+                modalConfirm.removeEventListener('click', onConfirm);
+                modalConfirm.addEventListener('click', onConfirm);
+            }
+        });
+    }
+
+    // gestion fermeture modal via overlay et echap
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', function () { closeModal(); });
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal && modal.classList.contains('open')) {
+            closeModal();
+        }
+    });
+
+    // petit comportement pour btntest (si présent)
+    var bt = document.getElementById('btntest');
+    if (bt) {
+        bt.onclick = function () {
+            if (modal) openModal();
+        };
     }
 });

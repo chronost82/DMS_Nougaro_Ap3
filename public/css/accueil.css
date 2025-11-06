@@ -114,6 +114,57 @@ form {
     background-color: #702e30;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.open {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background: #fff;
+    padding: 1.25rem;
+    border-radius: 6px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.modal-close {
+    display: inline-block;
+    margin: 1.25rem auto 0;
+    padding: 0.5rem 1rem;
+    background: #A24246;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.modal-close:focus {
+    outline: 2px solid #702e30;
+    outline-offset: 2px;
+}
+
 @media only screen and (max-width: 576px) {
     .form-contact {
         width: 90%;

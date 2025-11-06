@@ -9,11 +9,6 @@
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
     <link rel="stylesheet" href="css/accueil.css">
 
-    <!-- STYLES -->
-
-    <style {csp-style-nonce}>
-
-    </style>
 </head>
 
 <body>
@@ -56,7 +51,9 @@
             </div>
             <a href="">Vous avez déjà fait un contrôle technique ?</a>
         </form>
+        <button id="btntest">ok</button>
     </div>
+
 
     <script src="js/accueil.js"></script>
 
@@ -65,6 +62,13 @@
         <?= json_encode($vehicules ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
     </script>
 
+    <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+        <div class="modal-overlay" data-close></div>
+        <div class="modal-content" role="document">
+            <h2 id="modal-title">Merci de votre demande!</h2>
+            <p>Vos informations ont bien été prises en compte. Vous serez contacté dans les plus brefs délais.</p>
+            <button class="modal-close" data-close>D'accord</button>
+        </div>
 </body>
 
 </html>
