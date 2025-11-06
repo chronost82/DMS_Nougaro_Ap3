@@ -16,7 +16,7 @@
             <p class="muted">Accédez rapidement aux principales sections et suivez l’activité du système.</p>
         </section>
 
-        <section class="dashboard-stats" aria-label="Vue d’ensemble">
+        <!-- <section class="dashboard-stats" aria-label="Vue d’ensemble">
             <a class="stat-card" href="<?= url_to('admin-liste-demandes-en-attentes') ?>">
                 <span class="stat-icon" aria-hidden="true">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@
                     <div class="value">Voir la liste</div>
                 </div>
             </a>
-        </section>
+        </section> -->
 
         <section class="dashboard-actions" aria-label="Actions rapides">
             <a class="action-card" href="<?= url_to('admin-liste-demandes-en-attentes') ?>">

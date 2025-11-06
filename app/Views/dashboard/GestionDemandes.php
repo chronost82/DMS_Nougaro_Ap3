@@ -119,7 +119,7 @@ $valOrPlaceholder = static function ($v) {
                                 <td class="actions">
                                     <div class="action-buttons">
                                         <div class="action-set" data-actions-for="en-attente" style="display:none">
-                                            <button type="button" class="btn-small btn-edit" title="Modifier" data-role="edit">Modifier</button>
+                                            <button type="button" class="btn-primary" title="Modifier" data-role="edit">Modifier</button>
                                             <form method="post" action="<?= site_url('demandes/valider') ?>" style="display:inline">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE'] ?? '') ?>">
@@ -127,8 +127,8 @@ $valOrPlaceholder = static function ($v) {
                                             </form>
                                         </div>
                                         <div class="action-set" data-actions-for="validee" style="display:none">
-                                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn">Faire CT</a>
-                                            <a href="" class="btn">Supprimer</a>
+                                            <a href="" rel="noopener noreferrer" class="btn-primary">Faire CT</a>
+                                            <a href="" class="btn-secondary">Supprimer</a>
                                         </div>
                                         <div class="action-set" data-actions-for="terminee" style="display:none">
                                             <!-- Actions pour terminée -->

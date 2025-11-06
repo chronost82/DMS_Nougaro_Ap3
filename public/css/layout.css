@@ -107,7 +107,7 @@ tbody tr:hover {
     font: inherit;
     font-size: .9rem;
     font-weight: 600;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     line-height: 1.1;
     display: inline-flex;
@@ -117,9 +117,6 @@ tbody tr:hover {
     transition: background .2s, box-shadow .2s, transform .15s;
     letter-spacing: .3px;
     text-decoration: none;
-}
-
-.btn-primary {
     background: #2563eb;
     color: #fff;
     padding: .65rem 1rem;
@@ -142,20 +139,26 @@ tbody tr:hover {
     border: 1px solid var(--border);
     background: #fff;
     color: var(--text);
-    padding: 8px 12px;
+    padding: .65rem 1rem;
     border-radius: 10px;
-    font-size: 13px;
+    font-size: .9rem;
+    min-height: 40px;
     cursor: pointer;
     transition: transform 0.05s ease, background 0.2s ease, border-color 0.2s ease;
     text-decoration: none;
 }
 
-.btn-secondary:hover,
-.btn-success:hover,
-.btn-warning:hover { background: #fafafa; }
+/* Couleurs dédiées pour les variantes */
+.btn-secondary { background: #e9ebee; color: #1e293b; border: none; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.btn-secondary:hover { background: #d8dce0; }
+.btn-secondary:active { transform: translateY(1px); }
 
-.btn-secondary:active,
-.btn-success:active,
+.btn-success { background: #10b981; color: #fff; border: none; box-shadow: 0 2px 4px -1px rgba(16,185,129,.4), 0 1px 2px rgba(0,0,0,.08); }
+.btn-success:hover { background: #059669; }
+.btn-success:active { transform: translateY(1px); }
+
+.btn-warning { background: #f59e0b; color: #fff; border: none; box-shadow: 0 2px 4px -1px rgba(245,158,11,.4), 0 1px 2px rgba(0,0,0,.08); }
+.btn-warning:hover { background: #d97706; }
 .btn-warning:active { transform: translateY(1px); }
 
 /* Boutons d'action */
@@ -164,12 +167,14 @@ tbody tr:hover {
     border: 1px solid var(--border);
     background: #fff;
     color: var(--text);
-    padding: 8px 12px;
+    padding: .65rem 1rem;
     border-radius: 10px;
-    font-size: 13px;
+    font-size: .9rem;
+    min-height: 40px;
     cursor: pointer;
     transition: transform 0.05s ease, background 0.2s ease, border-color 0.2s ease;
     text-decoration: none;
+    box-shadow: 0 1px 2px rgba(17,24,39,.06);
 }
 
 .btn:hover {
@@ -192,6 +197,8 @@ tbody tr:hover {
     border-color: #fecaca;
     background: #fee2e2;
     color: #991b1b;
+    border: none;
+    box-shadow: 0 2px 4px -1px rgba(239, 68, 68, .35), 0 1px 2px rgba(0,0,0,.08);
 }
 
 .btn-danger:hover,
@@ -242,6 +249,11 @@ tbody tr:hover {
 .disconnect:hover {
     background: #fda5a5;
 }
+
+/* Box-shadows colorés par variante */
+.btn.btn-secondary { box-shadow: 0 2px 4px -1px rgba(148,163,184,.35), 0 1px 2px rgba(0,0,0,.08); }
+.btn.btn-success { box-shadow: 0 2px 4px -1px rgba(16,185,129,.4), 0 1px 2px rgba(0,0,0,.08); }
+.btn.btn-warning { box-shadow: 0 2px 4px -1px rgba(245,158,11,.4), 0 1px 2px rgba(0,0,0,.08); }
 
 label {
     font-size: .75rem;

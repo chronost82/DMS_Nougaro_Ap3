@@ -12,8 +12,8 @@
             $client['PRENOM'],
             $client['TEL'],
             $client['EMAIL'],
-            '<a class="btn" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
-            '<a class="btn btn-warning" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Supprimer</a>'
+            '<a class="btn-warning" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
+            '<a class="btn btn-danger" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Supprimer</a>'
         );
     }
     echo $tableauclient->generate();
