@@ -34,7 +34,7 @@ class TestController extends BaseController
         $testModel = model('TestTechniqueModel');
 
         $testAModif = [
-            'IDTESTTECHNIQUE' => $this->request->getPost('id'),
+            'IDTESTTECHNIQUE' => $this->request->getPost('idTest'),
             'LIBELLE' => $this->request->getPost('libelle')
         ];
         $testModel->save($testAModif);

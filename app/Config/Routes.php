@@ -20,15 +20,15 @@ $routes->get('modif-client/(:num)', 'ClientController::modif/$1', ['as' => 'modi
 $routes->post('modif-client', 'ClientController::update', ['as' => 'client-modif']);
 
 //Routes pour la gestion des élèves
-$routes->get('liste-eleves', 'EleveController::affiche', ['as' => 'admin-liste-eleves']);
+$routes->get('liste-eleve', 'EleveController::affiche', ['as' => 'liste-eleve']);
 
-$routes->post('suppr-eleve', 'EleveController::delete', ['as' => 'admin-suppr-eleve']);
+$routes->post('suppr-eleve/(:num)', 'EleveController::delete/$1', ['as' => 'suppr-eleve']);
 
-$routes->get('modif-eleve', 'EleveController::modif', ['as' => 'admin-eleve-modif']);
-$routes->post('modif-eleve', 'EleveController::update', ['as' => 'admin-eleve-modif']);
+$routes->get('modif-eleve/(:num)', 'EleveController::modif/$1', ['as' => 'eleve-modif']);
+$routes->post('modif-eleve', 'EleveController::update', ['as' => 'modif-eleve']);
 
-$routes->get('ajout-eleve', 'EleveController::ajout', ['as' => 'admin-ajout-eleve']);
-$routes->post('ajout-eleve', 'EleveController::create', ['as' => 'admin-ajout-eleve']);
+$routes->get('ajout-eleve', 'EleveController::ajout', ['as' => 'ajout-eleve']);
+$routes->post('ajout-eleve', 'EleveController::create', ['as' => 'eleve-ajout']);
 
 //Routes pour la gestion des demandes
 //En attente
