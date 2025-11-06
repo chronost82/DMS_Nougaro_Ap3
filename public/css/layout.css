@@ -211,11 +211,64 @@ tbody tr:hover {
     background: #fef3c7;
 }
 
+/* Bouton de déconnexion / danger */
+.btn-danger,
+.disconnect {
+    border-color: #fecaca;
+    background: #fee2e2;
+    color: #991b1b;
+}
 
-label[type=text],
-label[type=email],
-label[type=time],
-label[type=password] {
+.btn-danger:hover,
+.disconnect:hover {
+    background: #fecaca;
+}
+
+/* Message de succès (attention: classe demandée 'sucess') */
+.success {
+    display: flex;
+    align-items: flex-start;
+    gap: .5rem;
+    padding: .75rem .9rem;
+    border: 1px solid #a7f3d0;
+    background: #ecfdf5;
+    color: #065f46;
+    border-radius: 10px;
+    font-size: .9rem;
+}
+
+.success::before {
+    content: "✓";
+    font-weight: 700;
+    color: #059669;
+    line-height: 1;
+}
+
+/* Message d'avertissement */
+.warning {
+    display: flex;
+    align-items: flex-start;
+    gap: .5rem;
+    padding: .75rem .9rem;
+    border: 1px solid #fde68a;
+    background: #fffbeb;
+    color: #92400e;
+    border-radius: 10px;
+    font-size: .9rem;
+}
+
+.warning::before {
+    content: "!";
+    font-weight: 800;
+    color: #b45309;
+    line-height: 1;
+}
+
+.disconnect:hover {
+    background: #fda5a5;
+}
+
+label {
     font-size: .75rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -229,7 +282,8 @@ label[type=password] {
 input[type=text],
 input[type=email],
 input[type=time],
-input[type=password] {
+input[type=password],
+select {
     border: 1px solid #cbd5e1;
     background: #fff;
     border-radius: 6px;
@@ -243,9 +297,48 @@ input[type=password] {
 input[type=text]:focus,
 input[type=email]:focus,
 input[type=time]:focus,
-input[type=password]:focus {
+input[type=password]:focus,
+select:focus {
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, .25);
     background: #fff;
+}
+
+/* === Formulaires réutilisables (style global) ==================== */
+.form-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: .6rem;
+    padding-top: .75rem;
+    margin-top: .5rem;
+    border-top: 1px solid var(--border);
+}
+
+.form-grid-2,
+.form-grid-3 {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.form-grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+@media (max-width: 640px) {
+    .form-panel { padding: .9rem 1rem 1.1rem; border-radius: 10px; }
+    .form-grid-2, .form-grid-3 { gap: .75rem; margin-bottom: .9rem; }
+    .btn-primary, .btn-secondary { padding: .55rem .85rem; }
 }
