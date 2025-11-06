@@ -11,7 +11,7 @@ class TestTechniqueModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = false;
+    protected $protectFields    = true;
     protected $allowedFields    = [];
 
     protected bool $allowEmptyInserts = false;
