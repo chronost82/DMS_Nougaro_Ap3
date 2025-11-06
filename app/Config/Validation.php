@@ -41,4 +41,26 @@ class Validation extends BaseConfig
     // --------------------------------------------------------------------
     // Rules
     // --------------------------------------------------------------------
+
+    public $login = [
+    'username' => [
+        'label' => 'Auth.username',
+        'rules' => [
+            'required',
+            'max_length[30]',
+            'min_length[3]',
+            'regex_match[/\A[a-zA-Z0-9\.]+\z/]',
+        ],
+    ],
+    'password' => [
+        'label' => 'Auth.password',
+            'rules' => [
+                'required',
+                'max_byte[72]',
+            ],
+        'errors' => [
+            'max_byte' => 'Auth.errorPasswordTooLongBytes',
+        ]
+    ],
+];
 }
