@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class TestTechniqueModel extends Model
 {
-    protected $table            = 'teststechnique';
+    protected $table            = 'TESTSTECHNIQUE';
     protected $primaryKey       = 'IDTESTTECHNIQUE';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
