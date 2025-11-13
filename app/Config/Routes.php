@@ -67,3 +67,9 @@ $routes->get('dashboard', 'Dashboard::index');
 //login et logout
 service('auth')->routes($routes);
 $routes->get('/logout', 'LogoutController::logout', ['as' => 'logout']);
+
+// API disponibilité CT (comptage par date/heure)
+$routes->get('api/ct/availability', 'DemandeController::ctAvailability', ['as' => 'ct-availability']);
+
+//liste adresse mail
+$routes->post('liste-clients',"ClientController::mail");

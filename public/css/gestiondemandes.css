@@ -1,3 +1,201 @@
+/* Calendrier CT (scheduler) */
+.ct-scheduler .scheduler {
+  background: #fff;
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.ct-scheduler .scheduler-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ct-scheduler .scheduler-title {
+  font-weight: 600;
+}
+
+.ct-scheduler .scheduler-header .btn {
+  min-height: 32px;
+  padding: 4px 10px;
+}
+
+.ct-scheduler .scheduler-body {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 12px;
+}
+
+.ct-scheduler .scheduler-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ct-scheduler .scheduler-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.ct-scheduler .scheduler-dow {
+  font-size: 12px;
+  color: #6b7280; /* gray-500 */
+  text-align: center;
+  padding: 2px 0;
+}
+
+.ct-scheduler .scheduler-day {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid #e5e7eb; /* gray-200 */
+  background: #fafafa;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ct-scheduler .scheduler-day > span {
+  display: block;
+  font-size: 14px;
+  color: #374151; /* gray-700 */
+  text-align: center;
+  padding: 0;
+}
+
+.ct-scheduler .scheduler-day:hover:not(.muted):not(:disabled) {
+  background: #f3f4f6; /* gray-100 */
+}
+
+.ct-scheduler .scheduler-day.muted {
+  opacity: 0.55;
+  background: #f9fafb; /* gray-50 */
+  cursor: default;
+}
+
+.ct-scheduler .scheduler-day:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ct-scheduler .scheduler-day.selected {
+  border-color: #2563eb; /* blue-600 */
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+  background: #dbeafe; /* blue-100 */
+}
+
+.ct-scheduler .scheduler-day:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+}
+
+.ct-scheduler .scheduler-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ct-scheduler .slots-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+@media (min-width: 480px) {
+  .ct-scheduler .slots-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .ct-scheduler .slots-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ct-scheduler .slots-list .btn {
+  width: 100%;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Etat sélectionné d'un créneau (utilise .btn-primary via JS) */
+.ct-scheduler .slots-list .btn.btn-primary {
+  background: #2563eb; /* blue-600 */
+  border-color: #1d4ed8; /* blue-700 */
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+}
+.ct-scheduler .slots-list .btn.btn-primary:hover {
+  background: #1d4ed8; /* blue-700 */
+}
+.ct-scheduler .slots-list .btn.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.45);
+}
+
+/* Etat non sélectionné: hover subtil */
+.ct-scheduler .slots-list .btn:not(.btn-primary):hover {
+  background: #f3f4f6; /* gray-100 */
+}
+
+.ct-scheduler .slots-list .btn:disabled {
+  background: #f9fafb; /* gray-50 */
+  border-color: #e5e7eb; /* gray-200 */
+  color: #9ca3af; /* gray-400 */
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Créneau plein (2/2), même si non disabled (ex: slot initial) */
+.ct-scheduler .slots-list .btn.full:not(.btn-primary):not(:disabled) {
+  background: #f3f4f6; /* gray-100 */
+  border-color: #e5e7eb; /* gray-200 */
+  color: #6b7280; /* gray-500 */
+  box-shadow: none;
+}
+
+/* Badges d'état des créneaux */
+.ct-scheduler .slots-list .slot-badge {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+}
+.ct-scheduler .slots-list .slot-badge.partial {
+  background: #fff7ed; /* orange-50 */
+  border-color: #fdba74; /* orange-300 */
+  color: #c2410c; /* orange-700 */
+}
+.ct-scheduler .slots-list .slot-badge.full {
+  background: #f3f4f6; /* gray-100 */
+  border-color: #e5e7eb; /* gray-200 */
+  color: #6b7280; /* gray-500 */
+}
+
+.ct-scheduler small.muted {
+  display: block;
+  margin-top: 6px;
+}
+
+/* Champ calendrier */
+.ct-field > label {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
 /* === Gestion des Demandes ======================================== */
 
 .header {
