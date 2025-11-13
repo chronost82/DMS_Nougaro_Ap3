@@ -18,14 +18,14 @@ class EleveController extends BaseController
     {
         $elevesModel = model('ElevesModel');
         $elevesModel->delete($idEleve);
-        return redirect("eleve/ListeEleve");
+        return redirect("liste-eleve");
     }
 
     public function modif($idEleve)
     {
         $elevesModel = model('ElevesModel');
         $eleveAModif = $elevesModel->find($idEleve);
-        return view("eleves/modifEleve", ["eleveAModif" => $eleveAModif]);
+        return view("eleve/modifEleve", ["eleveAModif" => $eleveAModif]);
     }
     public function update()
     {
@@ -38,7 +38,7 @@ class EleveController extends BaseController
             'ANNEE' => $this->request->getPost('annee'),
         ];
         $elevesModel->save($eleveAModif);
-        return redirect('liste-eleves');
+        return redirect('liste-eleve');
     }
 
     public function ajout()
@@ -56,6 +56,6 @@ class EleveController extends BaseController
         ];
         $eleveModel->save($ajoutEleve);
 
-        return redirect('liste-eleves');
+        return redirect('liste-eleve');
     }
 }
