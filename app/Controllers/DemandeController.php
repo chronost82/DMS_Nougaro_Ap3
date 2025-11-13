@@ -77,9 +77,11 @@ class DemandeController extends BaseController
         return view('dashboard/GestionDemandes.php', ['clients' => $demandes, 'status' => $status, 'marques' => $marques, 'vehicules' => $vehicules]);
     }
 
-    public function delete()
+    public function delete(int $id)
     {
-        //
+        $demandeModel = model('Demande');
+        $demandeModel->delete($id);
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande supprimée avec succès.');
     }
 
     public function modif()

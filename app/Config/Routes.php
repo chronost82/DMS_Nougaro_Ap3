@@ -34,7 +34,7 @@ $routes->post('ajout-eleve', 'EleveController::create', ['as' => 'eleve-ajout'])
 //En attente
 $routes->get('dashboard/list-demande-en-attente', 'DemandeController::affiche', ['as' => 'admin-liste-demandes-en-attentes']);
 
-$routes->post('dashboard/suppr-demande-en-attente', 'DemandeController::delete', ['as' => 'admin-suppr-demande-en-attente']);
+$routes->get('dashboard/suppr-demande-en-attente/(:num)', 'DemandeController::delete/$1', ['as' => 'admin-suppr-demande-en-attente']);
 
 $routes->post('dashboard/modif-demande-en-attente', 'DemandeController::update', ['as' => 'admin-demande-en-attente-modif']);
 

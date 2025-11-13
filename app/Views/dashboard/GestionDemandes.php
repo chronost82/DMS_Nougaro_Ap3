@@ -42,7 +42,7 @@ $valOrPlaceholder = static function ($v) {
         if ($successMsg || $errorMsg):
         ?>
             <div style="display:flex; justify-content:flex-end; margin: 8px 0;">
-                <div class="alert <?= $successMsg ? 'alert-success' : 'alert-error' ?>" role="alert" aria-live="polite">
+                <div class="alert <?= $successMsg ? 'alert-success' : 'alert-error' ?>" style="margin-right: 8px;" role="alert" aria-live="polite">
                     <?= esc($successMsg ?: $errorMsg) ?>
                 </div>
             </div>
@@ -120,10 +120,10 @@ $valOrPlaceholder = static function ($v) {
                                     <div class="action-buttons">
                                         <div class="action-set" data-actions-for="en-attente" style="display:none">
                                             <button type="button" data-role="edit" class="btn-primary" title="Modifier" data-role="edit">Modifier</button>
-                                            <form method="post" action="<?= site_url('demandes/valider') ?>" style="display:inline">
+                                            <form method="get" action="<?= url_to('admin-suppr-demande-en-attente', $c['IDDEMANDE']) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ?');">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE'] ?? '') ?>">
-                                                <!-- <button type="submit" class="btn" title="Valider">Valider</button> -->
+                                                <button type="submit" class="btn-secondary" title="Supprimer">Supprimer</button>
                                             </form>
                                         </div>
                                         <div class="action-set" data-actions-for="validee" style="display:none">
