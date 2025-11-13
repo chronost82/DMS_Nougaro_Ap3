@@ -150,7 +150,6 @@ $valOrPlaceholder = static function ($v) {
     </div>
 </div>
 
-<!-- Modal d'édition -->
 <div class="modal-overlay" id="editModal" hidden aria-modal="true" role="dialog" aria-labelledby="editModalTitle">
     <div class="modal-window">
         <div class="modal-header">
@@ -180,19 +179,17 @@ $valOrPlaceholder = static function ($v) {
             </div>
             <div class="grid-3">
                 <label>Marque
-                    <!-- Options peuplées côté JS depuis marques-data (backend) -->
                     <select name="marque" id="f-marque" required="required">
                         <option value="" disabled selected>Marque</option>
                     </select>
                 </label>
                 <label>Modèle
-                    <!-- Options filtrées côté JS à partir de vehicules-data selon la marque -->
                     <select name="modele" id="f-modele" required="required">
                         <option value="" disabled selected>Modèle</option>
                     </select>
                 </label>
                 <label>Immatriculation
-                    <input type="text" name="immatriculation" id="f-immatriculation" required
+                    <input type="text" name="immatriculation" id="f-immatriculation"
                         placeholder="AA-123-AA ou 1234 ABC 56"
                         title="SIV: AA-123-AA — Ancien: 2-4 chiffres, 2-3 lettres, 2 chiffres (département)"
                         oninput="this.value = this.value.toUpperCase()" maxlength="11">
@@ -200,10 +197,10 @@ $valOrPlaceholder = static function ($v) {
             </div>
             <div class="grid-2">
                 <label>Année
-                    <input type="number" name="annee" id="f-annee" placeholder="0000" min="1900" max="2100" required>
+                    <input type="number" name="annee" id="f-annee" placeholder="0000" min="1900" max="2100">
                 </label>
                 <label>Numéro chassis
-                    <input type="text" name="chassis" id="f-chassis" placeholder="17 caractères" required
+                    <input type="text" name="chassis" id="f-chassis" placeholder="17 caractères"
                         pattern="^[A-HJ-NPR-Z0-9]{17}$" minlength="17" maxlength="17"
                         title="17 caractères alphanumériques sans I, O, Q"
                         oninput="this.value = this.value.toUpperCase()">
@@ -247,7 +244,7 @@ $valOrPlaceholder = static function ($v) {
         </form>
     </div>
 </div>
-<!-- Données pour le remplissage JS (autorité: backend) -->
+
 <script id="marques-data" type="application/json">
     <?= json_encode($marques ?? [], JSON_UNESCAPED_UNICODE) ?>
 </script>
