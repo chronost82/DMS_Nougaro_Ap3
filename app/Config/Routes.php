@@ -22,7 +22,7 @@ $routes->post('modif-client', 'ClientController::update', ['as' => 'client-modif
 //Routes pour la gestion des élèves
 $routes->get('liste-eleve', 'EleveController::affiche', ['as' => 'liste-eleve']);
 
-$routes->post('suppr-eleve/(:num)', 'EleveController::delete/$1', ['as' => 'suppr-eleve']);
+$routes->get('suppr-eleve/(:num)', 'EleveController::delete/$1', ['as' => 'suppr-eleve']);
 
 $routes->get('modif-eleve/(:num)', 'EleveController::modif/$1', ['as' => 'eleve-modif']);
 $routes->post('modif-eleve', 'EleveController::update', ['as' => 'modif-eleve']);

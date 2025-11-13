@@ -11,8 +11,8 @@ class CLIENTModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = false;
-    protected $allowedFields    = [];
+    protected $protectFields    = true;
+    protected $allowedFields    = ["NOM","PRENOM","TEL","EMAIL","NUMRANDOM"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

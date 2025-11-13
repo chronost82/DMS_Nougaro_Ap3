@@ -16,20 +16,20 @@ class EleveController extends BaseController
 
     public function delete($idEleve)
     {
-        $elevesModel = model('EleveModel');
+        $elevesModel = model('ElevesModel');
         $elevesModel->delete($idEleve);
-        return redirect("eleve/ListeEleve");
+        return redirect("liste-eleve");
     }
 
     public function modif($idEleve)
     {
-        $elevesModel = model('EleveModel');
+        $elevesModel = model('ElevesModel');
         $eleveAModif = $elevesModel->find($idEleve);
-        return view("eleves/modifEleve", ["eleveAModif" => $eleveAModif]);
+        return view("eleve/modifEleve", ["eleveAModif" => $eleveAModif]);
     }
     public function update()
     {
-        $elevesModel = model('EleveModel');
+        $elevesModel = model('ElevesModel');
 
         $eleveAModif = [
             'IDELEVE' => $this->request->getPost('idEleve'),
@@ -38,16 +38,17 @@ class EleveController extends BaseController
             'ANNEE' => $this->request->getPost('annee'),
         ];
         $elevesModel->save($eleveAModif);
-        return redirect('liste-eleves');
+        return redirect('liste-eleve');
     }
 
     public function ajout()
     {
         return view("eleve/ajoutEleve");
     }
+
     public function create()
     {
-        $eleveModel = model('EleveModel');
+        $eleveModel = model('ElevesModel');
         $ajoutEleve = [
             'NOM' => $this->request->getPost('nom'),
             'PRENOM' => $this->request->getPost('prenom'),
@@ -55,6 +56,6 @@ class EleveController extends BaseController
         ];
         $eleveModel->save($ajoutEleve);
 
-        return redirect('liste-eleves');
+        return redirect('liste-eleve');
     }
 }
