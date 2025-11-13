@@ -36,9 +36,9 @@
             <div class="inputbox">
                 <select name="marque" id="marque" required="required">
                     <option value="" disabled selected>Marque</option>
+                    <option value="">Autre - Ajouter votre marque</option>
                     <?php foreach ($marques as $marque): ?>
                         <option value="<?= esc($marque['MARQUE']) ?>"><?= esc($marque['MARQUE']) ?></option>
-                        <option value="">Autre - Ajouter votre marque</option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -52,9 +52,10 @@
             </div>
             <p>- - - - -</p>
             <a href="">Êtes-vous déja inscrit ?</a><br>
-            <a id="infoPreCt" href="">Qu’est-ce qu’un précontrôle technique ?</a><br>
+            <a id="infoPreCt" href="">Qu’est-ce qu’un pré contrôle technique ?</a><br>
             <a href="pdf/moto concerne.pdf">Quels véhicules sont concernés?</a>
         </form>
+        <p>Fait par le BTS SIO option SLAM 2ème année du lycée Claude Nougaro</p>
     </div>
 
 
@@ -65,13 +66,12 @@
         <?= json_encode($vehicules ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
     </script>
 
-    <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title" aria-modal="true">
-        <div class="modal-overlay" data-close></div>
-        <div class="modal-content" role="document">
-            <h2 id="modal-title">Merci de votre demande!</h2>
-            <p>Vos informations ont bien été prises en compte. Vous serez contacté dans les plus brefs délais.</p>
-            <button class="modal-close" data-close>D'accord</button>
+    <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+        <div class="modalOverlay" data-close></div>
+        <div class="modalContent" role="document">
+            <h2 id="modalTitle">Merci de votre demande!</h2>
+            <p id="modalText">Vos informations ont bien été prises en compte. Vous serez contacté dans les plus brefs délais.</p>
+            <button class="modalClose" data-close>D'accord</button>
         </div>
 </body>
-
 </html>

@@ -135,13 +135,13 @@ form {
     display: flex;
 }
 
-.modal-overlay {
+.modalOverlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.modalContent {
     position: relative;
     background: #fff;
     padding: 1.25rem;
@@ -156,7 +156,7 @@ form {
     text-align: center;
 }
 
-.modal-close {
+.modalClose {
     display: inline-block;
     margin: 1.25rem auto 0;
     padding: 0.5rem 1rem;
@@ -168,7 +168,7 @@ form {
     cursor: pointer;
 }
 
-.modal-close:focus {
+.modalClose:focus {
     outline: 2px solid #702e30;
     outline-offset: 2px;
 }
