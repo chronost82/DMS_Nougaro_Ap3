@@ -259,10 +259,6 @@ tbody tr:hover {
     transform: translateY(1px);
 }
 
-.btn+.btn {
-    margin-left: 8px;
-}
-
 /* (Déprécié) success/warning héritent du style générique désormais */
 
 /* Bouton de déconnexion / danger (accent rouge clair) */
