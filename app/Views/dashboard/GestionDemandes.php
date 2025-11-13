@@ -193,14 +193,15 @@ $valOrPlaceholder = static function ($v) {
                 </label>
                 <label>Immatriculation
                     <input type="text" name="immatriculation" id="f-immatriculation" required
-                        pattern="^(?:[A-Z]{2}[- ]?[0-9]{3}[- ]?[A-Z]{2}|[0-9]{1,4}[- ]?[A-Z]{1,3}[- ]?[0-9]{2})$"
-                        title="Format accepté: AA-123-AA (SIV) ou 1234 AB 56 (ancien)"
-                        oninput="this.value = this.value.toUpperCase()" maxlength="10">
+                        pattern="^(?:[A-Z]{2}[- ]?[0-9]{3}[- ]?[A-Z]{2}|[0-9]{2,4}[- ]?[A-Z]{2,3}[- ]?[0-9]{2})$"
+                        placeholder="AA-123-AA ou 1234 ABC 56"
+                        title="SIV: AA-123-AA — Ancien: 2-4 chiffres, 2-3 lettres, 2 chiffres (département)"
+                        oninput="this.value = this.value.toUpperCase()" maxlength="11">
                 </label>
             </div>
             <div class="grid-2">
                 <label>Année
-                    <input type="number" name="annee" id="f-annee" placeholder="AAAA" min="1900" max="2100" required>
+                    <input type="number" name="annee" id="f-annee" placeholder="0000" min="1900" max="2100" required>
                 </label>
                 <label>Numéro chassis
                     <input type="text" name="chassis" id="f-chassis" placeholder="17 caractères" required
