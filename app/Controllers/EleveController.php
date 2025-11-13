@@ -16,20 +16,20 @@ class EleveController extends BaseController
 
     public function delete($idEleve)
     {
-        $elevesModel = model('EleveModel');
+        $elevesModel = model('ElevesModel');
         $elevesModel->delete($idEleve);
         return redirect("eleve/ListeEleve");
     }
 
     public function modif($idEleve)
     {
-        $elevesModel = model('EleveModel');
+        $elevesModel = model('ElevesModel');
         $eleveAModif = $elevesModel->find($idEleve);
         return view("eleves/modifEleve", ["eleveAModif" => $eleveAModif]);
     }
     public function update()
     {
-        $elevesModel = model('EleveModel');
+        $elevesModel = model('ElevesModel');
 
         $eleveAModif = [
             'IDELEVE' => $this->request->getPost('idEleve'),
@@ -45,9 +45,10 @@ class EleveController extends BaseController
     {
         return view("eleve/ajoutEleve");
     }
+
     public function create()
     {
-        $eleveModel = model('EleveModel');
+        $eleveModel = model('ElevesModel');
         $ajoutEleve = [
             'NOM' => $this->request->getPost('nom'),
             'PRENOM' => $this->request->getPost('prenom'),
