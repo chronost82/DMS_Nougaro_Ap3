@@ -11,7 +11,7 @@ function isValidPhone(tel) {
 }
 
 window.onload = function () {
-    var nameEl = document.getElementById("name");
+    let nameEl = document.getElementById("name");
     if (nameEl && typeof nameEl.focus === 'function') {
         nameEl.focus();
     }
@@ -19,12 +19,12 @@ window.onload = function () {
 
 // Filtre les modèles selon la marque choisie (sans requête serveur)
 document.addEventListener('DOMContentLoaded', function () {
-    var selectMarque = document.getElementById('marque');
-    var selectModele = document.getElementById('modele');
+    let selectMarque = document.getElementById('marque');
+    let selectModele = document.getElementById('modele');
     if (!selectMarque || !selectModele) return;
 
-    var data = [];
-    var dataEl = document.getElementById('vehicules-data');
+    let data = [];
+    let dataEl = document.getElementById('vehicules-data');
     if (dataEl) {
         try {
             data = JSON.parse(dataEl.textContent || '[]');
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (Array.isArray(data) && data.length > 0) {
         function rebuildModeles(marque) {
             selectModele.innerHTML = '';
-            var optPlaceholder = document.createElement('option');
+            let optPlaceholder = document.createElement('option');
             optPlaceholder.value = '';
             optPlaceholder.disabled = true;
             optPlaceholder.selected = true;
@@ -52,16 +52,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            var seen = Object.create(null);
-            for (var i = 0; i < data.length; i++) {
-                var item = data[i];
+            let seen = Object.create(null);
+            for (let i = 0; i < data.length; i++) {
+                let item = data[i];
                 if (item && item.MARQUE === marque && item.MODELE && !seen[item.MODELE]) {
                     seen[item.MODELE] = true;
-                    var opt = document.createElement('option');
+                    let opt = document.createElement('option');
                     opt.value = item.MODELE;
                     opt.textContent = item.MODELE;
                     selectModele.appendChild(opt);
                 }
+
             }
             selectModele.disabled = selectModele.options.length <= 1;
         }
@@ -75,21 +76,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Modal + soumission contrôlée
-    var form = document.querySelector('.form-contact form') || document.querySelector('form');
-    var submitBtn = document.getElementById('valid');
-    var emailEl = document.getElementById('email');
-    var telEl = document.getElementById('tel');
-    var errorEmailEl = document.getElementById('errorEmail');
-    var errorTelEl = document.getElementById('errorTel');
-    var modal = document.getElementById('modal');
-    var btntest = document.getElementById('btntest');
-    var modalConfirm = modal ? modal.querySelector('.modal-close') : null;
-    var modalOverlay = modal ? modal.querySelector('.modal-overlay') : null;
+    let form = document.querySelector('.form-contact form') || document.querySelector('form');
+    let submitBtn = document.getElementById('valid');
+    let emailEl = document.getElementById('email');
+    let telEl = document.getElementById('tel');
+    let errorEmailEl = document.getElementById('errorEmail');
+    let errorTelEl = document.getElementById('errorTel');
+    let modal = document.getElementById('modal');
+    let btntest = document.getElementById('btntest');
+    let modalConfirm = modal ? modal.querySelector('.modalClose') : null;
+    let modalOverlay = modal ? modal.querySelector('.modalOverlay') : null;
 
     function validateForm() {
-        var ok = true;
-        var emailVal = emailEl ? emailEl.value : '';
-        var telVal = telEl ? telEl.value : '';
+        let ok = true;
+        let emailVal = emailEl ? emailEl.value : '';
+        let telVal = telEl ? telEl.value : '';
 
         if (!isValidEmail(emailVal)) {
             ok = false;
@@ -139,8 +140,12 @@ document.addEventListener('DOMContentLoaded', function () {
             // Validation OK -> ouvrir la modal
             openModal();
 
+            modalTitle.textContent = 'Merci de votre demande!';
+
+            modalText.textContent = 'Vos informations ont bien été prises en compte. Vous serez contacté dans les plus brefs délais.';
+
             // un seul handler de confirmation pour soumettre après clic sur "D'accord"
-            var onConfirm = function () {
+            let onConfirm = function () {
                 // fermer modal puis soumettre le formulaire
                 closeModal();
                 // retirer le listener pour éviter double-soumission
@@ -156,6 +161,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    infoPreCt.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        openModal();
+
+        modalTitle.textContent = 'Pré contrôle technique :'
+
+        modalText.textContent = 'Un pré contrôle technique est un contrôle volontaire permettant de relever les éventuelles défaillances du véhicule avant la visite technique périodique obligatoire. Il a pour objectif de vous rassurer quant à l\'état de votre véhicule.';
+
+        let onConfirm = function () {
+            closeModal();
+
+            if (modalConfirm) modalConfirm.removeEventListener('click', onConfirm);
+        };
+
+        if (modalConfirm) {
+            // retirer écouteurs précédents pour sécurité puis ajouter
+            modalConfirm.removeEventListener('click', onConfirm);
+            modalConfirm.addEventListener('click', onConfirm);
+        }
+    });
+
     // gestion fermeture modal via overlay et echap
     if (modalOverlay) {
         modalOverlay.addEventListener('click', function () { closeModal(); });
@@ -168,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // petit comportement pour btntest (si présent)
-    var bt = document.getElementById('btntest');
+    let bt = document.getElementById('btntest');
     if (bt) {
         bt.onclick = function () {
             if (modal) openModal();
