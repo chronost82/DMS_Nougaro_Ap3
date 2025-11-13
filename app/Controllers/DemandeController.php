@@ -335,4 +335,42 @@ class DemandeController extends BaseController
         $vehicules = $vehiculeModel->select('MARQUE, MODELE')->orderBy('MARQUE', 'ASC')->orderBy('MODELE', 'ASC')->findAll();
         return view('accueil', ['marques' => $marques, 'vehicules' => $vehicules]);
     }
+
+    /**
+     * API: retourne la disponibilité des créneaux CT, comptés à partir de la table CT.
+     * Query params supportés:
+     * - year, month (1-12) pour limiter au mois donné
+     * Réponse: { "YYYY-MM-DD": { "HH:MM": count, ... }, ... }
+     */
+    public function ctAvailability()
+    {
+        $year = (int) ($this->request->getGet('year') ?? 0);
+        $month = (int) ($this->request->getGet('month') ?? 0);
+
+        $from = null; $to = null;
+        if ($year > 0 && $month > 0) {
+            $from = sprintf('%04d-%02d-01', $year, $month);
+            $to = date('Y-m-t', strtotime($from));
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('CT')->select('DATECT, HEURE, COUNT(*) AS C')
+            ->groupBy('DATECT, HEURE');
+        if ($from && $to) {
+            $builder->where('DATECT >=', $from)->where('DATECT <=', $to);
+        }
+        $rows = $builder->get()->getResultArray();
+
+        $out = [];
+        foreach ($rows as $r) {
+            $d = $r['DATECT'] ?? '';
+            $h = $r['HEURE'] ?? '';
+            if (!$d || !$h) continue;
+            // Normalise heure en HH:MM
+            if (strlen($h) >= 5) $h = substr($h, 0, 5);
+            if (!isset($out[$d])) $out[$d] = [];
+            $out[$d][$h] = (int) ($r['C'] ?? 0);
+        }
+        return $this->response->setJSON($out);
+    }
 }

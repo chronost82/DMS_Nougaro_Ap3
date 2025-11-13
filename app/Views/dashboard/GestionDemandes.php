@@ -206,36 +206,13 @@ $valOrPlaceholder = static function ($v) {
                         oninput="this.value = this.value.toUpperCase()">
                 </label>
             </div>
-            <div class="grid-2">
-                <label>Date Controle Technique
-                    <input type="date" name="date" id="f-date" placeholder="JJ/MM/AAAA" required>
-                </label>
-                <label>Heure
-                    <input type="time" name="heure" id="f-heure" step="1800" placeholder="HH:MM" list="times-30min" min="08:00" max="18:00" pattern="^([0-1][0-9]|2[0-3]):(00|30)$" required>
-                    <datalist id="times-30min">
-                        <option value="08:00"></option>
-                        <option value="08:30"></option>
-                        <option value="09:00"></option>
-                        <option value="09:30"></option>
-                        <option value="10:00"></option>
-                        <option value="10:30"></option>
-                        <option value="11:00"></option>
-                        <option value="11:30"></option>
-                        <option value="12:00"></option>
-                        <option value="12:30"></option>
-                        <option value="13:00"></option>
-                        <option value="13:30"></option>
-                        <option value="14:00"></option>
-                        <option value="14:30"></option>
-                        <option value="15:00"></option>
-                        <option value="15:30"></option>
-                        <option value="16:00"></option>
-                        <option value="16:30"></option>
-                        <option value="17:00"></option>
-                        <option value="17:30"></option>
-                        <option value="18:00"></option>
-                    </datalist>
-                </label>
+            <div class="grid-1 ct-field">
+                <label for="f-heure">Date et heure du contrôle technique</label>
+                <div id="ct-scheduler" class="ct-scheduler" aria-label="Calendrier de rendez-vous CT" data-step="30" data-api-ct="<?= site_url('api/ct/availability') ?>"></div>
+                <!-- Champs utilisés pour la soumission, alimentés par le calendrier -->
+                <input type="hidden" name="date" id="f-date">
+                <input type="hidden" name="heure" id="f-heure">
+                <small class="muted">Créneaux 08:00–18:00, au plus 2 par créneau, hors week-ends.</small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" data-close-modal>Annuler</button>
