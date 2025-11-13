@@ -67,3 +67,6 @@ $routes->get('dashboard', 'Dashboard::index');
 //login et logout
 service('auth')->routes($routes);
 $routes->get('/logout', 'LogoutController::logout', ['as' => 'logout']);
+
+//liste adresse mail
+$routes->post('liste-clients',"ClientController::mail");

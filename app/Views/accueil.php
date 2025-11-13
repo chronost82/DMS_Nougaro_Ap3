@@ -73,5 +73,4 @@
             <button class="modal-close" data-close>D'accord</button>
         </div>
 </body>
-
 </html>

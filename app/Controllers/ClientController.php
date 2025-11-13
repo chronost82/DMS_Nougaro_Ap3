@@ -43,4 +43,8 @@ class ClientController extends BaseController
         $ClientsModel->save($clientAModif);
         return redirect('liste-clients');
     }
+
+    public function mail(){
+        return redirect("liste-clients");
+    }
 }
