@@ -98,6 +98,42 @@ document.addEventListener('DOMContentLoaded', () => {
         heure: document.getElementById('f-heure')
     };
 
+    // Auto-format immatriculation (SIV: AA-123-AA) ou ancien format (1234 AB 56)
+    function formatImmat(value) {
+        if (!value) return '';
+        const raw = String(value).toUpperCase().replace(/[^A-Z0-9]/g, '');
+        if (!raw) return '';
+
+        // Si commence par une lettre, on privilégie SIV (AA-123-AA)
+        if (/^[A-Z]/.test(raw)) {
+            const a = raw.slice(0, 2);
+            const b = raw.slice(2, 5);
+            const c = raw.slice(5, 7);
+            return [a, b, c].filter(Boolean).join('-');
+        }
+
+        // Ancien format: D{1..4} L{1..3} D{1..2}
+        const aMatch = raw.match(/^\d{0,4}/);
+        const a = aMatch ? aMatch[0] : '';
+        const rest = raw.slice(a.length);
+        const bMatch = rest.match(/^[A-Z]{0,3}/);
+        const b = bMatch ? bMatch[0] : '';
+        const rest2 = rest.slice(b.length);
+        const cMatch = rest2.match(/^\d{0,2}/);
+        const c = cMatch ? cMatch[0] : '';
+        return [a, b, c].filter(Boolean).join(' ');
+    }
+
+    // Binder: auto-format pendant la saisie
+    if (fields.immatriculation) {
+        fields.immatriculation.addEventListener('input', (e) => {
+            const caretEnd = e.target.selectionEnd; // caret handling minimal (optional)
+            e.target.value = formatImmat(e.target.value);
+            // Optionnel: replacer grossièrement le caret en fin
+            try { e.target.setSelectionRange(e.target.value.length, e.target.value.length); } catch (_) {}
+        });
+    }
+
     // Construit une map Marque -> Set(Modèles) depuis les données backend
     /**
      * Construit la map Marque -> Set(Modèles) à partir des données backend (vehicules-data)
@@ -257,6 +293,11 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         }
         fillModelesSelect(mm, fields.modele, fields.marque ? fields.marque.value : '', currentModele);
+
+        // Formater l'immatriculation si présente
+        if (fields.immatriculation && fields.immatriculation.value) {
+            fields.immatriculation.value = formatImmat(fields.immatriculation.value);
+        }
 
         modal.removeAttribute('hidden');
         modal.classList.add('open');

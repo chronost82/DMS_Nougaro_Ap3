@@ -27,25 +27,20 @@
         }
     }
     ?>
-    <!-- Barre de navigation principale (sticky) -->
     <header class="top-nav" role="navigation" aria-label="Navigation principale">
         <div class="top-nav__bar">
-            <!-- Marque (logo/nom) centrée dans la barre -->
             <div class="top-nav__brand">
                 <a href="<?= url_to('dashboard') ?>" aria-label="Accueil">Atelier MV</a>
             </div>
-            <!-- Bouton de repli du menu (affiché sur mobile) -->
             <button class="top-nav__toggle btn" type="button" aria-controls="mainNav" aria-expanded="false">
                 Menu
             </button>
         </div>
-        <!-- Liens de navigation; les classes sont dynamiques selon la page active -->
         <nav id="mainNav" class="top-nav__inner">
             <a href="<?= url_to('admin-liste-demandes-en-attentes') ?>" class="<?= nav_btn_class('admin-liste-demandes-en-attentes') ?>">Demandes en attente</a>
             <a href="<?= url_to('liste-clients') ?>" class="<?= nav_btn_class('liste-clients') ?>">Liste des clients</a>
             <a href="<?= url_to('test-liste') ?>" class="<?= nav_btn_class('test-liste') ?>">Liste des tests</a>
             <a href="<?= url_to('liste-eleve') ?>" class="<?= nav_btn_class('liste-eleve') ?>">Liste des élèves</a>
-            <!-- Action de déconnexion -->
             <a href="<?= url_to('logout'); ?>" class="btn disconnect" title="Se déconnecter">Déconnexion</a>
         </nav>
     </header>
@@ -61,7 +56,6 @@
             });
         })();
     </script>
-    <!-- Contenu spécifique à chaque vue -->
     <?= $this->renderSection('content') ?>
 </body>
 

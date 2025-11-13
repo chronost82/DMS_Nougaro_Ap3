@@ -33,7 +33,7 @@ class ClientController extends BaseController
         $ClientsModel = model('ClientModel');
 
         $clientAModif = [
-            'IDCLIENT' => $this->request->getPost('id'),
+            'IDCLIENT' => $this->request->getPost('idclient'),
             'NOM' => $this->request->getPost('nom'),
             'PRENOM' => $this->request->getPost('prenom'),
             'TEL' => $this->request->getPost('tel'),
