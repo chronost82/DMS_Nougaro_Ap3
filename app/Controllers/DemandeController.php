@@ -89,6 +89,127 @@ class DemandeController extends BaseController
 
     public function update()
     {
+        // Prélever les champs nécessaires
+        $idType = (string) ($this->request->getPost('id_type') ?? '');
+        $postedId = $this->request->getPost('id');
+        $postedIdDemande = $this->request->getPost('iddemande');
+        $currentId = ($idType === 'client') ? ($postedIdDemande ?: $postedId) : $postedId; // fallback au besoin
+
+        $immat = trim((string) ($this->request->getPost('immatriculation') ?? ''));
+        $annee = trim((string) ($this->request->getPost('annee') ?? ''));
+        $chassis = trim((string) ($this->request->getPost('chassis') ?? ''));
+        $date = $this->request->getPost('date');
+        $heure = $this->request->getPost('heure');
+
+        // Scénario partiel: si AU MOINS un des 3 (IMAT/ANNEE/CHASSIS) manque et que date/heure sont fournis
+        $isPartial = ((empty($immat) || empty($annee) || empty($chassis)) && !empty($date) && !empty($heure));
+        if ($isPartial) {
+            // On doit créer/mettre à jour Client, CT et Possede même sans IMAT/ANNEE/CHASSIS (mis à null)
+            // 1) Véhicule
+            $vehiculeModel = model('VehiculeModel');
+            $marque = trim((string) ($this->request->getPost('marque') ?? ''));
+            $modele = trim((string) ($this->request->getPost('modele') ?? ''));
+            $vehiculeExisting = $vehiculeModel->findVehicule($marque, $modele);
+            if (!$vehiculeExisting) {
+                return redirect()->back()->withInput()->with('error', 'Véhicule non trouvé. Veuillez vérifier la marque et le modèle.');
+            }
+            $idVehicule = $vehiculeExisting['IDVEHICULE'];
+
+            $db = \Config\Database::connect();
+            $db->transStart();
+
+            // 2) Client: réutiliser si déjà lié à la demande, sinon créer
+            $demandeModel = model('Demande');
+            $demandeRow = $demandeModel->find($currentId);
+            $existingClientId = $demandeRow['IDCLIENT'] ?? null;
+            $clientModel = model('ClientModel');
+
+            $numRandomPost = strtoupper(trim((string) ($this->request->getPost('numrandom') ?? '')));
+            if (!$this->isValidClientNumber($numRandomPost) || $this->numRandomExists($numRandomPost, $existingClientId)) {
+                $numRandomFinal = $this->generateUniqueClientNumber($existingClientId);
+            } else {
+                $numRandomFinal = $numRandomPost;
+            }
+
+            $clientData = [
+                'NOM' => $this->request->getPost('nom'),
+                'PRENOM' => $this->request->getPost('prenom'),
+                'EMAIL' => $this->request->getPost('email'),
+                'TEL' => $this->request->getPost('telephone'),
+                'NUMRANDOM' => $numRandomFinal,
+            ];
+            if (!empty($existingClientId)) {
+                $clientData['IDCLIENT'] = $existingClientId;
+                $clientModel->save($clientData);
+                $idClient = $existingClientId;
+            } else {
+                $idClient = $clientModel->insert($clientData, true);
+            }
+
+            // 3) CT: réutiliser si un Possede existe déjà (prendre son IDCT), sinon créer
+            $possedeModel = model('PossedeModel');
+            $existingPossede = $possedeModel->where('IDCLIENT', $idClient)->where('IDVEHICULE', $idVehicule)->first();
+            $ctModel = model('CTModel');
+            $idCT = null;
+            if ($existingPossede) {
+                $idCT = $existingPossede['IDCT'] ?? null;
+                if ($idCT && !empty($date) && !empty($heure)) {
+                    $ctModel->save([
+                        'IDCT' => $idCT,
+                        'DATECT' => $date,
+                        'HEURE' => $heure,
+                    ]);
+                }
+            } else {
+                // Créer un nouveau CT si date/heure fournis
+                if (!empty($date) && !empty($heure)) {
+                    $idCT = $ctModel->insert([
+                        'DATECT' => $date,
+                        'HEURE' => $heure,
+                    ], true);
+                }
+            }
+
+            // 4) Possede: créer si absent, sinon mettre à jour (avec nulls si vide)
+            $possedeData = [
+                'NUMCHASSIS' => ($chassis !== '' ? $chassis : null),
+                'IMAT' => ($immat !== '' ? $immat : null),
+                'ANNEE' => ($annee !== '' ? $annee : null),
+            ];
+            if ($existingPossede) {
+                // Mise à jour par conditions si la clé primaire est inconnue
+                $possedeModel->where('IDCLIENT', $idClient)
+                    ->where('IDVEHICULE', $idVehicule)
+                    ->set($possedeData)
+                    ->update();
+            } else {
+                $possedeModel->insert(array_merge([
+                    'IDVEHICULE' => $idVehicule,
+                    'IDCLIENT' => $idClient,
+                    'IDCT' => $idCT,
+                ], $possedeData));
+            }
+
+            // 5) Mettre à jour la demande (infos de base + IDCLIENT), sans changer ETAT
+            $demandeUpdate = [
+                'NOM' => $this->request->getPost('nom'),
+                'PRENOM' => $this->request->getPost('prenom'),
+                'EMAIL' => $this->request->getPost('email'),
+                'TEL' => $this->request->getPost('telephone'),
+                'MARQUE' => $this->request->getPost('marque'),
+                'MODELE' => $this->request->getPost('modele'),
+                'IDCLIENT' => $idClient,
+            ];
+            $demandeModel->update($currentId, $demandeUpdate);
+
+            $db->transComplete();
+            if ($db->transStatus() === false) {
+                return redirect()->back()->withInput()->with('error', 'Erreur lors de l\'enregistrement partiel.');
+            }
+            return redirect()->back()->with('success', 'Client/CT/Possession mis à jour. Demande conservée en attente.');
+        }
+
+        // Flux complet (toutes infos remplies) -> validation et création des entités liées
         // Récupérer l'id du véhicule grâce à la marque et au modèle de la demande
         // Si introuvable, afficher une erreur
         $vehiculeModel = model('VehiculeModel');
@@ -103,52 +224,85 @@ class DemandeController extends BaseController
 
         $db = \Config\Database::connect();
         $db->transStart();
+
+        $demandeModel = model('Demande');
+        $demandeRow = $demandeModel->find($currentId);
+        $existingClientId = $demandeRow['IDCLIENT'] ?? null;
+
         $clientModel = model('ClientModel');
-
-        // Selon le filtre actif côté UI, on peut avoir reçu un id de client (valide) ou de demande (en-attente)
-        // On utilise id_type pour déterminer l'identifiant de la demande à mettre à jour
-        $idType = (string) ($this->request->getPost('id_type') ?? '');
-        $postedId = $this->request->getPost('id');
-        $postedIdDemande = $this->request->getPost('iddemande');
-        $currentId = ($idType === 'client') ? ($postedIdDemande ?: $postedId) : $postedId; // fallback au besoin
         $numRandomPost = strtoupper(trim((string) ($this->request->getPost('numrandom') ?? '')));
-
-        if (!$this->isValidClientNumber($numRandomPost) || $this->numRandomExists($numRandomPost, $currentId)) {
-            $numRandomFinal = $this->generateUniqueClientNumber($currentId);
+        if (!$this->isValidClientNumber($numRandomPost) || $this->numRandomExists($numRandomPost, $existingClientId)) {
+            $numRandomFinal = $this->generateUniqueClientNumber($existingClientId);
         } else {
             $numRandomFinal = $numRandomPost;
         }
 
-        $client = [
+        $clientData = [
             'NOM' => $this->request->getPost('nom'),
             'PRENOM' => $this->request->getPost('prenom'),
             'EMAIL' => $this->request->getPost('email'),
             'TEL' => $this->request->getPost('telephone'),
             'NUMRANDOM' => $numRandomFinal,
         ];
-        $idClient = $clientModel->insert($client, true);
+        if (!empty($existingClientId)) {
+            $clientData['IDCLIENT'] = $existingClientId;
+            $clientModel->save($clientData);
+            $idClient = $existingClientId;
+        } else {
+            $idClient = $clientModel->insert($clientData, true);
+        }
 
-        $demandeModel = model('Demande');
+        // Met à jour la demande (ETAT validée)
         $demandeModel->update($currentId, [
             'IDCLIENT' => $idClient,
             'ETAT' => 'validee',
         ]);
 
-        $ctModel = model('CTModel');
-        $idCT = $ctModel->insert([
-            'DATECT' => $this->request->getPost('date'),
-            'HEURE' => $this->request->getPost('heure'),
-        ], true);
-
+        // CT: réutiliser via possede si existant, sinon créer
         $possedeModel = model('PossedeModel');
-        $possedeModel->insert([
-            'IDVEHICULE' => $idVehicule,
-            'IDCLIENT' => $idClient,
-            'IDCT' => $idCT,
-            'NUMCHASSIS' => $this->request->getPost('chassis'),
-            'IMAT' => $this->request->getPost('immatriculation'),
-            'ANNEE' => $this->request->getPost('annee')
-        ]);
+        $existingPossede = $possedeModel->where('IDCLIENT', $idClient)->where('IDVEHICULE', $idVehicule)->first();
+        $ctModel = model('CTModel');
+        $idCT = null;
+        if ($existingPossede) {
+            $idCT = $existingPossede['IDCT'] ?? null;
+            if ($idCT) {
+                $ctModel->save([
+                    'IDCT' => $idCT,
+                    'DATECT' => $date,
+                    'HEURE' => $heure,
+                ]);
+            } else {
+                $idCT = $ctModel->insert([
+                    'DATECT' => $date,
+                    'HEURE' => $heure,
+                ], true);
+            }
+        } else {
+            $idCT = $ctModel->insert([
+                'DATECT' => $date,
+                'HEURE' => $heure,
+            ], true);
+        }
+
+        // Possede: créer si absent, sinon mettre à jour
+        $possedeData = [
+            'NUMCHASSIS' => $chassis,
+            'IMAT' => $immat,
+            'ANNEE' => $annee,
+        ];
+        if ($existingPossede) {
+            $possedeModel->where('IDCLIENT', $idClient)
+                ->where('IDVEHICULE', $idVehicule)
+                ->set(array_merge(['IDCT' => $idCT], $possedeData))
+                ->update();
+        } else {
+            $possedeModel->insert(array_merge([
+                'IDVEHICULE' => $idVehicule,
+                'IDCLIENT' => $idClient,
+                'IDCT' => $idCT,
+            ], $possedeData));
+        }
+
         $db->transComplete();
 
         if ($db->transStatus() === false) {
