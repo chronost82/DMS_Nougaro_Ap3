@@ -15,7 +15,7 @@
 
     <div class="form-contact">
         <img src="img/bandeau_lycee.png">
-        <H1>Demande de rendez-vous</H1>
+        <H1>Pré contrôle Technique Gratuit</H1>
         <form action="<?= url_to('admin-ajout-demande') ?>" method="post">
             <div class="inputbox">
                 <input type="text" required="required" name="nom" id="name">
@@ -38,6 +38,7 @@
                     <option value="" disabled selected>Marque</option>
                     <?php foreach ($marques as $marque): ?>
                         <option value="<?= esc($marque['MARQUE']) ?>"><?= esc($marque['MARQUE']) ?></option>
+                        <option value="">Autre - Ajouter votre marque</option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -49,7 +50,10 @@
             <div class="inputbox">
                 <input type="submit" id="valid" value="Envoyer">
             </div>
-            <a href="">Vous avez déjà fait un contrôle technique ?</a>
+            <p>- - - </p>
+            <a href="">Êtes-vous déja inscrit ?</a>
+            <a id="infoPreCt" href="">Qu’est-ce qu’un précontrôle technique ?</a>
+            <a href="">Quels véhicules sont concernés?</a>
         </form>
     </div>
 

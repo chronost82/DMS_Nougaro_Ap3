@@ -16,7 +16,7 @@ body {
 }
 
 form {
-    width: max-content;
+    width: 60%;
     text-align: center;
 }
 
@@ -57,7 +57,7 @@ form {
 
 .form-contact .inputbox input:not([type="submit"]),
 .form-contact .inputbox select {
-    width: 90%;
+    width: 100%;
     border: 2px solid #000;
     outline: none;
     background: none;
@@ -65,6 +65,7 @@ form {
     border-radius: 10px;
     font-size: 1.2em;
     align-items: center;
+    max-width: -webkit-fill-available;
 }
 
 .form-contact .inputbox input[type="submit"] {
