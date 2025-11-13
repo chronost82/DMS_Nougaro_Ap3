@@ -165,6 +165,8 @@ tbody tr:hover {
 }
 
 /* Variantes secondaires héritées (compatibilité avec ancien markup) */
+.btn-edit,
+.btn-danger,
 .btn-secondary,
 .btn-success,
 .btn-warning {
@@ -191,6 +193,24 @@ tbody tr:hover {
     color: #1e293b;
     border: none;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
+}
+
+.btn-edit {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 4px -1px rgba(59, 130, 246, .4), 0 1px 2px rgba(0, 0, 0, .08);
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 4px -1px rgba(239, 68, 68, .35), 0 1px 2px rgba(0, 0, 0, .08);
+}
+
+.btn-danger:hover {
+    background: #dc2626;
 }
 
 .btn-secondary:hover {
@@ -262,7 +282,6 @@ tbody tr:hover {
 /* (Déprécié) success/warning héritent du style générique désormais */
 
 /* Bouton de déconnexion / danger (accent rouge clair) */
-.btn-danger,
 .disconnect {
     border-color: #fecaca;
     background: #fee2e2;
@@ -283,7 +302,6 @@ tbody tr:hover {
     box-shadow: 0 2px 4px -1px rgba(239, 68, 68, .35), 0 1px 2px rgba(0, 0, 0, .08);
 }
 
-.btn-danger:hover,
 .disconnect:hover {
     background: #fecaca;
 }

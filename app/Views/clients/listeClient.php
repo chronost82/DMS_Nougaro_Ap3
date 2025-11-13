@@ -23,8 +23,8 @@
                     esc($client['PRENOM']),
                     esc($client['TEL']),
                     esc($client['EMAIL']),
-                    '<a class="btn-warning" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
-                    '<a class="btn btn-danger" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Supprimer</a>'
+                    '<a class="btn-edit" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
+                    '<a class="btn-danger" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Supprimer</a>'
                 );
             }
             echo $tableauclient->generate();
