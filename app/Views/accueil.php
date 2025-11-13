@@ -47,13 +47,13 @@
                     <option value="" disabled selected>Modèle</option>
                 </select>
             </div>
-            <div class="inputbox">
+            <div class="inputboxsub">
                 <input type="submit" id="valid" value="Envoyer">
             </div>
-            <p>- - - </p>
-            <a href="">Êtes-vous déja inscrit ?</a>
-            <a id="infoPreCt" href="">Qu’est-ce qu’un précontrôle technique ?</a>
-            <a href="">Quels véhicules sont concernés?</a>
+            <p>- - - - -</p>
+            <a href="">Êtes-vous déja inscrit ?</a><br>
+            <a id="infoPreCt" href="">Qu’est-ce qu’un précontrôle technique ?</a><br>
+            <a href="pdf/moto concerne.pdf">Quels véhicules sont concernés?</a>
         </form>
     </div>
 
