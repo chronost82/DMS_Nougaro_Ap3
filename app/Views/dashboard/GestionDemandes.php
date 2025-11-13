@@ -193,7 +193,6 @@ $valOrPlaceholder = static function ($v) {
                 </label>
                 <label>Immatriculation
                     <input type="text" name="immatriculation" id="f-immatriculation" required
-                        pattern="^(?:[A-Z]{2}[- ]?[0-9]{3}[- ]?[A-Z]{2}|[0-9]{2,4}[- ]?[A-Z]{2,3}[- ]?[0-9]{2})$"
                         placeholder="AA-123-AA ou 1234 ABC 56"
                         title="SIV: AA-123-AA — Ancien: 2-4 chiffres, 2-3 lettres, 2 chiffres (département)"
                         oninput="this.value = this.value.toUpperCase()" maxlength="11">
