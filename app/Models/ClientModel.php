@@ -58,17 +58,14 @@ class CLIENTModel extends Model
         $demandeModel = model("Demande");
         $demandeModel->where('IDCLIENT', $id)->delete();
 
-        $possedeModel = model("PossedeModel");
-        $ctID = $possedeModel->select('IDCT')->where('IDCLIENT', $id)->first();
-        // dd($ctID);
-        $possedeModel->where('IDCLIENT', $id)->delete();
+        // $possedeModel = model("PossedeModel");
+        // $ctID = $possedeModel->select('IDCT')->where('IDCLIENT', $id)->first();
+        // // dd($ctID);
+        // $possedeModel->where('IDCLIENT', $id)->delete();
 
-        if (!empty($ctID)) {
-            $ctModel = model("CTModel");
-            $ctModel->where('IDCT', $ctID)->delete();
-        }
-
-        // Supprimer le client
-        $this->delete($id);
+        // if (!empty($ctID)) {
+        //     $ctModel = model("CTModel");
+        //     $ctModel->where('IDCT', $ctID)->delete();
+        // }
     }
 }
