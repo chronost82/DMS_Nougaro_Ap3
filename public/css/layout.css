@@ -95,7 +95,8 @@ tbody tr:hover {
 
 /* Contrainte de largeur centrale des vues */
 .container {
-    max-width: 1300px;
+    min-width: 1300px;
+    max-width: max-content;
     margin: 0 auto;
 }
 

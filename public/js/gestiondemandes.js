@@ -73,6 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // Gestion globale de data-actions-for en dehors du tableau
+        document.querySelectorAll('[data-actions-for]').forEach(el => {
+            // Skip éléments déjà traités dans le tableau
+            if (el.closest('tbody')) return;
+            const target = el.getAttribute('data-actions-for');
+            const shouldShow = (selected === 'tous') || (selected === target);
+            el.style.display = shouldShow ? '' : 'none';
+        });
+
         if (counter) counter.textContent = `${visibleCount} ${visibleCount > 1 ? 'éléments' : 'élément'}`;
     }
 

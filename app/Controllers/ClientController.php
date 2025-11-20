@@ -44,7 +44,20 @@ class ClientController extends BaseController
         return redirect('liste-clients');
     }
 
-    public function mail(){
-        return redirect("liste-clients");
+    public function mail()
+    {
+        $ClientsModel = model('ClientModel');
+
+        // Récupération des emails
+        $emails = $ClientsModel->select('email')->findAll();
+
+        if (empty($emails)) {
+            return 'Aucun email trouvé.';
+        }
+
+        $content = implode("\n", array_column($emails, 'email'));
+        $filename = 'emails_Clients_' . date('Y-m-d') . '.txt';
+
+        return $this->response->download($filename, $content);
     }
 }

@@ -84,9 +84,14 @@ class DemandeController extends BaseController
         return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande supprimée avec succès.');
     }
 
-    public function modif()
+    public function deleteDemandeValide(int $id)
     {
-        // Réservé pour une future implémentation
+        if (empty($id)){
+            return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('error', 'ID de la demande invalide.');
+        }
+        $clientModel = model('ClientModel');
+        $clientModel->deleteAllById($id);
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande et données associées supprimées avec succès.');
     }
 
     public function update()
@@ -208,7 +213,7 @@ class DemandeController extends BaseController
             if ($db->transStatus() === false) {
                 return redirect()->back()->withInput()->with('error', 'Erreur lors de l\'enregistrement partiel.');
             }
-            return redirect()->back()->with('success', 'Client/CT/Possession mis à jour. Demande conservée en attente.');
+            return redirect()->back()->with('success', 'Les informations ont été mise à jour. Pour valider la demande, veuillez compléter les informations manquantes.');
         }
 
         // Flux complet (toutes infos remplies) -> validation et création des entités liées
@@ -314,6 +319,13 @@ class DemandeController extends BaseController
         return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande validée avec succès.');
     }
 
+    public function updateToTerminee(int $id)
+    {
+        $demandeModel = model('Demande');
+        $demandeModel->update($id, ['ETAT' => 'terminee']);
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande marquée comme terminée avec succès.');
+    }
+
     public function ajout()
     {
         $vehiculeModel = model('VehiculeModel');
@@ -374,5 +386,22 @@ class DemandeController extends BaseController
             $out[$d][$h] = (int) ($r['C'] ?? 0);
         }
         return $this->response->setJSON($out);
+    }
+
+     public function mail()
+    {
+        $demandeModel = model('Demande');
+
+        // Récupération des emails
+        $emails = $demandeModel->select('email')->where('etat','attente')->findAll();
+
+        if (empty($emails)) {
+            return 'Aucun email trouvé.';
+        }
+
+        $content = implode("\n", array_column($emails, 'email'));
+        $filename = 'emails_Clients_en_attentes' . date('Y-m-d') . '.txt';
+
+        return $this->response->download($filename, $content);
     }
 }

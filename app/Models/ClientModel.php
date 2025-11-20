@@ -12,7 +12,7 @@ class CLIENTModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["NOM","PRENOM","TEL","EMAIL","NUMRANDOM"];
+    protected $allowedFields    = ["NOM", "PRENOM", "TEL", "EMAIL", "NUMRANDOM"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -50,5 +50,22 @@ class CLIENTModel extends Model
             ->join('DEMANDE', 'DEMANDE.IDCLIENT = CLIENT.IDCLIENT', 'left')
             ->orderBy('CLIENT.IDCLIENT', 'ASC')
             ->findAll();
+    }
+
+    public function deleteAllById(int $id): void
+    {
+        // Supprimer les demandes associées au client
+        $demandeModel = model("Demande");
+        $demandeModel->where('IDCLIENT', $id)->delete();
+
+        // $possedeModel = model("PossedeModel");
+        // $ctID = $possedeModel->select('IDCT')->where('IDCLIENT', $id)->first();
+        // // dd($ctID);
+        // $possedeModel->where('IDCLIENT', $id)->delete();
+
+        // if (!empty($ctID)) {
+        //     $ctModel = model("CTModel");
+        //     $ctModel->where('IDCT', $ctID)->delete();
+        // }
     }
 }

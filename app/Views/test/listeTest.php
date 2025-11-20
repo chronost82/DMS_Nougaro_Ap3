@@ -17,8 +17,8 @@
             foreach ($listeTest as $test) {
                 $tableauTest->addRow(
                     esc($test['LIBELLE']),
-                    '<a class="btn-warning" href="' . url_to('modif-test', $test['IDTESTTECHNIQUE']) . '">Modifier</a>',
-                    '<a class="btn btn-danger" href="' . url_to('test-suppr', $test['IDTESTTECHNIQUE']) . '">Supprimer</a>'
+                    '<a class="btn-primary" href="' . url_to('modif-test', $test['IDTESTTECHNIQUE']) . '">Modifier</a>',
+                    '<a class="btn-danger" href="' . url_to('test-suppr', $test['IDTESTTECHNIQUE']) . '">Supprimer</a>'
                 );
             }
             echo $tableauTest->generate();
