@@ -46,8 +46,10 @@
             </div>
             <div class="inputbox" id="selectModele">
                 <select name="modele" id="modele" required="required">
-                    <option value="" disabled selected>Modèle</option>
+                    <option value="" disabled selected id="labelModele">Modèle</option>
                 </select>
+            </div>
+            <div class="" id="addModele">
             </div>
             <div class="inputboxsub">
                 <input type="submit" id="valid" value="Envoyer">

@@ -71,8 +71,32 @@ function selectOptionModele() {
         selectMarque.addEventListener('change', function () { rebuildModeles(selectMarque.value); });
         if (selectMarque.value) {
             rebuildModeles(selectMarque.value);
+            let optAutre = document.createElement('option');
+            optAutre.value = "Autre";
+            optAutre.textContent = "Autre - Saisir son modèle";
+            selectModele.appendChild(optAutre);
         } else {
             selectModele.disabled = true;
+        }
+    }
+
+    modele.onchange = function () {
+        console.log(modele.value);
+        if (modele.value == "Autre") {
+            addModele.classList.add("inputbox");
+            addModele.innerHTML = "<input type=\"text\" required=\"required\" name=\"modeleAjout\" id=\"modeleAjout\" class=\"marque\" placeholder=\"Exemple de modèle : Yamaha, Honda ...\"><button type=\"button\" id=\"boutonModele\" class=\"addButton\">Ajouter</button>";
+            boutonModele.onclick = function () {
+                let opt = document.createElement('option');
+                opt.value = modeleAjout.value;
+                opt.textContent = modeleAjout.value;
+                labelModele.after(opt);
+                modele.value = modeleAjout.value;
+                addModele.classList.remove("inputbox");
+                addModele.innerHTML = "";
+            }
+        } else {
+            addModele.classList.remove("inputbox");
+            addModele.innerHTML = "";
         }
     }
 }
@@ -211,7 +235,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 marque.onchange = function () {
-    console.log(optionMarque);
     if (marque.value == "Autre") {
         addMarque.classList.add("inputbox");
         addMarque.innerHTML = "<input type=\"text\" required=\"required\" name=\"marqueAjout\" id=\"marqueAjout\" class=\"marque\" placeholder=\"Exemple de marque : Yamaha, Honda ...\"><button type=\"button\" id=\"boutonMarque\" class=\"addButton\">Ajouter</button>";
