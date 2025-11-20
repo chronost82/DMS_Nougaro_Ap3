@@ -7,6 +7,23 @@ password : 123456789123
 
 
 
+php spark shield:user create
+username : eleve
+email : eleve@eleve.com
+password : 123456789123
+
+le login se fait avec le username
+
+php spark shield:user addgroup
+Group : prof
+Add user to group by username or email ? [u, e]: u
+Username : prof
+Add the user "prof" to the group "prof" ? [y, n]: y
+
+
+
+
+
 
 EN PROD
 -----------------------------------------------
