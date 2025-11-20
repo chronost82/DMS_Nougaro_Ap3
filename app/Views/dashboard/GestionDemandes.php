@@ -126,7 +126,7 @@ $valOrPlaceholder = static function ($v) {
                                             <form method="get" action="<?= url_to('admin-suppr-demande-en-attente', $c['IDDEMANDE']) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ?');">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE'] ?? '') ?>">
-                                                <button type="submit" class="btn-secondary" title="Supprimer">Supprimer</button>
+                                                <button type="submit" class="btn-danger" title="Supprimer">Supprimer</button>
                                             </form>
                                         </div>
                                         <div class="action-set" data-actions-for="validee" style="display:none">
@@ -134,7 +134,7 @@ $valOrPlaceholder = static function ($v) {
                                             <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande et toutes les données associées ?');">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDCLIENT'] ?? '') ?>">
-                                                <button type="submit" class="btn-secondary" title="Supprimer">Supprimer</button>
+                                                <button type="submit" class="btn-danger" title="Supprimer">Supprimer</button>
                                             </form>
                                         </div>
                                         <div class="action-set" data-actions-for="terminee" style="display:none">
@@ -142,7 +142,7 @@ $valOrPlaceholder = static function ($v) {
                                             <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande et toutes les données associées ?');">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDCLIENT'] ?? '') ?>">
-                                                <button type="submit" class="btn-secondary" title="Supprimer">Supprimer</button>
+                                                <button type="submit" class="btn-danger" title="Supprimer">Supprimer</button>
                                             </form>
                                         </div>
                                     </div>
