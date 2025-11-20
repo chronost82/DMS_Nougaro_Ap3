@@ -53,7 +53,7 @@ $valOrPlaceholder = static function ($v) {
                 <p class="muted">Gestion des demandes</p>
             </div>
             <form method="post">
-                <button class="btn-warning" type="submit" name="recup-mail">Récupération des adresses mails des clients en attentes</button>
+                <button class="btn-warning" data-actions-for="en-attente" type="submit" name="recup-mail">Récupération des adresses mails des clients en attentes</button>
             </form>
             <div class="filters" role="radiogroup" aria-label="Filtrer par statut (un seul à la fois)">
                 <span class="muted" aria-hidden="true">Filtrer</span>
