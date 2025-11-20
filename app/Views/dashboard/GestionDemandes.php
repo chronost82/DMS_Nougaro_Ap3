@@ -122,7 +122,7 @@ $valOrPlaceholder = static function ($v) {
                                 <td class="actions">
                                     <div class="action-buttons">
                                         <div class="action-set" data-actions-for="en-attente" style="display:none">
-                                            <button type="button" data-role="edit" class="btn-primary" title="Modifier" data-role="edit">Modifier</button>
+                                            <button type="button" data-role="edit" class="btn-primary" title="Completer" data-role="edit">Compléter</button>
                                             <form method="get" action="<?= url_to('admin-suppr-demande-en-attente', $c['IDDEMANDE']) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ?');">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE'] ?? '') ?>">
