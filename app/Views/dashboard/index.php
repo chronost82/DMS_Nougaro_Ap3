@@ -76,6 +76,8 @@
                 </div>
             </a>
 
+            <?php
+            if (auth()->user()->inGroup('prof')) {?>
             <a class="action-card" href="<?= url_to('liste-clients') ?>">
                 <div class="action-icon" aria-hidden="true">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,6 +113,7 @@
                     <p>Gérez les élèves et leurs affectations.</p>
                 </div>
             </a>
+            <?php };?>
         </section>
     </main>
 </div>

@@ -38,9 +38,13 @@
         </div>
         <nav id="mainNav" class="top-nav__inner">
             <a href="<?= url_to('admin-liste-demandes-en-attentes') ?>" class="<?= nav_btn_class('admin-liste-demandes-en-attentes') ?>">Demandes en attente</a>
+
+            <?php
+            if (auth()->user()->inGroup('prof')) {?>
             <a href="<?= url_to('liste-clients') ?>" class="<?= nav_btn_class('liste-clients') ?>">Liste des clients</a>
             <a href="<?= url_to('test-liste') ?>" class="<?= nav_btn_class('test-liste') ?>">Liste des tests</a>
             <a href="<?= url_to('liste-eleve') ?>" class="<?= nav_btn_class('liste-eleve') ?>">Liste des élèves</a>
+            <?php };?>
             <a href="<?= url_to('logout'); ?>" class="btn disconnect" title="Se déconnecter">Déconnexion</a>
         </nav>
     </header>

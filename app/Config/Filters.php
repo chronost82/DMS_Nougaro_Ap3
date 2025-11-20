@@ -44,6 +44,7 @@ class Filters extends BaseFilters
         'force-reset' => \CodeIgniter\Shield\Filters\ForcePasswordResetFilter::class,
         'jwt'         => \CodeIgniter\Shield\Filters\JWTAuth::class,
 
+
     ];
 
     /**
@@ -85,7 +86,7 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
-            'session' => ['except' => ['/','login*','auth/a/*', 'logout', 'ajout-demande']],
+            'session' => ['except' => ['/', 'login*', 'auth/a/*', 'logout', 'ajout-demande']],
         ],
         'after' => [
             // 'honeypot',
@@ -106,8 +107,7 @@ class Filters extends BaseFilters
      *
      * @var array<string, list<string>>
      */
-    public array $methods = [
-    ];
+    public array $methods = [];
 
     /**
      * List of filter aliases that should run on any
