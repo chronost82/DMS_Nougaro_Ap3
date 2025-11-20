@@ -127,11 +127,20 @@ $valOrPlaceholder = static function ($v) {
                                             </form>
                                         </div>
                                         <div class="action-set" data-actions-for="validee" style="display:none">
-                                            <a href="" rel="noopener noreferrer" class="btn-primary">Faire CT</a>
-                                            <a href="" class="btn-secondary">Supprimer</a>
+                                            <a href="<?= url_to('admin-valide-demande-en-attente', $c['IDDEMANDE'] ?? 0) ?>" rel="noopener noreferrer" class="btn-primary">Faire CT</a>
+                                            <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande et toutes les données associées ?');">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="id" value="<?= esc($c['IDCLIENT'] ?? '') ?>">
+                                                <button type="submit" class="btn-secondary" title="Supprimer">Supprimer</button>
+                                            </form>
                                         </div>
                                         <div class="action-set" data-actions-for="terminee" style="display:none">
-                                            <!-- Actions pour terminée -->
+                                            <a href="" rel="noopener noreferrer" class="btn-primary">Voir rapport</a>
+                                            <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande et toutes les données associées ?');">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="id" value="<?= esc($c['IDCLIENT'] ?? '') ?>">
+                                                <button type="submit" class="btn-secondary" title="Supprimer">Supprimer</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </td>

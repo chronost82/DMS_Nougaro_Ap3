@@ -84,9 +84,14 @@ class DemandeController extends BaseController
         return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande supprimée avec succès.');
     }
 
-    public function modif()
+    public function deleteDemandeValide(int $id)
     {
-        // Réservé pour une future implémentation
+        if (empty($id)){
+            return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('error', 'ID de la demande invalide.');
+        }
+        $clientModel = model('ClientModel');
+        $clientModel->deleteAllById($id);
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande et données associées supprimées avec succès.');
     }
 
     public function update()
@@ -312,6 +317,13 @@ class DemandeController extends BaseController
         }
 
         return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande validée avec succès.');
+    }
+
+    public function updateToTerminee(int $id)
+    {
+        $demandeModel = model('Demande');
+        $demandeModel->update($id, ['ETAT' => 'terminee']);
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande marquée comme terminée avec succès.');
     }
 
     public function ajout()
