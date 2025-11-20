@@ -375,4 +375,21 @@ class DemandeController extends BaseController
         }
         return $this->response->setJSON($out);
     }
+
+     public function mail()
+    {
+        $demandeModel = model('Demande');
+
+        // Récupération des emails
+        $emails = $demandeModel->select('email')->where('etat','attente')->findAll();
+
+        if (empty($emails)) {
+            return 'Aucun email trouvé.';
+        }
+
+        $content = implode("\n", array_column($emails, 'email'));
+        $filename = 'emails_Clients_en_attentes' . date('Y-m-d') . '.txt';
+
+        return $this->response->download($filename, $content);
+    }
 }
