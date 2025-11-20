@@ -8,7 +8,7 @@
     <title><?= esc($title ?? 'Atelier MV') ?></title>
 </head>
 
-<div class="container" style="max-width:560px;">
+<div class="login" style="max-width:560px;">
     <div class="card form-panel">
         <h1 style="margin:0 0 .75rem 0; font-size:1.25rem;"><?= lang('Auth.login') ?></h1>
 
