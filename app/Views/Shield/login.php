@@ -10,7 +10,7 @@
 
 <div class="login" style="max-width:560px;">
     <div class="card form-panel">
-        <h1 style="margin:0 0 .75rem 0; font-size:1.25rem;"><?= lang('Auth.login') ?></h1>
+        <h1 style="margin:0 0 .75rem 0; font-size:1.25rem;">Connexion</h1>
 
         <?php if (session('error') !== null) : ?>
             <div class="warning"><?= esc(session('error')) ?></div><br>
@@ -34,23 +34,23 @@
             <?= csrf_field() ?>
 
             <div class="form-grid-2">
-                <label style="flex-direction: column" for="usernameInput"><?= lang('Auth.username') ?>
-                    <input type="text" id="usernameInput" name="username" inputmode="username" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required>
+                <label style="flex-direction: column" for="usernameInput"><?php echo "Nom d'utilisateur"?>
+                    <input type="text" id="usernameInput" name="username" inputmode="username" autocomplete="username" placeholder="Nom d'utilisateur" value="<?= old('username') ?>" required>
                 </label>
-                <label style="flex-direction: column" for="passwordInput"><?= lang('Auth.password') ?>
-                    <input type="password" id="passwordInput" name="password" inputmode="text" autocomplete="current-password" placeholder="<?= lang('Auth.password') ?>" required>
+                <label style="flex-direction: column" for="passwordInput"><?php echo "Mot de passe"?>
+                    <input type="password" id="passwordInput" name="password" inputmode="text" autocomplete="current-password" placeholder="Mot de passe" required>
                 </label>
             </div>
 
             <?php if (setting('Auth.sessionConfig')['allowRemembering']): ?>
                 <label style="flex-direction:row; align-items:center; gap:.5rem; text-transform:none; font-weight:500;">
                     <input type="checkbox" name="remember" <?php if (old('remember')): ?> checked<?php endif ?>>
-                    <?= lang('Auth.rememberMe') ?>
+                    <?php echo "Se souvenir de moi" ?>
                 </label>
             <?php endif; ?>
 
             <div class="form-footer">
-                <button type="submit" class="btn-primary"><?= lang('Auth.login') ?></button>
+                <button type="submit" class="btn-primary">Connexion</button>
             </div>
 
             <?php if (setting('Auth.allowMagicLinkLogins')) : ?>
