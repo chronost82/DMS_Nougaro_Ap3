@@ -1,5 +1,7 @@
 "use strict";
 
+const optionMarque = Array.from(marque.options).map(option => option.value);
+
 function isValidEmail(email) {
     let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
@@ -11,14 +13,13 @@ function isValidPhone(tel) {
 }
 
 window.onload = function () {
-    let nameEl = document.getElementById("name");
+    let nameEl = document.getElementById("nom");
     if (nameEl && typeof nameEl.focus === 'function') {
         nameEl.focus();
     }
 };
 
-// Filtre les modèles selon la marque choisie (sans requête serveur)
-document.addEventListener('DOMContentLoaded', function () {
+function selectOptionModele() {
     let selectMarque = document.getElementById('marque');
     let selectModele = document.getElementById('modele');
     if (!selectMarque || !selectModele) return;
@@ -74,6 +75,12 @@ document.addEventListener('DOMContentLoaded', function () {
             selectModele.disabled = true;
         }
     }
+}
+
+// Filtre les modèles selon la marque choisie (sans requête serveur)
+document.addEventListener('DOMContentLoaded', function () {
+
+    selectOptionModele();
 
     // Modal + soumission contrôlée
     let form = document.querySelector('.form-contact form') || document.querySelector('form');
@@ -142,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             modalTitle.textContent = 'Merci de votre demande!';
 
-            modalText.textContent = 'Vos informations ont bien été prises en compte. Vous serez contacté dans les plus brefs délais.';
+            modalText.innerHTML = 'Vos informations ont bien été prises en compte.<br>Vous serez contacté dans les plus brefs délais.';
 
             // un seul handler de confirmation pour soumettre après clic sur "D'accord"
             let onConfirm = function () {
@@ -202,3 +209,36 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 });
+
+marque.onchange = function () {
+    console.log(optionMarque);
+    if (marque.value == "Autre") {
+        addMarque.classList.add("inputbox");
+        addMarque.innerHTML = "<input type=\"text\" required=\"required\" name=\"marqueAjout\" id=\"marqueAjout\" class=\"marque\" placeholder=\"Exemple de marque : Yamaha, Honda ...\"><button type=\"button\" id=\"boutonMarque\" class=\"addButton\">Ajouter</button>";
+        boutonMarque.onclick = function () {
+            let opt = document.createElement('option');
+            opt.value = marqueAjout.value;
+            opt.textContent = marqueAjout.value;
+            labelMarque.after(opt);
+            marque.value = marqueAjout.value;
+            addMarque.classList.remove("inputbox");
+            addMarque.innerHTML = "";
+            selectModele.innerHTML = "<input name=\"modele\" id=\"modeleAjout\" required=\"required\" placeholder=\"Exemple de modèle : MT-07, R1250GS ...\">";
+        }
+    } else {
+        addMarque.classList.remove("inputbox");
+        addMarque.innerHTML = "";
+    }
+
+    if (!optionMarque.includes(marque.value)) {
+        selectModele.innerHTML = "<input name=\"modele\" id=\"modeleAjout\" required=\"required\" placeholder=\"Exemple de modèle : MT-07, R1250GS ...\">";
+    } else {
+        selectModele.innerHTML = "<select name=\"modele\" id=\"modele\" required=\"required\"><option value=\"\" disabled selected>Modèle</option></select>";
+        selectOptionModele();
+    }
+}
+
+prenomSpan.onclick = function () { prenom.focus() }
+nomSpan.onclick = function () { nom.focus() }
+errorEmail.onclick = function () { email.focus() }
+errorTel.onclick = function () { tel.focus() }
