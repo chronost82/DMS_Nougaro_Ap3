@@ -213,7 +213,7 @@ class DemandeController extends BaseController
             if ($db->transStatus() === false) {
                 return redirect()->back()->withInput()->with('error', 'Erreur lors de l\'enregistrement partiel.');
             }
-            return redirect()->back()->with('success', 'Client/CT/Possession mis à jour. Demande conservée en attente.');
+            return redirect()->back()->with('success', 'Les informations ont été mise à jour. Pour valider la demande, veuillez compléter les informations manquantes.');
         }
 
         // Flux complet (toutes infos remplies) -> validation et création des entités liées
