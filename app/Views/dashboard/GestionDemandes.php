@@ -52,6 +52,9 @@ $valOrPlaceholder = static function ($v) {
                 <h1>Dashboard</h1>
                 <p class="muted">Gestion des demandes</p>
             </div>
+            <form method="post">
+                <button class="btn-warning" data-actions-for="en-attente" type="submit" name="recup-mail">Récupération des adresses mails des demandes en attentes</button>
+            </form>
             <div class="filters" role="radiogroup" aria-label="Filtrer par statut (un seul à la fois)">
                 <span class="muted" aria-hidden="true">Filtrer</span>
                 <label class="check"><input type="radio" name="statusFilter" data-status="tous" <?= $status === 'tous' ? 'checked' : '' ?>> <span>Tous</span></label>
@@ -119,19 +122,28 @@ $valOrPlaceholder = static function ($v) {
                                 <td class="actions">
                                     <div class="action-buttons">
                                         <div class="action-set" data-actions-for="en-attente" style="display:none">
-                                            <button type="button" data-role="edit" class="btn-primary" title="Modifier" data-role="edit">Modifier</button>
+                                            <button type="button" data-role="edit" class="btn-primary" title="Completer" data-role="edit">Compléter</button>
                                             <form method="get" action="<?= url_to('admin-suppr-demande-en-attente', $c['IDDEMANDE']) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ?');">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDDEMANDE'] ?? '') ?>">
-                                                <button type="submit" class="btn-secondary" title="Supprimer">Supprimer</button>
+                                                <button type="submit" class="btn-danger" title="Supprimer">Supprimer</button>
                                             </form>
                                         </div>
                                         <div class="action-set" data-actions-for="validee" style="display:none">
-                                            <a href="" rel="noopener noreferrer" class="btn-primary">Faire CT</a>
-                                            <a href="" class="btn-secondary">Supprimer</a>
+                                            <a href="<?= url_to('admin-valide-demande-en-attente', $c['IDDEMANDE'] ?? 0) ?>" rel="noopener noreferrer" class="btn-primary">Faire CT</a>
+                                            <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande et toutes les données associées ?');">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="id" value="<?= esc($c['IDCLIENT'] ?? '') ?>">
+                                                <button type="submit" class="btn-danger" title="Supprimer">Supprimer</button>
+                                            </form>
                                         </div>
                                         <div class="action-set" data-actions-for="terminee" style="display:none">
-                                            <!-- Actions pour terminée -->
+                                            <a href="" rel="noopener noreferrer" class="btn-primary">Voir rapport</a>
+                                            <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande et toutes les données associées ?');">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="id" value="<?= esc($c['IDCLIENT'] ?? '') ?>">
+                                                <button type="submit" class="btn-danger" title="Supprimer">Supprimer</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </td>
@@ -190,7 +202,7 @@ $valOrPlaceholder = static function ($v) {
                 </label>
                 <label>Immatriculation
                     <input type="text" name="immatriculation" id="f-immatriculation"
-                        placeholder="AA-123-AA ou 1234 ABC 56"
+                        placeholder="AA123AA ou 1234ABC56"
                         title="SIV: AA-123-AA — Ancien: 2-4 chiffres, 2-3 lettres, 2 chiffres (département)"
                         oninput="this.value = this.value.toUpperCase()" maxlength="11">
                 </label>

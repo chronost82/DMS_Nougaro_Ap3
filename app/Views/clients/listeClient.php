@@ -6,7 +6,7 @@
         <div style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px;">
             <h1>Liste des clients</h1>
             <form method="post">
-                <button class="btn-warning" type="submit" name="recup-mail">Récupération des adresses mails</button>
+                <button class="btn-warning" type="submit" name="recup-mail">Récupération des adresses mails des clients</button>
             </form>
         </div>
         <div class="table-wrap" style="padding: 8px 12px 16px;">

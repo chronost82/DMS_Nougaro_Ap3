@@ -18,12 +18,12 @@
         <H1>Pré contrôle Technique Gratuit</H1>
         <form action="<?= url_to('admin-ajout-demande') ?>" method="post">
             <div class="inputbox">
-                <input type="text" required="required" name="nom" id="name">
-                <span>Nom</span>
+                <input type="text" required="required" name="nom" id="nom">
+                <span id="nomSpan">Nom</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required" name="prenom">
-                <span>Prenom</span>
+                <input type="text" required="required" name="prenom" id="prenom">
+                <span id="prenomSpan">Prenom</span>
             </div>
             <div class="inputbox">
                 <input type="text" required="required" name="email" id="email">
@@ -33,16 +33,18 @@
                 <input type="text" required="required" name="tel" id="tel">
                 <span class="" id="errorTel">Téléphone</span>
             </div>
-            <div class="inputbox">
+            <div class="inputbox" id="selectMarque">
                 <select name="marque" id="marque" required="required">
-                    <option value="" disabled selected>Marque</option>
-                    <option value="">Autre - Ajouter votre marque</option>
+                    <option value="" disabled selected id="labelMarque">Marque</option>
                     <?php foreach ($marques as $marque): ?>
                         <option value="<?= esc($marque['MARQUE']) ?>"><?= esc($marque['MARQUE']) ?></option>
                     <?php endforeach; ?>
+                    <option value="Autre">Autre - Ajouter votre marque</option>
                 </select>
             </div>
-            <div class="inputbox">
+            <div class="" id="addMarque">
+            </div>
+            <div class="inputbox" id="selectModele">
                 <select name="modele" id="modele" required="required">
                     <option value="" disabled selected>Modèle</option>
                 </select>
@@ -50,12 +52,13 @@
             <div class="inputboxsub">
                 <input type="submit" id="valid" value="Envoyer">
             </div>
-            <p>- - - - -</p>
-            <a href="">Êtes-vous déja inscrit ?</a><br>
-            <a id="infoPreCt" href="">Qu’est-ce qu’un pré contrôle technique ?</a><br>
-            <a href="pdf/moto concerne.pdf">Quels véhicules sont concernés?</a>
+            <div class="lien">
+                <a href="">Êtes-vous déja inscrit ?</a><br>
+                <a id="infoPreCt" href="">Qu’est-ce qu’un pré contrôle technique ?</a><br>
+                <a href="pdf/moto concerne.pdf" target="_blank">Quels véhicules sont concernés?</a>
+            </div>
         </form>
-        <p>Fait par le BTS SIO option SLAM 2ème année du lycée Claude Nougaro</p>
+        <p class="credit">Ce site a été réalisé par le BTS SIO option SLAM 2ème année du lycée Claude Nougaro</p>
     </div>
 
 
@@ -74,4 +77,5 @@
             <button class="modalClose" data-close>D'accord</button>
         </div>
 </body>
+
 </html>
