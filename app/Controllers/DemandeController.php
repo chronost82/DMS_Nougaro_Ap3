@@ -112,15 +112,23 @@ class DemandeController extends BaseController
         $isPartial = ((empty($immat) || empty($annee) || empty($chassis)) && !empty($date) && !empty($heure));
         if ($isPartial) {
             // On doit créer/mettre à jour Client, CT et Possede même sans IMAT/ANNEE/CHASSIS (mis à null)
-            // 1) Véhicule
+            // 1) Véhicule: vérifier ou créer si nouveau
             $vehiculeModel = model('VehiculeModel');
             $marque = trim((string) ($this->request->getPost('marque') ?? ''));
             $modele = trim((string) ($this->request->getPost('modele') ?? ''));
             $vehiculeExisting = $vehiculeModel->findVehicule($marque, $modele);
             if (!$vehiculeExisting) {
-                return redirect()->back()->withInput()->with('error', 'Véhicule non trouvé. Veuillez vérifier la marque et le modèle.');
+                // Créer le véhicule s'il n'existe pas
+                $idVehicule = $vehiculeModel->insert([
+                    'MARQUE' => $marque,
+                    'MODELE' => $modele,
+                ], true);
+                if (!$idVehicule) {
+                    return redirect()->back()->withInput()->with('error', 'Erreur lors de la création du véhicule.');
+                }
+            } else {
+                $idVehicule = $vehiculeExisting['IDVEHICULE'];
             }
-            $idVehicule = $vehiculeExisting['IDVEHICULE'];
 
             $db = \Config\Database::connect();
             $db->transStart();
@@ -218,7 +226,7 @@ class DemandeController extends BaseController
 
         // Flux complet (toutes infos remplies) -> validation et création des entités liées
         // Récupérer l'id du véhicule grâce à la marque et au modèle de la demande
-        // Si introuvable, afficher une erreur
+        // Si introuvable, créer le véhicule
         $vehiculeModel = model('VehiculeModel');
         $marque = trim((string) ($this->request->getPost('marque') ?? ''));
         $modele = trim((string) ($this->request->getPost('modele') ?? ''));
@@ -226,7 +234,14 @@ class DemandeController extends BaseController
         if ($vehiculeExisting) {
             $idVehicule = $vehiculeExisting['IDVEHICULE'];
         } else {
-            return redirect()->back()->withInput()->with('error', 'Véhicule non trouvé. Veuillez vérifier la marque et le modèle.');
+            // Créer le véhicule s'il n'existe pas
+            $idVehicule = $vehiculeModel->insert([
+                'MARQUE' => $marque,
+                'MODELE' => $modele,
+            ], true);
+            if (!$idVehicule) {
+                return redirect()->back()->withInput()->with('error', 'Erreur lors de la création du véhicule.');
+            }
         }
 
         $db = \Config\Database::connect();

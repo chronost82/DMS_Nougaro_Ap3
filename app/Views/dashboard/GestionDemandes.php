@@ -192,14 +192,20 @@ $valOrPlaceholder = static function ($v) {
             <div class="grid-3">
                 <label>Marque
                     <select name="marque" id="f-marque" required="required">
-                        <option value="" disabled selected>Marque</option>
+                        <option value="" disabled selected id="f-labelMarque">Marque</option>
+                        <option value="Autre">Autre - Ajouter votre marque</option>
                     </select>
                 </label>
-                <label>Modèle
+                <div id="f-addMarque"></div>
+                <label id="f-selectModele">Modèle
                     <select name="modele" id="f-modele" required="required">
                         <option value="" disabled selected>Modèle</option>
+                        <option value="Autre">Autre - Ajouter votre modèle</option>
                     </select>
                 </label>
+                <div id="f-addModele" style="display:none;">
+                    <input type="text" id="f-custom-modele" placeholder="Entrez le modèle personnalisé" />
+                </div>
                 <label>Immatriculation
                     <input type="text" name="immatriculation" id="f-immatriculation"
                         placeholder="AA123AA ou 1234ABC56"

@@ -196,6 +196,51 @@
   margin-bottom: 6px;
   font-weight: 600;
 }
+
+/* Bouton Ajouter marque */
+#f-addMarque {
+  margin-top: 0.5rem;
+}
+
+#f-addMarque input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  flex: 1;
+}
+
+#f-addMarque button {
+  padding: 0.5rem 1rem;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+#f-addMarque button:hover {
+  background-color: #1976D2;
+}
+
+#f-addMarque button:active {
+  background-color: #0D47A1;
+}
+
+/* Conteneur pour le champ modèle personnalisé */
+#f-addModele {
+  margin-top: 0.5rem;
+}
+
+#f-addModele input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
 /* === Gestion des Demandes ======================================== */
 
 .header {
