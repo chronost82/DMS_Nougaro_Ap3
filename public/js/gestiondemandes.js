@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const ymd = fmtDateYMD(dateObj);
                         cell.dataset.date = ymd;
                         if (state.selectedDate === ymd) cell.classList.add('selected');
-                        const isWeekend = [0,6].includes(dateObj.getDay()); // 0=Dim, 6=Sam
+                        const isWeekend = [0, 6].includes(dateObj.getDay()); // 0=Dim, 6=Sam
                         const isPast = dateObj < today;
                         const isOriginalDate = state.originalDate === ymd;
                         const shouldDisable = (isWeekend || isPast) && !isOriginalDate;
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let pastNow = false;
                 if (state.selectedDate) {
                     const today = new Date();
-                    const ymdToday = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+                    const ymdToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
                     if (state.selectedDate === ymdToday) {
                         const [hh, mm] = t.split(':').map(n => parseInt(n, 10));
                         const slotTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hh, mm, 0, 0);
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const caretEnd = e.target.selectionEnd; // caret handling minimal (optional)
             e.target.value = formatImmat(e.target.value);
             // Optionnel: replacer grossièrement le caret en fin
-            try { e.target.setSelectionRange(e.target.value.length, e.target.value.length); } catch (_) {}
+            try { e.target.setSelectionRange(e.target.value.length, e.target.value.length); } catch (_) { }
         });
     }
 
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         optAutre.value = 'Autre';
         optAutre.textContent = 'Autre - Ajouter votre modèle';
         selectModele.appendChild(optAutre);
-        
+
         selectModele.disabled = selectModele.options.length <= 1;
         if (currentValue && list.includes(currentValue)) {
             selectModele.value = currentValue;
@@ -536,20 +536,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fields[field]) fields[field].value = tr.dataset[key] || '';
         }
 
+        // Normalise les valeurs date/heure si le backend renvoie des formats longs ("YYYY-MM-DD HH:MM:SS").
+        if (fields.date && fields.date.value) fields.date.value = fields.date.value.slice(0, 10);
+        if (fields.heure && fields.heure.value) fields.heure.value = fields.heure.value.slice(0, 5);
+
         // Prépare les listes Marque/Modèle au moment d'ouvrir le modal
         const mm = buildMarqueModeleMap();
         const currentMarque = (tr.dataset.marque || '').trim();
         const currentModele = (tr.dataset.modele || '').trim();
         const optionMarque = [];
         fillMarquesSelect(mm, fields.marque, currentMarque);
-        
+
         // Gestion dynamique "Autre" marque/modèle
         const divAddModele = document.getElementById('f-addModele');
         const inputCustomModele = document.getElementById('f-custom-modele');
-        
+
         // Gestionnaire pour le select modèle (option Autre)
         if (fields.modele && fields.modele.tagName === 'SELECT') {
-            fields.modele.onchange = function() {
+            fields.modele.onchange = function () {
                 if (this.value === 'Autre') {
                     if (divAddModele) {
                         divAddModele.style.display = 'block';
@@ -563,13 +567,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
         }
-        
+
         if (fields.marque) {
             fields.marque.onchange = function () {
                 const addMarqueDiv = document.getElementById('f-addMarque');
                 const selectModeleLabel = document.getElementById('f-selectModele');
                 const optionMarqueValues = Array.from(fields.marque.options).map(opt => opt.value);
-                
+
                 if (fields.marque.value === 'Autre') {
                     // Ajouter champ marque custom
                     if (addMarqueDiv) {
@@ -577,7 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const btnMarque = document.getElementById('f-boutonMarque');
                         const inputMarque = document.getElementById('f-marqueAjout');
                         if (btnMarque && inputMarque) {
-                            btnMarque.onclick = function() {
+                            btnMarque.onclick = function () {
                                 const newMarque = inputMarque.value.trim();
                                 if (!newMarque) return;
                                 const labelMarque = document.getElementById('f-labelMarque');
@@ -605,7 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (addMarqueDiv) addMarqueDiv.innerHTML = '';
                     // Réinitialiser addModele
                     if (divAddModele) divAddModele.style.display = 'none';
-                    
+
                     // Si marque n'est pas dans les options d'origine, modèle = input libre
                     if (!optionMarqueValues.includes(fields.marque.value)) {
                         if (selectModeleLabel) {
@@ -619,10 +623,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             fields.modele = document.getElementById('f-modele');
                         }
                         fillModelesSelect(mm, fields.modele, fields.marque.value, '');
-                        
+
                         // Ajouter le gestionnaire onchange pour le nouveau select modèle
                         if (fields.modele && fields.modele.tagName === 'SELECT') {
-                            fields.modele.onchange = function() {
+                            fields.modele.onchange = function () {
                                 if (this.value === 'Autre') {
                                     if (divAddModele) {
                                         divAddModele.style.display = 'block';
@@ -684,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Veuillez choisir une date et une heure pour le contrôle technique.');
                 return;
             }
-            
+
             // Si modèle "Autre" est sélectionné, utiliser la valeur personnalisée
             const selectModeleEl = document.getElementById('f-modele');
             const inputCustomModele = document.getElementById('f-custom-modele');

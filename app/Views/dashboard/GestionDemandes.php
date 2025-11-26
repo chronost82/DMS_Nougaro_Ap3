@@ -206,14 +206,8 @@ $valOrPlaceholder = static function ($v) {
                 <div id="f-addModele" style="display:none;">
                     <input type="text" id="f-custom-modele" placeholder="Entrez le modèle personnalisé" />
                 </div>
-                <label>Immatriculation
-                    <input type="text" name="immatriculation" id="f-immatriculation"
-                        placeholder="AA123AA ou 1234ABC56"
-                        title="SIV: AA-123-AA — Ancien: 2-4 chiffres, 2-3 lettres, 2 chiffres (département)"
-                        oninput="this.value = this.value.toUpperCase()" maxlength="11">
-                </label>
             </div>
-            <div class="grid-2">
+            <div class="grid-3">
                 <label>Année
                     <input type="number" name="annee" id="f-annee" placeholder="0000" min="1900" max="2100">
                 </label>
@@ -222,6 +216,12 @@ $valOrPlaceholder = static function ($v) {
                         pattern="^[A-HJ-NPR-Z0-9]{17}$" minlength="17" maxlength="17"
                         title="17 caractères alphanumériques sans I, O, Q"
                         oninput="this.value = this.value.toUpperCase()">
+                </label>
+                <label>Immatriculation
+                    <input type="text" name="immatriculation" id="f-immatriculation"
+                        placeholder="AA123AA ou 1234ABC56"
+                        title="SIV: AA-123-AA — Ancien: 2-4 chiffres, 2-3 lettres, 2 chiffres (département)"
+                        oninput="this.value = this.value.toUpperCase()" maxlength="11">
                 </label>
             </div>
             <div class="grid-1 ct-field">
