@@ -20,12 +20,19 @@ class ClientController extends BaseController
         $ClientsModel = model('ClientModel');
         $PossedeModel = model('PossedeModel');
         $CTModel = model('CTModel');
+        $DemandeModel = model('Demande');
+        $verifDemande = $DemandeModel->find($idClient);
+        if ($verifDemande == false) {
 
-        $clientPossede = $PossedeModel->where('IDCLIENT', $idClient)->find();
-        $PossedeModel->delete($idClient);
-        $ClientsModel->delete($clientPossede[0]['IDCLIENT']);
-        $CTModel->delete($clientPossede[0]['IDCT']);
-        return redirect("liste-clients");
+            $clientPossede = $PossedeModel->where('IDCLIENT', $idClient)->find();
+            $PossedeModel->delete($idClient);
+            $ClientsModel->delete($clientPossede[0]['IDCLIENT']);
+            $CTModel->delete($clientPossede[0]['IDCT']);
+            return redirect("liste-clients");
+        }
+        else{
+            redirect("liste-clients");
+        }
     }
 
     public function modif($idClient)
