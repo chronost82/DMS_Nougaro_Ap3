@@ -18,13 +18,10 @@
                     <label for="prenom">Prénom <span class="muted" aria-hidden="true">*</span></label>
                     <input type="text" name="prenom" id="prenom" required autocomplete="given-name" value="<?= esc($eleveAModif['PRENOM']) ?>">
                 </div>
-            </div>
-            <div class="form-row">
                 <div>
-                    <label for="annee">Année de promotion</label>
-                    <input type="text" name="annee" id="annee" value="<?= esc($eleveAModif['ANNEE']) ?>" placeholder="2025">
+                    <label for="annee">Année de scolarité</label>
+                    <input type="text" name="annee" id="annee" value=<?= date('Y') ?> disabled>
                 </div>
-            </div>
         </fieldset>
 
         <div class="form-footer">
