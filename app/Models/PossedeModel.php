@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class POSSEDEModel extends Model
 {
     protected $table            = 'POSSEDE';
-    protected $primaryKey       = 'IDCLIENT, IDVEHICULE, IDCT';
+    protected $primaryKey       = 'IDCLIENT';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
