@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class ElevesModel extends Model
 {
-    protected $table            = 'eleves';
+    protected $table            = 'ELEVES';
     protected $primaryKey       = 'IDELEVE';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

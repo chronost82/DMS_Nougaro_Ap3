@@ -16,9 +16,17 @@ class ClientController extends BaseController
 
     public function delete($idClient)
     {
-        $ClientsModel = model('ClientModel');
-        $ClientsModel->delete($idClient);
-        return redirect("liste-clients");
+        $DemandeModel = model('Demande');
+        $verifDemande = $DemandeModel->find($idClient);
+        if ($verifDemande==false) {
+            $ClientsModel = model('ClientModel');
+            $VehiculeModel=model('VehiculeModel');
+            $VehiculeModel->delete($idClient);
+            $ClientsModel->delete($idClient);
+            return redirect("liste-clients");
+        } else {
+            return redirect("liste-clients");
+        }
     }
 
     public function modif($idClient)
