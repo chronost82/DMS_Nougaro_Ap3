@@ -71,8 +71,9 @@ form {
     padding: 10px;
     border-radius: 10px;
     font-size: 1em;
-    align-items: center;
     max-width: -webkit-fill-available;
+    max-width: -moz-available;
+    max-width: fill-available;
 }
 
 .form-contact .inputboxsub input[type="submit"] {

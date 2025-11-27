@@ -65,6 +65,7 @@
 
 
     <script src="js/accueil.js"></script>
+    <script src="js/switchForm.js"></script>
 
     <!-- Données véhicules (MARQUE, MODELE) pour le filtrage côté client -->
     <script id="vehicules-data" type="application/json">

@@ -410,13 +410,6 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function fillMarquesSelect(map, selectMarque, currentValue) {
         if (!selectMarque) return;
-        const labelMarque = document.getElementById('f-labelMarque');
-        if (labelMarque) {
-            // Vider sauf placeholder et "Autre"
-            while (selectMarque.options.length > 2) selectMarque.remove(1);
-        } else {
-            resetSelectWithPlaceholder(selectMarque, 'Marque');
-        }
         // Récupère la liste de marques depuis le backend en priorité
         let marquesList = [];
         const mEl = document.getElementById('marques-data');
@@ -437,24 +430,41 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             marques = Object.keys(map).sort((a, b) => a.localeCompare(b));
         }
-        const optionMarque = Array.from(selectMarque.options).map(opt => opt.value);
+
+        // Si l'élément est un input avec datalist, remplir la datalist
+        if (selectMarque.tagName === 'INPUT') {
+            const listId = selectMarque.getAttribute('list') || 'marques-datalist';
+            let dlist = document.getElementById(listId);
+            if (!dlist) {
+                dlist = document.createElement('datalist');
+                dlist.id = listId;
+                selectMarque.insertAdjacentElement('afterend', dlist);
+            }
+            dlist.innerHTML = '';
+            marques.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                dlist.appendChild(opt);
+            });
+            if (currentValue && marques.includes(currentValue)) selectMarque.value = currentValue;
+            return;
+        }
+
+        // Sinon comportement pour un select (compatibilité)
+        const labelMarque = document.getElementById('f-labelMarque');
+        if (labelMarque) {
+            while (selectMarque.options.length > 2) selectMarque.remove(1);
+        } else {
+            resetSelectWithPlaceholder(selectMarque, 'Marque');
+        }
         for (let i = 0; i < marques.length; i++) {
             const m = marques[i];
-            if (labelMarque && labelMarque.nextSibling) {
-                const opt = document.createElement('option');
-                opt.value = m;
-                opt.textContent = m;
-                labelMarque.after(opt);
-            } else {
-                const opt = document.createElement('option');
-                opt.value = m;
-                opt.textContent = m;
-                selectMarque.appendChild(opt);
-            }
+            const opt = document.createElement('option');
+            opt.value = m;
+            opt.textContent = m;
+            selectMarque.appendChild(opt);
         }
-        if (currentValue && marques.includes(currentValue)) {
-            selectMarque.value = currentValue;
-        }
+        if (currentValue && marques.includes(currentValue)) selectMarque.value = currentValue;
     }
 
     /**
@@ -462,29 +472,47 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function fillModelesSelect(map, selectModele, marque, currentValue) {
         if (!selectModele) return;
+        // Si élément input => remplir datalist
+        if (selectModele.tagName === 'INPUT') {
+            const listId = selectModele.getAttribute('list') || 'modeles-datalist';
+            let dlist = document.getElementById(listId);
+            if (!dlist) {
+                dlist = document.createElement('datalist');
+                dlist.id = listId;
+                selectModele.insertAdjacentElement('afterend', dlist);
+            }
+            dlist.innerHTML = '';
+            if (!marque || !map[marque] || map[marque].size === 0) {
+                // pas de modèles connus pour cette marque — ne pas écraser la saisie utilisateur
+                if (currentValue) selectModele.value = currentValue;
+                return;
+            }
+            const list = Array.from(map[marque]).sort((a, b) => a.localeCompare(b));
+            list.forEach(mod => {
+                const opt = document.createElement('option');
+                opt.value = mod;
+                dlist.appendChild(opt);
+            });
+            // Préremplir le modèle même s'il n'est pas dans la liste connue
+            if (currentValue) selectModele.value = currentValue;
+            return;
+        }
+
+        // Sinon pour un select (compatibilité)
         resetSelectWithPlaceholder(selectModele, 'Modèle');
         if (!marque || !map[marque] || map[marque].size === 0) {
             selectModele.disabled = true;
             return;
         }
         const list = Array.from(map[marque]).sort((a, b) => a.localeCompare(b));
-        for (let i = 0; i < list.length; i++) {
-            const mod = list[i];
+        list.forEach(mod => {
             const opt = document.createElement('option');
             opt.value = mod;
             opt.textContent = mod;
             selectModele.appendChild(opt);
-        }
-        // Ajouter l'option "Autre"
-        const optAutre = document.createElement('option');
-        optAutre.value = 'Autre';
-        optAutre.textContent = 'Autre - Ajouter votre modèle';
-        selectModele.appendChild(optAutre);
-
+        });
         selectModele.disabled = selectModele.options.length <= 1;
-        if (currentValue && list.includes(currentValue)) {
-            selectModele.value = currentValue;
-        }
+        if (currentValue && list.includes(currentValue)) selectModele.value = currentValue;
     }
 
     /**
@@ -547,104 +575,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const optionMarque = [];
         fillMarquesSelect(mm, fields.marque, currentMarque);
 
-        // Gestion dynamique "Autre" marque/modèle
+        // Gestion autocomplétion: remplir les datalists de modèles selon la marque saisie
         const divAddModele = document.getElementById('f-addModele');
         const inputCustomModele = document.getElementById('f-custom-modele');
 
-        // Gestionnaire pour le select modèle (option Autre)
-        if (fields.modele && fields.modele.tagName === 'SELECT') {
-            fields.modele.onchange = function () {
-                if (this.value === 'Autre') {
-                    if (divAddModele) {
-                        divAddModele.style.display = 'block';
-                        this.required = false;
-                    }
-                } else {
-                    if (divAddModele) {
-                        divAddModele.style.display = 'none';
-                        this.required = true;
-                    }
-                }
-            };
+        // Si l'élément marque est un input (autocomplétion), on met à jour la liste des modèles au fur et à mesure
+        if (fields.marque && fields.marque.tagName === 'INPUT') {
+            fields.marque.addEventListener('input', function () {
+                const val = (this.value || '').trim();
+                fillModelesSelect(mm, fields.modele, val, '');
+            });
         }
 
-        if (fields.marque) {
-            fields.marque.onchange = function () {
-                const addMarqueDiv = document.getElementById('f-addMarque');
-                const selectModeleLabel = document.getElementById('f-selectModele');
-                const optionMarqueValues = Array.from(fields.marque.options).map(opt => opt.value);
-
-                if (fields.marque.value === 'Autre') {
-                    // Ajouter champ marque custom
-                    if (addMarqueDiv) {
-                        addMarqueDiv.innerHTML = '<input type="text" required="required" name="marqueAjout" id="f-marqueAjout" placeholder="Exemple: Yamaha, Honda..."><button type="button" id="f-boutonMarque" class="btn">Ajouter</button>';
-                        const btnMarque = document.getElementById('f-boutonMarque');
-                        const inputMarque = document.getElementById('f-marqueAjout');
-                        if (btnMarque && inputMarque) {
-                            btnMarque.onclick = function () {
-                                const newMarque = inputMarque.value.trim();
-                                if (!newMarque) return;
-                                const labelMarque = document.getElementById('f-labelMarque');
-                                const opt = document.createElement('option');
-                                opt.value = newMarque;
-                                opt.textContent = newMarque;
-                                if (labelMarque) labelMarque.after(opt);
-                                fields.marque.value = newMarque;
-                                addMarqueDiv.innerHTML = '';
-                                // Basculer modèle en input libre
-                                if (selectModeleLabel) {
-                                    selectModeleLabel.innerHTML = 'Modèle<input type="text" name="modele" id="f-modele" required="required" placeholder="Exemple: MT-07, R1250GS...">';
-                                    fields.modele = document.getElementById('f-modele');
-                                }
-                            };
-                        }
-                    }
-                    // Modèle en input libre
-                    if (selectModeleLabel) {
-                        selectModeleLabel.innerHTML = 'Modèle<input type="text" name="modele" id="f-modele" required="required" placeholder="Exemple: MT-07, R1250GS...">';
-                        fields.modele = document.getElementById('f-modele');
-                    }
-                } else {
-                    // Réinitialiser addMarque
-                    if (addMarqueDiv) addMarqueDiv.innerHTML = '';
-                    // Réinitialiser addModele
-                    if (divAddModele) divAddModele.style.display = 'none';
-
-                    // Si marque n'est pas dans les options d'origine, modèle = input libre
-                    if (!optionMarqueValues.includes(fields.marque.value)) {
-                        if (selectModeleLabel) {
-                            selectModeleLabel.innerHTML = 'Modèle<input type="text" name="modele" id="f-modele" required="required" placeholder="Exemple: MT-07, R1250GS...">';
-                            fields.modele = document.getElementById('f-modele');
-                        }
-                    } else {
-                        // Marque existante: select normal
-                        if (selectModeleLabel && !selectModeleLabel.querySelector('select')) {
-                            selectModeleLabel.innerHTML = 'Modèle<select name="modele" id="f-modele" required="required"><option value="" disabled selected>Modèle</option></select>';
-                            fields.modele = document.getElementById('f-modele');
-                        }
-                        fillModelesSelect(mm, fields.modele, fields.marque.value, '');
-
-                        // Ajouter le gestionnaire onchange pour le nouveau select modèle
-                        if (fields.modele && fields.modele.tagName === 'SELECT') {
-                            fields.modele.onchange = function () {
-                                if (this.value === 'Autre') {
-                                    if (divAddModele) {
-                                        divAddModele.style.display = 'block';
-                                        this.required = false;
-                                    }
-                                } else {
-                                    if (divAddModele) {
-                                        divAddModele.style.display = 'none';
-                                        this.required = true;
-                                    }
-                                }
-                            };
-                        }
-                    }
-                }
-            };
+        // Si une marque est déjà présente, pré-remplir la datalist modèles
+        if (fields.marque && fields.marque.value) {
+            fillModelesSelect(mm, fields.modele, fields.marque.value, currentModele);
+        } else {
+            fillModelesSelect(mm, fields.modele, '', currentModele);
         }
-        fillModelesSelect(mm, fields.modele, fields.marque ? fields.marque.value : '', currentModele);
 
         // Formater l'immatriculation si présente
         if (fields.immatriculation && fields.immatriculation.value) {
@@ -689,24 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Si modèle "Autre" est sélectionné, utiliser la valeur personnalisée
-            const selectModeleEl = document.getElementById('f-modele');
-            const inputCustomModele = document.getElementById('f-custom-modele');
-            if (selectModeleEl && selectModeleEl.tagName === 'SELECT' && selectModeleEl.value === 'Autre') {
-                const customModele = inputCustomModele?.value.trim() || '';
-                if (!customModele) {
-                    e.preventDefault();
-                    alert('Veuillez entrer un modèle personnalisé.');
-                    return;
-                }
-                // Créer un input hidden pour envoyer le modèle personnalisé
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = 'modele';
-                hiddenInput.value = customModele;
-                editForm.appendChild(hiddenInput);
-                selectModeleEl.removeAttribute('name'); // Éviter la double soumission
-            }
+            // Aucun traitement spécial pour "Autre" : l'input de modèle contient la valeur saisie (autocomplétion)
         });
     }
 });
