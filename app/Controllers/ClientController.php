@@ -55,7 +55,7 @@ class ClientController extends BaseController
             'NUMRANDOM' => $this->request->getPost('numrandom')
         ];
         $ClientsModel->save($clientAModif);
-        return redirect('liste-clients');
+        return redirect('liste-clients')->back()->with('erreur', 'Il reste des demandes liées à ce client veuillez les supprimer avant de supprimer ce client.');
     }
 
     public function mail()
