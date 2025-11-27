@@ -75,3 +75,5 @@ $routes->get('api/ct/availability', 'DemandeController::ctAvailability', ['as' =
 
 $routes->post('liste-clients', 'ClientController::mail');
 $routes->post('dashboard/list-demande-en-attente', 'DemandeController::mail');
+
+$routes->get('modif-annee(:num)','EleveController::modifAnnee/$1',['as' => 'annee-modif']);
