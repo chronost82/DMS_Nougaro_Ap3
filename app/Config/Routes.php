@@ -77,3 +77,6 @@ $routes->post('liste-clients', 'ClientController::mail');
 $routes->post('dashboard/list-demande-en-attente', 'DemandeController::mail');
 
 $routes->get('modif-annee(:num)','EleveController::modifAnnee/$1',['as' => 'annee-modif']);
+
+$routes->get('controletechnique-(:num)','ControleTechniqueController::affiche/$1',['as' => 'controle-technique']);
+$routes->post('controletechnique/save-etat', 'ControleTechniqueController::saveEtat');

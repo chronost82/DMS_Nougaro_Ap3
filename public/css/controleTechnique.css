@@ -1,0 +1,219 @@
+/* Styles spécifiques à la fiche de contrôle technique
+   S'appuie sur la palette et la typo globales de layout.css */
+
+.ct-wrapper {
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.ct-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 24px;
+	margin-bottom: 24px;
+}
+
+.ct-header h1 {
+	font-size: 1.6rem;
+	margin: 0;
+}
+
+.ct-vehicle-infos {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 260px;
+}
+
+.ct-vehicle-box {
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	padding: 8px 12px;
+	font-size: 14px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, .04);
+	line-height: 1.35;
+}
+
+.ct-vehicle-box span {
+	font-weight: 600;
+}
+
+.ct-main-card {
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: 16px;
+	padding: 18px 22px;
+	box-shadow: 0 12px 28px -6px rgba(17, 24, 39, .08);
+	display: flex;
+	gap: 32px;
+}
+
+.ct-checklist {
+	flex: 1 1 auto;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.ct-check-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.ct-check-label {
+	font-size: 14px;
+	line-height: 1.35;
+}
+
+/* Groupe de 3 radios */
+.ct-choice-group {
+	display: flex;
+	gap: 8px;
+}
+
+.ct-choice-group input {
+	display: none;
+}
+
+.ct-square {
+	width: 52px;
+	height: 32px;
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	background: #fff;
+	user-select: none;
+    cursor: pointer;
+}
+
+.ct-square[data-color="green"] {
+	border-color: #10b981;
+	color: #10b981;
+}
+
+.ct-square[data-color="amber"] {
+	border-color: #f59e0b;
+	color: #f59e0b;
+}
+
+.ct-square[data-color="red"] {
+	border-color: #ef4444;
+	color: #ef4444;
+}
+
+/* Pas d'effet focus/hover/clic animé pour un rendu statique */
+
+/* Remplissage quand sélectionné */
+.ct-choice-group input:checked + .ct-square[data-color="green"] {
+	background: #10b981;
+	color: #fff;
+}
+
+.ct-choice-group input:checked + .ct-square[data-color="amber"] {
+	background: #f59e0b;
+	color: #fff;
+}
+
+.ct-choice-group input:checked + .ct-square[data-color="red"] {
+	background: #ef4444;
+	color: #fff;
+}
+
+/* Ligne colorée en fonction de l'état choisi */
+.ct-check-item[data-state="ok"] {
+	background: linear-gradient(90deg, rgba(16, 185, 129, .15), rgba(16, 185, 129, 0));
+	border-radius: 10px;
+	padding: 6px 10px;
+}
+
+.ct-check-item[data-state="surv"] {
+	background: linear-gradient(90deg, rgba(245, 158, 11, .18), rgba(245, 158, 11, 0));
+	border-radius: 10px;
+	padding: 6px 10px;
+}
+
+.ct-check-item[data-state="def"] {
+	background: linear-gradient(90deg, rgba(239, 68, 68, .20), rgba(239, 68, 68, 0));
+	border-radius: 10px;
+	padding: 6px 10px;
+}
+
+.ct-check-item .ct-choice-group {
+	margin-left: 4px;
+}
+
+.ct-actions-panel {
+	flex: 0 0 170px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 20px;
+}
+
+.ct-btn-finish {
+	width: 100%;
+	justify-content: center;
+	animation: none;
+}
+
+.ct-legend {
+	margin-top: 8px;
+	display: flex;
+	gap: 16px;
+	flex-wrap: wrap;
+	font-size: 13px;
+}
+
+.ct-legend-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.ct-legend-swatch {
+	width: 14px;
+	height: 14px;
+	border-radius: 4px;
+	background: var(--muted);
+}
+
+.ct-legend-swatch.ok {
+	background: #10b981;
+}
+
+.ct-legend-swatch.warn {
+	background: #f59e0b;
+}
+
+.ct-legend-swatch.ko {
+	background: #ef4444;
+}
+
+.ct-footer {
+	margin-top: 20px;
+	font-size: 12px;
+}
+
+@media (max-width: 900px) {
+	.ct-main-card {
+		flex-direction: column;
+	}
+
+	.ct-actions-panel {
+		flex-direction: row;
+		justify-content: flex-start;
+		gap: 32px;
+	}
+}
+
