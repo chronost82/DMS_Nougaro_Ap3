@@ -20,7 +20,7 @@
                 </div>
                 <div>
                     <label for="annee">Année de scolarité</label>
-                    <input type="text" name="annee" id="annee" value=<?= date('Y') ?> disabled>
+                    <input type="text" name="annee" id="annee" value=<?= $eleveAModif['ANNEE'] ?> disabled>
                 </div>
         </fieldset>
 

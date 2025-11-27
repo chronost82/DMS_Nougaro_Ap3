@@ -29,9 +29,9 @@ class EleveController extends BaseController
     }
     public function update()
     {
-        $anneeCourrante= date('Y');
+        $anneeCourrante = date('Y');
         $elevesModel = model('ElevesModel');
-    
+
         $eleveAModif = [
             'IDELEVE' => $this->request->getPost('idEleve'),
             'NOM' => $this->request->getPost('nom'),
@@ -49,15 +49,28 @@ class EleveController extends BaseController
 
     public function create()
     {
-        $anneeCourrante= date('Y');
+        $anneeCourrante = date('Y');
         $eleveModel = model('ElevesModel');
         $ajoutEleve = [
             'NOM' => $this->request->getPost('nom'),
             'PRENOM' => $this->request->getPost('prenom'),
-            'ANNEE' =>$anneeCourrante,
+            'ANNEE' => $anneeCourrante,
         ];
         $eleveModel->save($ajoutEleve);
 
+        return redirect('liste-eleve');
+    }
+
+    public function modifAnnee($idEleve)
+    {
+        $eleveModel = model('ElevesModel');
+        $eleveAModif = $eleveModel->find($idEleve);
+        if($eleveAModif['ANNEE']<date('Y')){
+            $modifAnnee =[
+                'ANNEE'=>date('Y'),
+            ];
+           $eleveModel->update($idEleve,$modifAnnee);
+        }
         return redirect('liste-eleve');
     }
 }

@@ -18,7 +18,7 @@
                     esc($eleve['NOM']),
                     esc($eleve['PRENOM']),
                     esc($eleve['ANNEE'].'-'.$eleve['ANNEE']+1),
-                    '<a class="btn" href="' . url_to('liste-eleve', $eleve['IDELEVE']) . '">Rafraîchir l\'année de scolarité</a>',
+                    '<a class="btn" href="' . url_to('annee-modif', $eleve['IDELEVE']) . '">Rafraîchir l\'année de scolarité</a>',
                     '<a class="btn-warning" href="' . url_to('eleve-modif', $eleve['IDELEVE']) . '">Modifier</a>',
                     '<a class="btn btn-danger" href="' . url_to('suppr-eleve', $eleve['IDELEVE']) . '">Supprimer</a>'
                 );
