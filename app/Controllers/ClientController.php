@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\CTModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class ClientController extends BaseController
@@ -17,7 +18,13 @@ class ClientController extends BaseController
     public function delete($idClient)
     {
         $ClientsModel = model('ClientModel');
-        $ClientsModel->delete($idClient);
+        $PossedeModel = model('PossedeModel');
+        $CTModel = model('CTModel');
+
+        $clientPossede = $PossedeModel->where('IDCLIENT', $idClient)->find();
+        $PossedeModel->delete($idClient);
+        $ClientsModel->delete($clientPossede[0]['IDCLIENT']);
+        $CTModel->delete($clientPossede[0]['IDCT']);
         return redirect("liste-clients");
     }
 
