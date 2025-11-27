@@ -4,15 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class CTModel extends Model
+class TestModel extends Model
 {
-    protected $table            = 'CT';
-    protected $primaryKey       = 'IDCT';
+    protected $table            = 'TEST';
+    protected $primaryKey       = 'IDTESTTECHNIQUE';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = false;
-    protected $allowedFields    = [];
+    protected $protectFields    = true;
+    protected $allowedFields    = [
+        'IDTESTTECHNIQUE',
+        'IDCT',
+        'ETAT'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,14 +47,4 @@ class CTModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function getCTWithClient(int $id): array
-    {
-        return $this->select('CT.*, CLIENT.NOM, CLIENT.PRENOM, POSSEDE.*, VEHICULE.*')
-            ->join('POSSEDE', 'possede.IDCT = CT.IDCT')
-            ->join('CLIENT', 'CLIENT.IDCLIENT = POSSEDE.IDCLIENT')
-            ->join('VEHICULE', 'VEHICULE.IDVEHICULE = POSSEDE.IDVEHICULE')
-            ->where('CLIENT.IDCLIENT', $id)
-            ->findAll();
-    }
 }
