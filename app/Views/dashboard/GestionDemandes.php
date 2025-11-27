@@ -131,7 +131,7 @@ $valOrPlaceholder = static function ($v) {
                                         </div>
                                         <div class="action-set" data-actions-for="validee" style="display:none">
                                             <a href="<?= url_to('admin-valide-demande-en-attente', $c['IDDEMANDE'] ?? 0) ?>" rel="noopener noreferrer" class="btn-primary">Faire CT</a>
-                                            <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande et toutes les données associées ?');">
+                                            <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande ?');">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDCLIENT'] ?? '') ?>">
                                                 <button type="submit" class="btn-danger" title="Supprimer">Supprimer</button>
@@ -139,7 +139,7 @@ $valOrPlaceholder = static function ($v) {
                                         </div>
                                         <div class="action-set" data-actions-for="terminee" style="display:none">
                                             <a href="" rel="noopener noreferrer" class="btn-primary">Voir rapport</a>
-                                            <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande et toutes les données associées ?');">
+                                            <form method="get" action="<?= url_to('admin-suppr-demande-valide', $c['IDCLIENT'] ?? 0) ?>" style="display:inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la demande ?');">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="id" value="<?= esc($c['IDCLIENT'] ?? '') ?>">
                                                 <button type="submit" class="btn-danger" title="Supprimer">Supprimer</button>
@@ -191,31 +191,23 @@ $valOrPlaceholder = static function ($v) {
             </div>
             <div class="grid-3">
                 <label>Marque
-                    <select name="marque" id="f-marque" required="required">
-                        <option value="" disabled selected id="f-labelMarque">Marque</option>
-                        <option value="Autre">Autre - Ajouter votre marque</option>
-                    </select>
+                    <input list="marques-datalist" name="marque" id="f-marque" required="required" placeholder="Saisir ou choisir une marque" />
+                    <datalist id="marques-datalist"></datalist>
                 </label>
-                <div id="f-addMarque"></div>
                 <label id="f-selectModele">Modèle
-                    <select name="modele" id="f-modele" required="required">
-                        <option value="" disabled selected>Modèle</option>
-                        <option value="Autre">Autre - Ajouter votre modèle</option>
-                    </select>
-                </label>
-                <div id="f-addModele" style="display:none;">
-                    <input type="text" id="f-custom-modele" placeholder="Entrez le modèle personnalisé" />
-                </div>
-            </div>
-            <div class="grid-3">
-                <label>Année
-                    <input type="number" name="annee" id="f-annee" placeholder="0000" min="1900" max="2100">
+                    <input list="modeles-datalist" name="modele" id="f-modele" required="required" placeholder="Saisir ou choisir un modèle" />
+                    <datalist id="modeles-datalist"></datalist>
                 </label>
                 <label>Numéro chassis
                     <input type="text" name="chassis" id="f-chassis" placeholder="17 caractères"
                         pattern="^[A-HJ-NPR-Z0-9]{17}$" minlength="17" maxlength="17"
                         title="17 caractères alphanumériques sans I, O, Q"
                         oninput="this.value = this.value.toUpperCase()">
+                </label>
+            </div>
+            <div class="grid-2">
+                <label>Année
+                    <input type="number" name="annee" id="f-annee" placeholder="0000" min="1900" max="2100">
                 </label>
                 <label>Immatriculation
                     <input type="text" name="immatriculation" id="f-immatriculation"
