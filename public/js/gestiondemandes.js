@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const ymd = fmtDateYMD(dateObj);
                         cell.dataset.date = ymd;
                         if (state.selectedDate === ymd) cell.classList.add('selected');
-                        const isWeekend = [0,6].includes(dateObj.getDay()); // 0=Dim, 6=Sam
+                        const isWeekend = [0, 6].includes(dateObj.getDay()); // 0=Dim, 6=Sam
                         const isPast = dateObj < today;
                         const isOriginalDate = state.originalDate === ymd;
                         const shouldDisable = (isWeekend || isPast) && !isOriginalDate;
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let pastNow = false;
                 if (state.selectedDate) {
                     const today = new Date();
-                    const ymdToday = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+                    const ymdToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
                     if (state.selectedDate === ymdToday) {
                         const [hh, mm] = t.split(':').map(n => parseInt(n, 10));
                         const slotTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hh, mm, 0, 0);
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const caretEnd = e.target.selectionEnd; // caret handling minimal (optional)
             e.target.value = formatImmat(e.target.value);
             // Optionnel: replacer grossièrement le caret en fin
-            try { e.target.setSelectionRange(e.target.value.length, e.target.value.length); } catch (_) {}
+            try { e.target.setSelectionRange(e.target.value.length, e.target.value.length); } catch (_) { }
         });
     }
 
@@ -410,7 +410,13 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function fillMarquesSelect(map, selectMarque, currentValue) {
         if (!selectMarque) return;
-        resetSelectWithPlaceholder(selectMarque, 'Marque');
+        const labelMarque = document.getElementById('f-labelMarque');
+        if (labelMarque) {
+            // Vider sauf placeholder et "Autre"
+            while (selectMarque.options.length > 2) selectMarque.remove(1);
+        } else {
+            resetSelectWithPlaceholder(selectMarque, 'Marque');
+        }
         // Récupère la liste de marques depuis le backend en priorité
         let marquesList = [];
         const mEl = document.getElementById('marques-data');
@@ -431,12 +437,20 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             marques = Object.keys(map).sort((a, b) => a.localeCompare(b));
         }
+        const optionMarque = Array.from(selectMarque.options).map(opt => opt.value);
         for (let i = 0; i < marques.length; i++) {
             const m = marques[i];
-            const opt = document.createElement('option');
-            opt.value = m;
-            opt.textContent = m;
-            selectMarque.appendChild(opt);
+            if (labelMarque && labelMarque.nextSibling) {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m;
+                labelMarque.after(opt);
+            } else {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m;
+                selectMarque.appendChild(opt);
+            }
         }
         if (currentValue && marques.includes(currentValue)) {
             selectMarque.value = currentValue;
@@ -461,6 +475,12 @@ document.addEventListener('DOMContentLoaded', () => {
             opt.textContent = mod;
             selectModele.appendChild(opt);
         }
+        // Ajouter l'option "Autre"
+        const optAutre = document.createElement('option');
+        optAutre.value = 'Autre';
+        optAutre.textContent = 'Autre - Ajouter votre modèle';
+        selectModele.appendChild(optAutre);
+
         selectModele.disabled = selectModele.options.length <= 1;
         if (currentValue && list.includes(currentValue)) {
             selectModele.value = currentValue;
@@ -516,15 +536,112 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fields[field]) fields[field].value = tr.dataset[key] || '';
         }
 
+        // Normalise les valeurs date/heure si le backend renvoie des formats longs ("YYYY-MM-DD HH:MM:SS").
+        if (fields.date && fields.date.value) fields.date.value = fields.date.value.slice(0, 10);
+        if (fields.heure && fields.heure.value) fields.heure.value = fields.heure.value.slice(0, 5);
+
         // Prépare les listes Marque/Modèle au moment d'ouvrir le modal
         const mm = buildMarqueModeleMap();
         const currentMarque = (tr.dataset.marque || '').trim();
         const currentModele = (tr.dataset.modele || '').trim();
+        const optionMarque = [];
         fillMarquesSelect(mm, fields.marque, currentMarque);
-        // Rebuild modèles à chaque changement de marque
+
+        // Gestion dynamique "Autre" marque/modèle
+        const divAddModele = document.getElementById('f-addModele');
+        const inputCustomModele = document.getElementById('f-custom-modele');
+
+        // Gestionnaire pour le select modèle (option Autre)
+        if (fields.modele && fields.modele.tagName === 'SELECT') {
+            fields.modele.onchange = function () {
+                if (this.value === 'Autre') {
+                    if (divAddModele) {
+                        divAddModele.style.display = 'block';
+                        this.required = false;
+                    }
+                } else {
+                    if (divAddModele) {
+                        divAddModele.style.display = 'none';
+                        this.required = true;
+                    }
+                }
+            };
+        }
+
         if (fields.marque) {
             fields.marque.onchange = function () {
-                fillModelesSelect(mm, fields.modele, fields.marque.value, '');
+                const addMarqueDiv = document.getElementById('f-addMarque');
+                const selectModeleLabel = document.getElementById('f-selectModele');
+                const optionMarqueValues = Array.from(fields.marque.options).map(opt => opt.value);
+
+                if (fields.marque.value === 'Autre') {
+                    // Ajouter champ marque custom
+                    if (addMarqueDiv) {
+                        addMarqueDiv.innerHTML = '<input type="text" required="required" name="marqueAjout" id="f-marqueAjout" placeholder="Exemple: Yamaha, Honda..."><button type="button" id="f-boutonMarque" class="btn">Ajouter</button>';
+                        const btnMarque = document.getElementById('f-boutonMarque');
+                        const inputMarque = document.getElementById('f-marqueAjout');
+                        if (btnMarque && inputMarque) {
+                            btnMarque.onclick = function () {
+                                const newMarque = inputMarque.value.trim();
+                                if (!newMarque) return;
+                                const labelMarque = document.getElementById('f-labelMarque');
+                                const opt = document.createElement('option');
+                                opt.value = newMarque;
+                                opt.textContent = newMarque;
+                                if (labelMarque) labelMarque.after(opt);
+                                fields.marque.value = newMarque;
+                                addMarqueDiv.innerHTML = '';
+                                // Basculer modèle en input libre
+                                if (selectModeleLabel) {
+                                    selectModeleLabel.innerHTML = 'Modèle<input type="text" name="modele" id="f-modele" required="required" placeholder="Exemple: MT-07, R1250GS...">';
+                                    fields.modele = document.getElementById('f-modele');
+                                }
+                            };
+                        }
+                    }
+                    // Modèle en input libre
+                    if (selectModeleLabel) {
+                        selectModeleLabel.innerHTML = 'Modèle<input type="text" name="modele" id="f-modele" required="required" placeholder="Exemple: MT-07, R1250GS...">';
+                        fields.modele = document.getElementById('f-modele');
+                    }
+                } else {
+                    // Réinitialiser addMarque
+                    if (addMarqueDiv) addMarqueDiv.innerHTML = '';
+                    // Réinitialiser addModele
+                    if (divAddModele) divAddModele.style.display = 'none';
+
+                    // Si marque n'est pas dans les options d'origine, modèle = input libre
+                    if (!optionMarqueValues.includes(fields.marque.value)) {
+                        if (selectModeleLabel) {
+                            selectModeleLabel.innerHTML = 'Modèle<input type="text" name="modele" id="f-modele" required="required" placeholder="Exemple: MT-07, R1250GS...">';
+                            fields.modele = document.getElementById('f-modele');
+                        }
+                    } else {
+                        // Marque existante: select normal
+                        if (selectModeleLabel && !selectModeleLabel.querySelector('select')) {
+                            selectModeleLabel.innerHTML = 'Modèle<select name="modele" id="f-modele" required="required"><option value="" disabled selected>Modèle</option></select>';
+                            fields.modele = document.getElementById('f-modele');
+                        }
+                        fillModelesSelect(mm, fields.modele, fields.marque.value, '');
+
+                        // Ajouter le gestionnaire onchange pour le nouveau select modèle
+                        if (fields.modele && fields.modele.tagName === 'SELECT') {
+                            fields.modele.onchange = function () {
+                                if (this.value === 'Autre') {
+                                    if (divAddModele) {
+                                        divAddModele.style.display = 'block';
+                                        this.required = false;
+                                    }
+                                } else {
+                                    if (divAddModele) {
+                                        divAddModele.style.display = 'none';
+                                        this.required = true;
+                                    }
+                                }
+                            };
+                        }
+                    }
+                }
             };
         }
         fillModelesSelect(mm, fields.modele, fields.marque ? fields.marque.value : '', currentModele);
@@ -569,6 +686,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!d || !h) {
                 e.preventDefault();
                 alert('Veuillez choisir une date et une heure pour le contrôle technique.');
+                return;
+            }
+
+            // Si modèle "Autre" est sélectionné, utiliser la valeur personnalisée
+            const selectModeleEl = document.getElementById('f-modele');
+            const inputCustomModele = document.getElementById('f-custom-modele');
+            if (selectModeleEl && selectModeleEl.tagName === 'SELECT' && selectModeleEl.value === 'Autre') {
+                const customModele = inputCustomModele?.value.trim() || '';
+                if (!customModele) {
+                    e.preventDefault();
+                    alert('Veuillez entrer un modèle personnalisé.');
+                    return;
+                }
+                // Créer un input hidden pour envoyer le modèle personnalisé
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'modele';
+                hiddenInput.value = customModele;
+                editForm.appendChild(hiddenInput);
+                selectModeleEl.removeAttribute('name'); // Éviter la double soumission
             }
         });
     }

@@ -192,22 +192,22 @@ $valOrPlaceholder = static function ($v) {
             <div class="grid-3">
                 <label>Marque
                     <select name="marque" id="f-marque" required="required">
-                        <option value="" disabled selected>Marque</option>
+                        <option value="" disabled selected id="f-labelMarque">Marque</option>
+                        <option value="Autre">Autre - Ajouter votre marque</option>
                     </select>
                 </label>
-                <label>Modèle
+                <div id="f-addMarque"></div>
+                <label id="f-selectModele">Modèle
                     <select name="modele" id="f-modele" required="required">
                         <option value="" disabled selected>Modèle</option>
+                        <option value="Autre">Autre - Ajouter votre modèle</option>
                     </select>
                 </label>
-                <label>Immatriculation
-                    <input type="text" name="immatriculation" id="f-immatriculation"
-                        placeholder="AA123AA ou 1234ABC56"
-                        title="SIV: AA-123-AA — Ancien: 2-4 chiffres, 2-3 lettres, 2 chiffres (département)"
-                        oninput="this.value = this.value.toUpperCase()" maxlength="11">
-                </label>
+                <div id="f-addModele" style="display:none;">
+                    <input type="text" id="f-custom-modele" placeholder="Entrez le modèle personnalisé" />
+                </div>
             </div>
-            <div class="grid-2">
+            <div class="grid-3">
                 <label>Année
                     <input type="number" name="annee" id="f-annee" placeholder="0000" min="1900" max="2100">
                 </label>
@@ -217,6 +217,12 @@ $valOrPlaceholder = static function ($v) {
                         title="17 caractères alphanumériques sans I, O, Q"
                         oninput="this.value = this.value.toUpperCase()">
                 </label>
+                <label>Immatriculation
+                    <input type="text" name="immatriculation" id="f-immatriculation"
+                        placeholder="AA123AA ou 1234ABC56"
+                        title="SIV: AA-123-AA — Ancien: 2-4 chiffres, 2-3 lettres, 2 chiffres (département)"
+                        oninput="this.value = this.value.toUpperCase()" maxlength="11">
+                </label>
             </div>
             <div class="grid-1 ct-field">
                 <label for="f-heure">Date et heure du contrôle technique</label>
@@ -224,7 +230,7 @@ $valOrPlaceholder = static function ($v) {
                 <!-- Champs utilisés pour la soumission, alimentés par le calendrier -->
                 <input type="hidden" name="date" id="f-date">
                 <input type="hidden" name="heure" id="f-heure">
-                <small class="muted">Créneaux 08:00–18:00, au plus 2 par créneau, hors week-ends.</small>
+                <small class="muted">Créneaux 08:00–18:00, 2 rdv max par créneau, hors week-ends et jours fériés.</small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" data-close-modal>Annuler</button>

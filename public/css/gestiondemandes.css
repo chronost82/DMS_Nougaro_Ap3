@@ -1,10 +1,11 @@
 /* Calendrier CT (scheduler) */
 .ct-scheduler .scheduler {
   background: #fff;
-  border: 1px solid #e5e7eb; /* gray-200 */
+  border: 1px solid #e5e7eb;
+  /* gray-200 */
   border-radius: 10px;
   padding: 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .ct-scheduler .scheduler-header {
@@ -43,7 +44,8 @@
 
 .ct-scheduler .scheduler-dow {
   font-size: 12px;
-  color: #6b7280; /* gray-500 */
+  color: #6b7280;
+  /* gray-500 */
   text-align: center;
   padding: 2px 0;
 }
@@ -52,7 +54,8 @@
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  border: 1px solid #e5e7eb; /* gray-200 */
+  border: 1px solid #e5e7eb;
+  /* gray-200 */
   background: #fafafa;
   border-radius: 8px;
   cursor: pointer;
@@ -62,21 +65,24 @@
   transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.ct-scheduler .scheduler-day > span {
+.ct-scheduler .scheduler-day>span {
   display: block;
   font-size: 14px;
-  color: #374151; /* gray-700 */
+  color: #374151;
+  /* gray-700 */
   text-align: center;
   padding: 0;
 }
 
 .ct-scheduler .scheduler-day:hover:not(.muted):not(:disabled) {
-  background: #f3f4f6; /* gray-100 */
+  background: #f3f4f6;
+  /* gray-100 */
 }
 
 .ct-scheduler .scheduler-day.muted {
   opacity: 0.55;
-  background: #f9fafb; /* gray-50 */
+  background: #f9fafb;
+  /* gray-50 */
   cursor: default;
 }
 
@@ -86,9 +92,11 @@
 }
 
 .ct-scheduler .scheduler-day.selected {
-  border-color: #2563eb; /* blue-600 */
+  border-color: #2563eb;
+  /* blue-600 */
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
-  background: #dbeafe; /* blue-100 */
+  background: #dbeafe;
+  /* blue-100 */
 }
 
 .ct-scheduler .scheduler-day:focus-visible {
@@ -131,14 +139,19 @@
 
 /* Etat sélectionné d'un créneau (utilise .btn-primary via JS) */
 .ct-scheduler .slots-list .btn.btn-primary {
-  background: #2563eb; /* blue-600 */
-  border-color: #1d4ed8; /* blue-700 */
+  background: #2563eb;
+  /* blue-600 */
+  border-color: #1d4ed8;
+  /* blue-700 */
   color: #fff;
   box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
 }
+
 .ct-scheduler .slots-list .btn.btn-primary:hover {
-  background: #1d4ed8; /* blue-700 */
+  background: #1d4ed8;
+  /* blue-700 */
 }
+
 .ct-scheduler .slots-list .btn.btn-primary:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.45);
@@ -146,22 +159,29 @@
 
 /* Etat non sélectionné: hover subtil */
 .ct-scheduler .slots-list .btn:not(.btn-primary):hover {
-  background: #f3f4f6; /* gray-100 */
+  background: #f3f4f6;
+  /* gray-100 */
 }
 
 .ct-scheduler .slots-list .btn:disabled {
-  background: #f9fafb; /* gray-50 */
-  border-color: #e5e7eb; /* gray-200 */
-  color: #9ca3af; /* gray-400 */
+  background: #f9fafb;
+  /* gray-50 */
+  border-color: #e5e7eb;
+  /* gray-200 */
+  color: #9ca3af;
+  /* gray-400 */
   box-shadow: none;
   cursor: not-allowed;
 }
 
 /* Créneau plein (2/2), même si non disabled (ex: slot initial) */
 .ct-scheduler .slots-list .btn.full:not(.btn-primary):not(:disabled) {
-  background: #f3f4f6; /* gray-100 */
-  border-color: #e5e7eb; /* gray-200 */
-  color: #6b7280; /* gray-500 */
+  background: #f3f4f6;
+  /* gray-100 */
+  border-color: #e5e7eb;
+  /* gray-200 */
+  color: #6b7280;
+  /* gray-500 */
   box-shadow: none;
 }
 
@@ -174,15 +194,23 @@
   border-radius: 9999px;
   border: 1px solid transparent;
 }
+
 .ct-scheduler .slots-list .slot-badge.partial {
-  background: #fff7ed; /* orange-50 */
-  border-color: #fdba74; /* orange-300 */
-  color: #c2410c; /* orange-700 */
+  background: #fff7ed;
+  /* orange-50 */
+  border-color: #fdba74;
+  /* orange-300 */
+  color: #c2410c;
+  /* orange-700 */
 }
+
 .ct-scheduler .slots-list .slot-badge.full {
-  background: #f3f4f6; /* gray-100 */
-  border-color: #e5e7eb; /* gray-200 */
-  color: #6b7280; /* gray-500 */
+  background: #f3f4f6;
+  /* gray-100 */
+  border-color: #e5e7eb;
+  /* gray-200 */
+  color: #6b7280;
+  /* gray-500 */
 }
 
 .ct-scheduler small.muted {
@@ -191,11 +219,70 @@
 }
 
 /* Champ calendrier */
-.ct-field > label {
+.ct-field>label {
   display: inline-block;
   margin-bottom: 6px;
   font-weight: 600;
 }
+
+/* Champ "Autre marque" (input + bouton sur une même ligne), aligné comme les autres */
+#f-addMarque {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+/* L'input hérite des styles .modal-body input; on gère seulement la largeur */
+#f-addMarque input[type="text"] {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+/* Le bouton reprend le style des boutons neutres/secondaires de l'UI */
+#f-addMarque button {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  /* équivalent .btn */
+  color: var(--text);
+  padding: .65rem 1rem;
+  border-radius: 10px;
+  font-size: .9rem;
+  min-height: 40px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  transition: transform 0.05s ease, background 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 1px 2px rgba(17, 24, 39, .06);
+}
+
+#f-addMarque button:hover {
+  background: #fafafa;
+}
+
+#f-addMarque button:active {
+  transform: translateY(1px);
+}
+
+/* Champ "Autre modèle" aligné proprement */
+#f-addModele {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#f-addModele input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
 /* === Gestion des Demandes ======================================== */
 
 .header {
@@ -446,7 +533,8 @@ td.actions .btn+.btn {
   gap: .35rem;
 }
 
-.modal-body input, .modal-body select {
+.modal-body input,
+.modal-body select {
   border: 1px solid #cbd5e1;
   background: #fff;
   border-radius: 6px;
@@ -457,7 +545,8 @@ td.actions .btn+.btn {
   transition: border-color .2s, box-shadow .2s, background .2s;
 }
 
-.modal-body input:focus, .modal-body select:focus {
+.modal-body input:focus,
+.modal-body select:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, .25);

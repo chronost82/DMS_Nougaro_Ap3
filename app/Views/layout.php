@@ -37,7 +37,7 @@
             </button>
         </div>
         <nav id="mainNav" class="top-nav__inner">
-            <a href="<?= url_to('admin-liste-demandes-en-attentes') ?>" class="<?= nav_btn_class('admin-liste-demandes-en-attentes') ?>">Demandes en attente</a>
+            <a href="<?= url_to('admin-liste-demandes-en-attentes') ?>" class="<?= nav_btn_class('admin-liste-demandes-en-attentes') ?>">Demandes</a>
 
             <?php
             if (auth()->user()->inGroup('prof')) {?>
