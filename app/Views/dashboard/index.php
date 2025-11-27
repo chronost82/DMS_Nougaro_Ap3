@@ -72,7 +72,7 @@
                 </div>
                 <div class="action-content">
                     <h3>Gérer les demandes</h3>
-                    <p>Consultez et validez les demandes en attente.</p>
+                    <p>Consultez et validez les demandes.</p>
                 </div>
             </a>
 
