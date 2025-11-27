@@ -31,7 +31,7 @@ class ClientController extends BaseController
             return redirect("liste-clients");
         }
         else{
-            redirect("liste-clients");
+            return redirect("liste-clients");
         }
     }
 
@@ -51,7 +51,7 @@ class ClientController extends BaseController
             'NOM' => $this->request->getPost('nom'),
             'PRENOM' => $this->request->getPost('prenom'),
             'TEL' => $this->request->getPost('tel'),
-            'EMAIL' => $this->request->getPost('mail'),
+            'EMAIL' => $this->request->getPost('email'),
             'NUMRANDOM' => $this->request->getPost('numrandom')
         ];
         $ClientsModel->save($clientAModif);
