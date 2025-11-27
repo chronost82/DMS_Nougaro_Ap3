@@ -73,6 +73,7 @@ function selectOptionModele() {
             rebuildModeles(selectMarque.value);
             let optAutre = document.createElement('option');
             optAutre.value = "Autre";
+            optAutre.setAttribute('id', 'optionAutre');
             optAutre.textContent = "Autre - Saisir son modèle";
             selectModele.appendChild(optAutre);
         } else {
@@ -89,7 +90,7 @@ function selectOptionModele() {
                 let opt = document.createElement('option');
                 opt.value = modeleAjout.value;
                 opt.textContent = modeleAjout.value;
-                labelModele.after(opt);
+                optionAutre.before(opt);
                 modele.value = modeleAjout.value;
                 addModele.classList.remove("inputbox");
                 addModele.innerHTML = "";
