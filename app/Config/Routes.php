@@ -84,3 +84,6 @@ $routes->post('controletechnique/save-controleur', 'ControleTechniqueController:
 $routes->post('controletechnique/save-commentaire', 'ControleTechniqueController::saveCommentaire');
 $routes->post('controletechnique/terminer', 'ControleTechniqueController::terminer');
 $routes->get('confirm-suppr', 'ClientController::confirmDelete', ['as' => 'suppr-confirm']);
+
+$routes->get('restitution-controle-technique-(:num)','ControleTechniqueController::restitution/$1',['as' => 'restitution-controle-technique']);
+$routes->get('selection-controle-technique','ControleTechniqueController::selection',['as' => 'selection-controle-technique']);
