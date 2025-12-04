@@ -17,6 +17,16 @@
             <div class="ct-vehicle-infos">
                 <div class="ct-vehicle-box" aria-label="Controlleur">
                     <span>Nom Controlleur :</span>
+                    <select id="select-controleur">
+                        <option value="">-- Sélectionner un élève --</option>
+                        <?php if (!empty($eleves)) : ?>
+                            <?php foreach ($eleves as $eleve) : ?>
+                                <option value="<?= esc($eleve['IDELEVE']) ?>" <?= (isset($ct['IDELEVE']) && $ct['IDELEVE'] == $eleve['IDELEVE']) ? 'selected' : '' ?>>
+                                    <?= esc($eleve['NOM'] . ' ' . $eleve['PRENOM']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
                 </div>
                 <div class="ct-vehicle-box" aria-label="Immatriculation">
                     <span>Immatriculation :</span> <?= esc($ct['IMAT'] ?? '') ?>
@@ -68,7 +78,10 @@
             </div>
         </div>
 
-        <p class="ct-footer muted">Contrôle visuel interne – les choix ne sont pas enregistrés dans le système.</p>
+        <div class="ct-comment-section">
+            <label for="commentaire-ct" class="ct-comment-label">Commentaires :</label>
+            <textarea id="commentaire-ct" class="ct-comment-textarea" rows="4" placeholder="Ajoutez vos observations ou remarques sur le contrôle..."><?= esc($ct['COMMENTAIRE'] ?? '') ?></textarea>
+        </div>
     </div>
 
     <script>
@@ -107,7 +120,10 @@
                 const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
 
                 if (!idCt || !idTest) {
-                    console.warn('IDCT ou IDTEST manquant', { idCt, idTest });
+                    console.warn('IDCT ou IDTEST manquant', {
+                        idCt,
+                        idTest
+                    });
                     return;
                 }
 
@@ -131,9 +147,80 @@
                         }
                     })
                     .catch(() => {
-                        alert('Erreur réseau lors de l’enregistrement de ce test.');
+                        alert('Erreur réseau lors de l\'enregistrement de ce test.');
                     });
             });
+
+            // Changement de contrôleur : mise à jour de IDELEVE dans CT
+            const selectControleur = document.getElementById('select-controleur');
+            const wrapper = document.querySelector('.ct-wrapper');
+            const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
+
+            if (selectControleur && idCt) {
+                    selectControleur.addEventListener('change', () => {
+                        const idEleve = selectControleur.value;
+                        if (!idEleve) {
+                            return;
+                        }
+
+                        const params = new URLSearchParams();
+                        params.append('idCt', idCt);
+                        params.append('idEleve', idEleve);
+
+                        fetch('<?= base_url('controletechnique/save-controleur') ?>', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                body: params.toString()
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                if (data.status !== 'success') {
+                                    alert('Erreur lors de la mise à jour du contrôleur.');
+                                }
+                            })
+                        .catch(() => {
+                            alert('Erreur réseau lors de la mise à jour du contrôleur.');
+                        });
+                });
+            }
+
+            // Sauvegarde automatique du commentaire au changement (debounced)
+            const commentaireTextarea = document.getElementById('commentaire-ct');
+            let timeoutCommentaire = null;
+
+            if (commentaireTextarea && idCt) {
+                commentaireTextarea.addEventListener('input', () => {
+                    clearTimeout(timeoutCommentaire);
+                    timeoutCommentaire = setTimeout(() => {
+                        const commentaire = commentaireTextarea.value;
+
+                        const params = new URLSearchParams();
+                        params.append('idCt', idCt);
+                        params.append('commentaire', commentaire);
+
+                        fetch('<?= base_url('controletechnique/save-commentaire') ?>', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                body: params.toString()
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                if (data.status !== 'success') {
+                                    console.error('Erreur lors de la sauvegarde du commentaire.');
+                                }
+                            })
+                            .catch(() => {
+                                console.error('Erreur réseau lors de la sauvegarde du commentaire.');
+                            });
+                    }, 1000); // Attendre 1 seconde après la dernière frappe
+                });
+            }
         })();
     </script>
 
