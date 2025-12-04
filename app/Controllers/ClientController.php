@@ -26,11 +26,11 @@ class ClientController extends BaseController
         $clientTest = $testModel->where('IDCT', $clientPossede[0]['IDCT'])->find();
 
         if ($demandeModel->where('IDCLIENT', $idClient)->find()) {
-            return redirect("liste-clients")->back()->with('erreur', 'Il reste des demandes liées à ce client veuillez les supprimer avant de supprimer ce client.');
+            return redirect("liste-clients")->back()->with('erreur', 'Avant de supprimer ce client, veuillez effacer toutes les demandes associées à lui.');
         } else {
             $possedeModel->delete($idClient);
             if ($testModel->where('IDCT', $clientPossede[0]['IDCT'])->find()) {
-                foreach($clientTest as $test){
+                foreach ($clientTest as $test) {
                     $testModel->delete($test['IDTESTTECHNIQUE']);
                 }
             }
@@ -41,9 +41,14 @@ class ClientController extends BaseController
         }
     }
 
-    public function confirmDelete()
+    public function confirmDelete($idClient)
     {
-        return redirect("liste-clients")->back()->with('confirm', 'Êtes-vous sure de vouloir supprimer ce client');
+        $demandeModel = model('Demande');
+        if ($demandeModel->where('IDCLIENT', $idClient)->find()) {
+            return redirect("liste-clients")->back()->with('erreur', 'Avant de supprimer ce client, veuillez effacer toutes les demandes associées à lui.');
+        } else {
+            return redirect("liste-clients")->back()->with('confirm', 'Êtes-vous sure de vouloir supprimer ce client');
+        }
     }
 
     public function modif($idClient)

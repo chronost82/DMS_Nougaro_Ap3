@@ -29,7 +29,7 @@
                     esc($client['TEL']),
                     esc($client['EMAIL']),
                     '<a class="btn-edit" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
-                    '<a class="btn-danger" href="' . url_to('suppr-confirm') . '">Supprimer</a>'
+                    '<a class="btn-danger" href="' . url_to('suppr-confirm',$client['IDCLIENT']) . '">Supprimer</a>'
                 );
             }
             if (session()->getFlashdata('confirm') !== null) {
