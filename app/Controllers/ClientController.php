@@ -30,7 +30,9 @@ class ClientController extends BaseController
         } else {
             $possedeModel->delete($idClient);
             if ($testModel->where('IDCT', $clientPossede[0]['IDCT'])->find()) {
-                $testModel->delete($clientTest[0]['IDTESTTECHNIQUE']);
+                foreach($clientTest[0]['IDTESTTECHNIQUE'] as $test){
+                $testModel->delete($test);
+                }
             }
             $cTModel->delete($clientPossede[0]['IDCT']);
 
