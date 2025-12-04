@@ -233,6 +233,14 @@
                 <div class="info-label">Numero de CT</div>
                 <div class="info-value"><?= esc($ct['NUMCT'] ?? 'N/A') ?></div>
             </div>
+            <div class="info-item">
+                <div class="info-label">Date du controle</div>
+                <div class="info-value"><?= esc($ct['DATECT'] ?? 'N/A') ?></div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Heure du controle</div>
+                <div class="info-value"><?= esc($ct['HEURE'] ?? 'N/A') ?></div>
+            </div>
         </div>
     </div>
 
@@ -298,34 +306,6 @@
             </div>
         </div>
     <?php endif; ?>
-
-    <!-- Resume -->
-    <div class="restitution-section">
-        <h2>RESUME</h2>
-        <div class="info-grid">
-            <div class="info-item">
-                <div class="info-label">Date du controle</div>
-                <div class="info-value"><?= esc($ct['DATECT'] ?? 'N/A') ?></div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Heure du controle</div>
-                <div class="info-value"><?= esc($ct['HEURE'] ?? 'N/A') ?></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Signature -->
-    <div class="restitution-section">
-        <h2>SIGNATURES</h2>
-        <div class="signature-section">
-            <div class="signature-box">
-                <div class="signature-line">Signature du Controleur</div>
-            </div>
-            <div class="signature-box">
-                <div class="signature-line">Date et Signature du Client</div>
-            </div>
-        </div>
-    </div>
 
     <div class="footer">
         <p style="margin-top: 12px;">Copyright <?= date('Y') ?> - Tous droits reserves</p>

@@ -79,19 +79,21 @@ class DemandeController extends BaseController
 
     public function delete(int $id)
     {
+        $status = $this->request->getGet('status') ?? 'attente';
         $demandeModel = model('Demande');
         $demandeModel->delete($id);
-        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande supprimée avec succès.');
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('success', 'Demande supprimée avec succès.');
     }
 
     public function deleteDemandeValide(int $id)
     {
+        $status = $this->request->getGet('status') ?? 'validee';
         if (empty($id)){
-            return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('error', 'ID de la demande invalide.');
+            return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('error', 'ID de la demande invalide.');
         }
         $clientModel = model('ClientModel');
         $clientModel->deleteAllById($id);
-        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande et données associées supprimées avec succès.');
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('success', 'Demande et données associées supprimées avec succès.');
     }
 
     public function update()
@@ -331,7 +333,7 @@ class DemandeController extends BaseController
             return redirect()->back()->withInput()->with('error', "Une erreur est survenue lors de la validation de la demande.");
         }
 
-        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande validée avec succès.');
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=validee')->with('success', 'Demande validée avec succès.');
     }
 
     public function updateToTerminee(int $id)
