@@ -17,21 +17,24 @@ class ClientController extends BaseController
 
     public function delete($idClient)
     {
-        $ClientsModel = model('ClientModel');
-        $PossedeModel = model('PossedeModel');
-        $CTModel = model('CTModel');
-        $DemandeModel = model('Demande');
-        $verifDemande = $DemandeModel->where('ETAT','validee')->find($idClient);
-        if ($verifDemande == false) {
-
-            $clientPossede = $PossedeModel->where('IDCLIENT', $idClient)->find();
-            $PossedeModel->delete($idClient);
-            $CTModel->delete($clientPossede[0]['IDCT']);
-            $ClientsModel->delete($clientPossede[0]['IDCLIENT']);
-            return redirect("liste-clients");
-        }
-        else{
+        $clientsModel = model('ClientModel');
+        $possedeModel = model('PossedeModel');
+        $cTModel = model('CTModel');
+        $testModel = model('TestModel');
+        $demandeModel = model('Demande');
+        $clientPossede = $possedeModel->where('IDCLIENT', $idClient)->find();
+        $clientCT = $cTModel->where('IDCT', $clientPossede[0]['IDCT'])->find();
+        $clientTest = $testModel->where('IDCT', $clientPossede[0]['IDCT'])->find();
+        if ($demandeModel->where('IDCLIENT', $idClient)->find()) {
             return redirect("liste-clients")->back()->with('erreur', 'Il reste des demandes liées à ce client veuillez les supprimer avant de supprimer ce client.');
+        } else {
+            $possedeModel->delete($idClient);
+            if ($testModel->where('IDCT', $clientPossede[0]['IDCT'])->find()) {
+                $testModel->delete($clientTest['IDTESTTECHNIQUE']);
+            }
+
+            $clientsModel->delete($idClient);
+            return redirect("liste-clients");
         }
     }
 

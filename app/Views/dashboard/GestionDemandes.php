@@ -110,6 +110,9 @@ $valOrPlaceholder = static function ($v) {
                                     <span class="email-cell">
                                         <span class="email-text"><?= esc($email) ?></span>
                                         <span class="badge <?= esc($badgeClass) ?>"><?= esc($label) ?></span>
+                                        <?php if ($statut === 'validee' && !empty($c['CTENCOURS']) && $c['CTENCOURS'] == 1): ?>
+                                            <span class="badge status-en-cours">CT en cours</span>
+                                        <?php endif; ?>
                                     </span>
                                 </td>
                                 <td><?= $valOrPlaceholder($c['TEL'] ?? null) ?></td>

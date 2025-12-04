@@ -345,6 +345,13 @@
   border: 1px solid #e5e7eb;
 }
 
+.status-en-cours {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+  margin-left: 4px;
+}
+
 .footer {
   padding: 12px 16px;
   font-size: 12px;

@@ -7,15 +7,25 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class ControleTechniqueController extends BaseController
 {
-    public function affiche(int $idClient)
+    public function affiche(int $idDemande)
     {
         $testTechniques = model('TestTechniqueModel')->findAll();
-        $eleve = model('EleveModel')->findAll();
-        $ct = model('CTModel')->getCTWithClient($idClient);
+        $eleve = model('ElevesModel')->findAll();
+        $ct = model('CTModel')->getCTWithDemande($idDemande);
+        
+        // Marquer le CT comme en cours
+        if (!empty($ct) && isset($ct[0]['IDCT'])) {
+            $ctModel = model('CTModel');
+            $ctModel->update($ct[0]['IDCT'], [
+                'CTENCOURS' => 1
+            ]);
+        }
+        
         return view('controleTechnique/controleTechnique.php', [
             'tests' => $testTechniques,
             'ct' => $ct,
-            'eleve' => $eleve,
+            'eleves' => $eleve,
+            'idDemande' => $idDemande,
         ]);
     }
 
@@ -69,5 +79,69 @@ class ControleTechniqueController extends BaseController
             'cts' => $modelCt->getAllCTWithClient(),
         ]);
 
+    }
+
+    public function saveControleur()
+    {
+        $request = $this->request;
+
+        $idCt    = $request->getPost('idCt');
+        $idEleve = $request->getPost('idEleve');
+
+        if (!$idCt || !$idEleve) {
+            return $this->response->setStatusCode(400)
+                ->setJSON(['status' => 'error', 'message' => 'Données invalides']);
+        }
+
+        $ctModel = model('CTModel');
+
+        $ctModel->update($idCt, [
+            'IDELEVE' => $idEleve,
+        ]);
+
+        return $this->response->setJSON(['status' => 'success']);
+    }
+
+    public function saveCommentaire()
+    {
+        $request = $this->request;
+
+        $idCt        = $request->getPost('idCt');
+        $commentaire = $request->getPost('commentaire');
+
+        if (!$idCt) {
+            return $this->response->setStatusCode(400)
+                ->setJSON(['status' => 'error', 'message' => 'ID contrôle manquant']);
+        }
+
+        $ctModel = model('CTModel');
+
+        $ctModel->update($idCt, [
+            'COMMENTAIRE' => $commentaire,
+        ]);
+
+        return $this->response->setJSON(['status' => 'success']);
+    }
+
+    public function terminer()
+    {
+        $idDemande = $this->request->getPost('idDemande');
+        $idCt = $this->request->getPost('idCt');
+
+        if (!$idDemande || !$idCt) {
+            return $this->response->setStatusCode(400)
+                ->setJSON(['status' => 'error', 'message' => 'Données manquantes']);
+        }
+
+        $ctModel = model('CTModel');
+        $demandeModel = model('Demande');
+
+        // Mettre CTENCOURS à 0
+        $ctModel->update($idCt, ['CTENCOURS' => 0]);
+
+        // Mettre ETAT à 'terminee' dans la demande
+        $demandeModel->update($idDemande, ['ETAT' => 'terminee']);
+
+        return $this->response->setJSON(['status' => 'success']);
     }
 }

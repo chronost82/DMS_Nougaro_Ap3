@@ -10,13 +10,23 @@
 </head>
 
 <body>
-    <div class="ct-wrapper" data-idct="<?= esc(($ct[0]['IDCT'] ?? null) ?? ($ct['IDCT'] ?? '')) ?>">
+    <div class="ct-wrapper" data-idct="<?= esc(($ct[0]['IDCT'] ?? null) ?? ($ct['IDCT'] ?? '')) ?>" data-iddemande="<?= esc($idDemande ?? '') ?>">
         <div class="ct-header">
             <h1>Contrôle technique</h1>
             <?php $ct = $ct[0]; ?>
             <div class="ct-vehicle-infos">
                 <div class="ct-vehicle-box" aria-label="Controlleur">
                     <span>Nom Controlleur :</span>
+                    <select id="select-controleur">
+                        <option value="">-- Sélectionner un élève --</option>
+                        <?php if (!empty($eleves)) : ?>
+                            <?php foreach ($eleves as $eleve) : ?>
+                                <option value="<?= esc($eleve['IDELEVE']) ?>" <?= (isset($ct['IDELEVE']) && $ct['IDELEVE'] == $eleve['IDELEVE']) ? 'selected' : '' ?>>
+                                    <?= esc($eleve['NOM'] . ' ' . $eleve['PRENOM']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
                 </div>
                 <div class="ct-vehicle-box" aria-label="Immatriculation">
                     <span>Immatriculation :</span> <?= esc($ct['IMAT'] ?? '') ?>
@@ -32,21 +42,27 @@
         </div>
 
         <div class="ct-main-card" role="form" aria-labelledby="ctFormTitle">
-            <ul class="ct-checklist" id="ctFormTitle">
+            <?php $hasControleur = !empty($ct['IDELEVE']); ?>
+            <?php if (!$hasControleur): ?>
+                <div class="ct-warning-box">
+                    <strong>⚠️ Veuillez sélectionner un contrôleur</strong> avant de commencer le contrôle technique.
+                </div>
+            <?php endif; ?>
+            <ul class="ct-checklist <?= !$hasControleur ? 'ct-disabled' : '' ?>" id="ctFormTitle">
                 <?php if (!empty($tests)) : ?>
                     <?php foreach ($tests as $test) : ?>
                         <li class="ct-check-item" data-idtest="<?= esc($test['IDTESTTECHNIQUE']) ?>">
                             <div class="ct-choice-group" role="radiogroup" aria-label="<?= esc($test['LIBELLE']) ?>">
                                 <label>
-                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="ok" checked>
+                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="ok" <?= !$hasControleur ? 'disabled' : 'checked' ?>>
                                     <span class="ct-square" data-color="green"></span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="surv">
+                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="surv" <?= !$hasControleur ? 'disabled' : '' ?>>
                                     <span class="ct-square" data-color="amber"></span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="def">
+                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="def" <?= !$hasControleur ? 'disabled' : '' ?>>
                                     <span class="ct-square" data-color="red"></span>
                                 </label>
                             </div>
@@ -58,8 +74,8 @@
                 <?php endif; ?>
             </ul>
 
-            <div class="ct-actions-panel">
-                <button class="btn-primary ct-btn-finish" type="button" title="Terminer le contrôle">Terminer</button>
+            <div class="ct-actions-panel" <?= !$hasControleur ? 'style="display:none;"' : '' ?>>
+                <button class="btn-primary ct-btn-finish" type="button" title="Terminer le contrôle" disabled>Terminer</button>
                 <div class="ct-legend">
                     <div class="ct-legend-item"><span class="ct-legend-swatch ok"></span>OK</div>
                     <div class="ct-legend-item"><span class="ct-legend-swatch warn"></span>A surveiller</div>
@@ -68,7 +84,10 @@
             </div>
         </div>
 
-        <p class="ct-footer muted">Contrôle visuel interne – les choix ne sont pas enregistrés dans le système.</p>
+        <div class="ct-comment-section" <?= !$hasControleur ? 'style="display:none;"' : '' ?>>
+            <label for="commentaire-ct" class="ct-comment-label">Commentaires :</label>
+            <textarea id="commentaire-ct" class="ct-comment-textarea" rows="4" placeholder="Ajoutez vos observations ou remarques sur le contrôle..."><?= esc($ct['COMMENTAIRE'] ?? '') ?></textarea>
+        </div>
     </div>
 
     <script>
@@ -107,7 +126,10 @@
                 const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
 
                 if (!idCt || !idTest) {
-                    console.warn('IDCT ou IDTEST manquant', { idCt, idTest });
+                    console.warn('IDCT ou IDTEST manquant', {
+                        idCt,
+                        idTest
+                    });
                     return;
                 }
 
@@ -131,9 +153,162 @@
                         }
                     })
                     .catch(() => {
-                        alert('Erreur réseau lors de l’enregistrement de ce test.');
+                        alert('Erreur réseau lors de l\'enregistrement de ce test.');
                     });
             });
+
+            // Changement de contrôleur : mise à jour de IDELEVE dans CT
+            const selectControleur = document.getElementById('select-controleur');
+            const wrapper = document.querySelector('.ct-wrapper');
+            const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
+
+            // Fonction pour vérifier si tous les tests sont cochés
+            function checkAllTestsCompleted() {
+                const allGroups = document.querySelectorAll('.ct-choice-group');
+                const finishBtn = document.querySelector('.ct-btn-finish');
+                
+                let allChecked = true;
+                allGroups.forEach(group => {
+                    const hasChecked = group.querySelector('input[type="radio"]:checked');
+                    if (!hasChecked) allChecked = false;
+                });
+                
+                if (finishBtn) {
+                    finishBtn.disabled = !allChecked;
+                }
+            }
+
+            // Vérifier à chaque changement de radio
+            document.addEventListener('change', e => {
+                if (e.target.type === 'radio' && e.target.name.startsWith('test_')) {
+                    checkAllTestsCompleted();
+                }
+            });
+
+            if (selectControleur && idCt) {
+                    selectControleur.addEventListener('change', () => {
+                        const idEleve = selectControleur.value;
+                        
+                        // Activer/désactiver les radios selon la sélection
+                        const checklist = document.querySelector('.ct-checklist');
+                        const warningBox = document.querySelector('.ct-warning-box');
+                        const allRadios = document.querySelectorAll('.ct-checklist input[type="radio"]');
+                        const actionsPanel = document.querySelector('.ct-actions-panel');
+                        const commentSection = document.querySelector('.ct-comment-section');
+                        
+                        if (idEleve) {
+                            // Activer les radios
+                            allRadios.forEach(radio => radio.disabled = false);
+                            if (checklist) checklist.classList.remove('ct-disabled');
+                            if (warningBox) warningBox.style.display = 'none';
+                            if (actionsPanel) actionsPanel.style.display = 'flex';
+                            if (commentSection) commentSection.style.display = 'block';
+                            checkAllTestsCompleted();
+                            
+                            // Sauvegarder le contrôleur
+                            const params = new URLSearchParams();
+                            params.append('idCt', idCt);
+                            params.append('idEleve', idEleve);
+
+                            fetch('<?= base_url('controletechnique/save-controleur') ?>', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    },
+                                    body: params.toString()
+                                })
+                                .then(r => r.json())
+                                .then(data => {
+                                    if (data.status !== 'success') {
+                                        alert('Erreur lors de la mise à jour du contrôleur.');
+                                    }
+                                })
+                            .catch(() => {
+                                alert('Erreur réseau lors de la mise à jour du contrôleur.');
+                            });
+                        } else {
+                            // Désactiver les radios
+                            allRadios.forEach(radio => radio.disabled = true);
+                            if (checklist) checklist.classList.add('ct-disabled');
+                            if (warningBox) warningBox.style.display = 'block';
+                            if (actionsPanel) actionsPanel.style.display = 'none';
+                            if (commentSection) commentSection.style.display = 'none';
+                        }
+                });
+            }
+
+            // Sauvegarde automatique du commentaire au changement (debounced)
+            const commentaireTextarea = document.getElementById('commentaire-ct');
+            let timeoutCommentaire = null;
+
+            if (commentaireTextarea && idCt) {
+                commentaireTextarea.addEventListener('input', () => {
+                    clearTimeout(timeoutCommentaire);
+                    timeoutCommentaire = setTimeout(() => {
+                        const commentaire = commentaireTextarea.value;
+
+                        const params = new URLSearchParams();
+                        params.append('idCt', idCt);
+                        params.append('commentaire', commentaire);
+
+                        fetch('<?= base_url('controletechnique/save-commentaire') ?>', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                body: params.toString()
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                if (data.status !== 'success') {
+                                    console.error('Erreur lors de la sauvegarde du commentaire.');
+                                }
+                            })
+                            .catch(() => {
+                                console.error('Erreur réseau lors de la sauvegarde du commentaire.');
+                            });
+                    }, 1000); // Attendre 1 seconde après la dernière frappe
+                });
+            }
+
+            // Clic sur le bouton "Terminer"
+            const finishBtn = document.querySelector('.ct-btn-finish');
+            if (finishBtn && idCt) {
+                finishBtn.addEventListener('click', () => {
+                    const idDemande = wrapper ? wrapper.getAttribute('data-iddemande') : null;
+                    if (!idDemande) {
+                        alert('Erreur : ID demande manquant.');
+                        return;
+                    }
+
+                    const params = new URLSearchParams();
+                    params.append('idCt', idCt);
+                    params.append('idDemande', idDemande);
+
+                    fetch('<?= base_url('controletechnique/terminer') ?>', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: params.toString()
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                alert('Contrôle technique terminé avec succès.');
+                                window.location.href = '<?= url_to('admin-liste-demandes-en-attentes') ?>';
+                            } else {
+                                alert('Erreur lors de la finalisation du contrôle technique.');
+                            }
+                        })
+                        .catch(() => {
+                            alert('Erreur réseau lors de la finalisation du contrôle technique.');
+                        });
+                });
+            }
         })();
     </script>
 

@@ -337,8 +337,45 @@ class DemandeController extends BaseController
     public function updateToTerminee(int $id)
     {
         $demandeModel = model('Demande');
-        $demandeModel->update($id, ['ETAT' => 'terminee']);
-        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande marquée comme terminée avec succès.');
+        $demande = $demandeModel->find($id);
+        
+        if (empty($demande) || empty($demande['IDCLIENT'])) {
+            return redirect()->back()->with('error', 'Demande introuvable.');
+        }
+        
+        // Récupérer l'IDCT via le client
+        $possedeModel = model('PossedeModel');
+        $possede = $possedeModel->where('IDCLIENT', $demande['IDCLIENT'])->first();
+        
+        if (empty($possede) || empty($possede['IDCT'])) {
+            return redirect()->back()->with('error', 'Aucun contrôle technique associé à ce client.');
+        }
+        
+        $idCT = $possede['IDCT'];
+        
+        // Générer NUMCT si inexistant
+        $ctModel = model('CTModel');
+        $ct = $ctModel->find($idCT);
+        
+        if (empty($ct['NUMCT'])) {
+            // Générer un numéro unique basé sur l'année et un compteur
+            $year = date('Y');
+            $lastNum = $ctModel->where('NUMCT LIKE', $year . '%')
+                               ->orderBy('NUMCT', 'DESC')
+                               ->first();
+            
+            if ($lastNum && !empty($lastNum['NUMCT'])) {
+                $lastNumInt = (int) substr($lastNum['NUMCT'], 4);
+                $newNum = $year . str_pad($lastNumInt + 1, 6, '0', STR_PAD_LEFT);
+            } else {
+                $newNum = $year . '000001';
+            }
+            
+            $ctModel->update($idCT, ['NUMCT' => (int)$newNum]);
+        }
+        
+        // Rediriger vers la page de contrôle technique
+        return redirect()->to(url_to('controle-technique', $id));
     }
 
     public function ajout()
