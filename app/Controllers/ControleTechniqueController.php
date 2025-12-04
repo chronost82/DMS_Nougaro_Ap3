@@ -12,14 +12,14 @@ class ControleTechniqueController extends BaseController
         $testTechniques = model('TestTechniqueModel')->findAll();
         $eleve = model('ElevesModel')->findAll();
         $ct = model('CTModel')->getCTWithDemande($idDemande);
-        
+
         // Marquer le CT comme en cours
         if (!empty($ct) && isset($ct[0]['IDCT'])) {
             $ctModel = model('CTModel');
             $ctModel->update($ct[0]['IDCT'], [
                 'CTENCOURS' => 1
             ]);
-            
+
             // Récupérer les états des tests existants pour ce CT
             $idCt = $ct[0]['IDCT'];
             $testModel = model('TestModel');
@@ -31,7 +31,7 @@ class ControleTechniqueController extends BaseController
         } else {
             $testStatesMap = [];
         }
-        
+
         return view('controleTechnique/controleTechnique.php', [
             'tests' => $testTechniques,
             'ct' => $ct,
@@ -90,7 +90,6 @@ class ControleTechniqueController extends BaseController
         return view('controleTechnique/selectionControleTechnique', [
             'cts' => $modelCt->getAllCTWithClient(),
         ]);
-
     }
 
     public function saveControleur()
@@ -160,7 +159,7 @@ class ControleTechniqueController extends BaseController
     public function restitution(int $idDemande)
     {
         $ct = model('CTModel')->getCTWithDemande($idDemande);
-        
+
         if (empty($ct)) {
             return $this->response->setStatusCode(404)
                 ->setBody('Contrôle technique non trouvé');
@@ -192,12 +191,19 @@ class ControleTechniqueController extends BaseController
 
         // Définir les en-têtes pour le téléchargement
         $filename = 'rapport_CT_' . ($ct['NUMCT'] ?? $ct['IDCT']) . '_' . date('Y-m-d') . '.pdf';
-        
+
         return $this->response
             ->setHeader('Content-Type', 'application/pdf')
             ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
             ->setBody($dompdf->output());
     }
 
-}
+    public function ecran(int $idCt)
+    {
+        $idct = model('CTModel')->find($idCt);
 
+        return view('controleTechnique/ecran-controle-technique', [
+            'idct' => $idct,
+        ]);
+    }
+}
