@@ -17,6 +17,7 @@
         <img src="img/bandeau_lycee.png">
         <H1>Pré contrôle Technique Gratuit</H1>
         <form action="<?= url_to('admin-ajout-demande') ?>" method="post">
+            <?=  csrf_field() ?>
             <div class="inputbox">
                 <input type="text" required="required" name="nom" id="nom">
                 <span id="nomSpan">Nom</span>
