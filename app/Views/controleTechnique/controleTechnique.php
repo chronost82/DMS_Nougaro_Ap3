@@ -41,6 +41,12 @@
             </div>
         </div>
 
+        <div class="ct-legend" style="margin-bottom: 16px;">
+            <div class="ct-legend-item"><span class="ct-legend-swatch ok"></span>OK</div>
+            <div class="ct-legend-item"><span class="ct-legend-swatch warn"></span>A surveiller</div>
+            <div class="ct-legend-item"><span class="ct-legend-swatch ko"></span>Défaillant</div>
+        </div>
+
         <div class="ct-main-card" role="form" aria-labelledby="ctFormTitle">
             <?php $hasControleur = !empty($ct['IDELEVE']); ?>
             <?php if (!$hasControleur): ?>
@@ -54,15 +60,15 @@
                         <li class="ct-check-item" data-idtest="<?= esc($test['IDTESTTECHNIQUE']) ?>">
                             <div class="ct-choice-group" role="radiogroup" aria-label="<?= esc($test['LIBELLE']) ?>">
                                 <label>
-                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="ok" <?= !$hasControleur ? 'disabled' : 'checked' ?>>
+                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="ok" <?= !$hasControleur ? 'disabled' : '' ?> <?= (isset($testStates[$test['IDTESTTECHNIQUE']]) && $testStates[$test['IDTESTTECHNIQUE']] === 'ok') ? 'checked' : '' ?>>
                                     <span class="ct-square" data-color="green"></span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="surv" <?= !$hasControleur ? 'disabled' : '' ?>>
+                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="surv" <?= !$hasControleur ? 'disabled' : '' ?> <?= (isset($testStates[$test['IDTESTTECHNIQUE']]) && $testStates[$test['IDTESTTECHNIQUE']] === 'surv') ? 'checked' : '' ?>>
                                     <span class="ct-square" data-color="amber"></span>
                                 </label>
                                 <label>
-                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="def" <?= !$hasControleur ? 'disabled' : '' ?>>
+                                    <input type="radio" name="test_<?= esc($test['IDTESTTECHNIQUE']) ?>" value="def" <?= !$hasControleur ? 'disabled' : '' ?> <?= (isset($testStates[$test['IDTESTTECHNIQUE']]) && $testStates[$test['IDTESTTECHNIQUE']] === 'def') ? 'checked' : '' ?>>
                                     <span class="ct-square" data-color="red"></span>
                                 </label>
                             </div>
@@ -76,11 +82,6 @@
 
             <div class="ct-actions-panel" <?= !$hasControleur ? 'style="display:none;"' : '' ?>>
                 <button class="btn-primary ct-btn-finish" type="button" title="Terminer le contrôle" disabled>Terminer</button>
-                <div class="ct-legend">
-                    <div class="ct-legend-item"><span class="ct-legend-swatch ok"></span>OK</div>
-                    <div class="ct-legend-item"><span class="ct-legend-swatch warn"></span>A surveiller</div>
-                    <div class="ct-legend-item"><span class="ct-legend-swatch ko"></span>Défaillant</div>
-                </div>
             </div>
         </div>
 
@@ -111,6 +112,30 @@
                 if (checked) setItemState(checked);
             });
 
+            // Changement de contrôleur : mise à jour de IDELEVE dans CT
+            const selectControleur = document.getElementById('select-controleur');
+            const wrapper = document.querySelector('.ct-wrapper');
+            const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
+
+            // Fonction pour vérifier si tous les tests sont cochés
+            function checkAllTestsCompleted() {
+                const allGroups = document.querySelectorAll('.ct-choice-group');
+                const finishBtn = document.querySelector('.ct-btn-finish');
+                
+                let allChecked = true;
+                allGroups.forEach(group => {
+                    const hasChecked = group.querySelector('input[type="radio"]:checked');
+                    if (!hasChecked) allChecked = false;
+                });
+                
+                if (finishBtn) {
+                    finishBtn.disabled = !allChecked;
+                }
+            }
+
+            // Vérifier l'état du bouton au chargement
+            checkAllTestsCompleted();
+
             // À chaque changement de radio : colorer + envoyer immédiatement en AJAX
             document.addEventListener('change', e => {
                 const input = e.target;
@@ -119,11 +144,10 @@
                 if (!valueLabels[input.value]) return;
 
                 setItemState(input);
+                checkAllTestsCompleted();
 
                 const item = input.closest('.ct-check-item');
                 const idTest = item ? item.getAttribute('data-idtest') : null;
-                const wrapper = document.querySelector('.ct-wrapper');
-                const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
 
                 if (!idCt || !idTest) {
                     console.warn('IDCT ou IDTEST manquant', {
@@ -149,40 +173,12 @@
                     .then(r => r.json())
                     .then(data => {
                         if (data.status !== 'success') {
-                            alert('Erreur lors de l’enregistrement de ce test.');
+                            alert('Erreur lors de l\'enregistrement de ce test.');
                         }
                     })
                     .catch(() => {
-                        alert('Erreur réseau lors de l\'enregistrement de ce test.');
+                        alert('Erreur lors de l\'enregistrement de ce test.');
                     });
-            });
-
-            // Changement de contrôleur : mise à jour de IDELEVE dans CT
-            const selectControleur = document.getElementById('select-controleur');
-            const wrapper = document.querySelector('.ct-wrapper');
-            const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
-
-            // Fonction pour vérifier si tous les tests sont cochés
-            function checkAllTestsCompleted() {
-                const allGroups = document.querySelectorAll('.ct-choice-group');
-                const finishBtn = document.querySelector('.ct-btn-finish');
-                
-                let allChecked = true;
-                allGroups.forEach(group => {
-                    const hasChecked = group.querySelector('input[type="radio"]:checked');
-                    if (!hasChecked) allChecked = false;
-                });
-                
-                if (finishBtn) {
-                    finishBtn.disabled = !allChecked;
-                }
-            }
-
-            // Vérifier à chaque changement de radio
-            document.addEventListener('change', e => {
-                if (e.target.type === 'radio' && e.target.name.startsWith('test_')) {
-                    checkAllTestsCompleted();
-                }
             });
 
             if (selectControleur && idCt) {
@@ -311,6 +307,7 @@
             }
         })();
     </script>
+
 
 </body>
 
