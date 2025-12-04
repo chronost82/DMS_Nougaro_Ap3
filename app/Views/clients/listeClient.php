@@ -10,7 +10,7 @@
                 echo '<p>' . session()->getFlashdata('erreur') . '<p>';
             }
             ?>
-            <form method="post">
+            <form method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ?');">
                 <button class="btn-warning" type="submit" name="recup-mail">Récupération des adresses mails des clients</button>
             </form>
         </div>
