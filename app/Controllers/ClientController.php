@@ -17,21 +17,20 @@ class ClientController extends BaseController
 
     public function delete($idClient)
     {
-        $ClientsModel = model('ClientModel');
-        $PossedeModel = model('PossedeModel');
-        $CTModel = model('CTModel');
-        $DemandeModel = model('Demande');
-        $verifDemande = $DemandeModel->where('ETAT','validee')->find($idClient);
-        if ($verifDemande == false) {
-
-            $clientPossede = $PossedeModel->where('IDCLIENT', $idClient)->find();
-            $PossedeModel->delete($idClient);
-            $CTModel->delete($clientPossede[0]['IDCT']);
-            $ClientsModel->delete($clientPossede[0]['IDCLIENT']);
-            return redirect("liste-clients");
+        $clientsModel = model('ClientModel');
+        $possedeModel = model('PossedeModel');
+        $cTModel = model('CTModel');
+        $demandeModel = model('Demande');
+        $clientPossede = $possedeModel->where('IDCLIENT', $idClient)->find();
+        
+        if (true) {
+            return redirect("liste-clients")->back()->with('erreur', 'Il reste des demandes liées à ce client veuillez les supprimer avant de supprimer ce client.');
         }
         else{
-            return redirect("liste-clients")->back()->with('erreur', 'Il reste des demandes liées à ce client veuillez les supprimer avant de supprimer ce client.');
+            $possedeModel->delete($idClient);
+            $cTModel->delete($clientPossede[0]['IDCT']);
+            $clientsModel->delete($idClient);
+            return redirect("liste-clients");
         }
     }
 
