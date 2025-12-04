@@ -80,3 +80,6 @@ $routes->get('modif-annee(:num)','EleveController::modifAnnee/$1',['as' => 'anne
 
 $routes->get('controletechnique-(:num)','ControleTechniqueController::affiche/$1',['as' => 'controle-technique']);
 $routes->post('controletechnique/save-etat', 'ControleTechniqueController::saveEtat');
+
+$routes->get('restitution-controle-technique-(:num)','ControleTechniqueController::restitution/$1',['as' => 'restitution-controle-technique']);
+$routes->get('selection-controle-technique','ControleTechniqueController::selection',['as' => 'selection-controle-technique']);
