@@ -266,3 +266,15 @@ prenomSpan.onclick = function () { prenom.focus() }
 nomSpan.onclick = function () { nom.focus() }
 errorEmail.onclick = function () { email.focus() }
 errorTel.onclick = function () { tel.focus() }
+
+// let verifEmailExist = async function() {
+//     try {
+//         let responseHttp = await fetch();
+
+//         let jsonData = await responseHttp.json();
+
+        
+//     } catch (error) {
+//         console.error(error)        
+//     }
+// }
