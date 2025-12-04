@@ -21,7 +21,7 @@ class ClientController extends BaseController
         $PossedeModel = model('PossedeModel');
         $CTModel = model('CTModel');
         $DemandeModel = model('Demande');
-        $verifDemande = $DemandeModel->find($idClient);
+        $verifDemande = $DemandeModel->where('ETAT','validee')->find($idClient);
         if ($verifDemande == false) {
 
             $clientPossede = $PossedeModel->where('IDCLIENT', $idClient)->find();
