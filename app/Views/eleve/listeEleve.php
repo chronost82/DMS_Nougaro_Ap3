@@ -20,8 +20,13 @@
                     esc($eleve['ANNEE'].'-'.$eleve['ANNEE']+1),
                     '<a class="btn" href="' . url_to('annee-modif', $eleve['IDELEVE']) . '">Rafraîchir l\'année de scolarité</a>',
                     '<a class="btn-warning" href="' . url_to('eleve-modif', $eleve['IDELEVE']) . '">Modifier</a>',
-                    '<a class="btn btn-danger" href="' . url_to('suppr-eleve', $eleve['IDELEVE']) . '">Supprimer</a>'
+                    '<a class="btn btn-danger" href="' . url_to('eleve-confirm-suppr') . '">Supprimer</a>'
                 );
+            }
+            if (session()->getFlashdata('confirm') !== null) {
+                echo '<p>' . session()->getFlashdata('confirm') . '<p>';
+                echo '<a class="btn-edit" href="' . url_to('suppr-eleve',$eleve['IDELEVE']) . '">Oui</a>';
+                echo '<a class="btn-edit"href="'. url_to('liste-eleve') . '">Non</a>';
             }
             echo $tableauEleves->generate();
             ?>

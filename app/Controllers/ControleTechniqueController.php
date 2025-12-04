@@ -157,4 +157,47 @@ class ControleTechniqueController extends BaseController
         return $this->response->setJSON(['status' => 'success']);
     }
 
+    public function restitution(int $idDemande)
+    {
+        $ct = model('CTModel')->getCTWithDemande($idDemande);
+        
+        if (empty($ct)) {
+            return $this->response->setStatusCode(404)
+                ->setBody('Contrôle technique non trouvé');
+        }
+
+        $ct = $ct[0];
+        $testModel = model('TestModel');
+        $tests = $testModel->where('IDCT', $ct['IDCT'])->findAll();
+
+        // Récupérer les données des tests techniques
+        $testTechniques = model('TestTechniqueModel')->findAll();
+        $testMap = [];
+        foreach ($testTechniques as $test) {
+            $testMap[$test['IDTESTTECHNIQUE']] = $test;
+        }
+
+        // Générer le contenu HTML
+        $html = view('controleTechnique/restitution', [
+            'ct' => $ct,
+            'tests' => $tests,
+            'testMap' => $testMap,
+        ]);
+
+        // Créer une instance de Dompdf
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Définir les en-têtes pour le téléchargement
+        $filename = 'rapport_CT_' . ($ct['NUMCT'] ?? $ct['IDCT']) . '_' . date('Y-m-d') . '.pdf';
+        
+        return $this->response
+            ->setHeader('Content-Type', 'application/pdf')
+            ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->setBody($dompdf->output());
+    }
+
 }
+

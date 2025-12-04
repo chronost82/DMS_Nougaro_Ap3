@@ -79,19 +79,21 @@ class DemandeController extends BaseController
 
     public function delete(int $id)
     {
+        $status = $this->request->getGet('status') ?? 'attente';
         $demandeModel = model('Demande');
         $demandeModel->delete($id);
-        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande supprimée avec succès.');
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('success', 'Demande supprimée avec succès.');
     }
 
     public function deleteDemandeValide(int $id)
     {
+        $status = $this->request->getGet('status') ?? 'validee';
         if (empty($id)){
-            return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('error', 'ID de la demande invalide.');
+            return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('error', 'ID de la demande invalide.');
         }
         $clientModel = model('ClientModel');
         $clientModel->deleteAllById($id);
-        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande et données associées supprimées avec succès.');
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('success', 'Demande et données associées supprimées avec succès.');
     }
 
     public function update()
@@ -390,11 +392,11 @@ class DemandeController extends BaseController
     {
         $demandeModel = model('Demande');
         $demande = $this->request->getPost();
-
+        $demande['MODELE'] = $this->request->getPost('modele');
+        unset($demande['modele']);
         $demande['ETAT'] = 'attente';
         $demande['DATEDEMANDE'] = date('Y-m-d');
         $demandeModel->save($demande);
-        // dd($demande);
         $vehiculeModel = model('VehiculeModel');
         $marques = $vehiculeModel->distinct()->select('MARQUE')->orderBy('MARQUE', 'ASC')->findAll();
         // Fournit la liste des paires Marque/Modèle pour filtrer côté client
