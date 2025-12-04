@@ -41,7 +41,7 @@ $routes->post('dashboard/modif-demande-en-attente', 'DemandeController::update',
 $routes->get('dashboard/valide-demande-en-attente/(:num)', 'DemandeController::updateToTerminee/$1', ['as' => 'admin-valide-demande-en-attente']);
 
 $routes->get('ajout-demande', 'DemandeController::ajout', ['as' => 'admin-ajout-demande']);
-$routes->post('ajout-demande', 'DemandeController::create', ['as' => 'admin-ajout-demande']);
+$routes->post('ajout-demande', 'DemandeController::create', ['as' => 'admin-ajout-demande', 'filter' => 'csrf']);
 
 //Validé
 $routes->get('dashboard/liste-demandes-valides', 'DemandeValidesController::affiche', ['as' => 'admin-liste-demandes-valides']);
