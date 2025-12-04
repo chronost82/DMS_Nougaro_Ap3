@@ -7,11 +7,20 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class ControleTechniqueController extends BaseController
 {
-    public function affiche(int $idClient)
+    public function affiche(int $idDemande)
     {
         $testTechniques = model('TestTechniqueModel')->findAll();
         $eleve = model('ElevesModel')->findAll();
-        $ct = model('CTModel')->getCTWithClient($idClient);
+        $ct = model('CTModel')->getCTWithDemande($idDemande);
+        
+        // Marquer le CT comme en cours
+        if (!empty($ct) && isset($ct[0]['IDCT'])) {
+            $ctModel = model('CTModel');
+            $ctModel->update($ct[0]['IDCT'], [
+                'CTENCOURS' => 1
+            ]);
+        }
+        
         return view('controleTechnique/controleTechnique.php', [
             'tests' => $testTechniques,
             'ct' => $ct,

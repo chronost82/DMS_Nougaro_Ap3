@@ -12,7 +12,7 @@ class CTModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['IDELEVE', 'COMMENTAIRE'];
+    protected $allowedFields    = ['IDELEVE', 'COMMENTAIRE', 'CTENCOURS', 'NUMCT', 'DATECT', 'HEURE'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -44,13 +44,14 @@ class CTModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getCTWithClient(int $id): array
+    public function getCTWithDemande(int $idDemande): array
     {
-        return $this->select('CT.*, CLIENT.NOM, CLIENT.PRENOM, POSSEDE.*, VEHICULE.*')
-            ->join('POSSEDE', 'possede.IDCT = CT.IDCT')
+        return $this->select('CT.*, CLIENT.NOM, CLIENT.PRENOM, POSSEDE.*, VEHICULE.*, DEMANDE.IDDEMANDE')
+            ->join('POSSEDE', 'POSSEDE.IDCT = CT.IDCT')
             ->join('CLIENT', 'CLIENT.IDCLIENT = POSSEDE.IDCLIENT')
             ->join('VEHICULE', 'VEHICULE.IDVEHICULE = POSSEDE.IDVEHICULE')
-            ->where('CLIENT.IDCLIENT', $id)
+            ->join('DEMANDE', 'DEMANDE.IDCLIENT = CLIENT.IDCLIENT')
+            ->where('DEMANDE.IDDEMANDE', $idDemande)
             ->findAll();
     }
 }
