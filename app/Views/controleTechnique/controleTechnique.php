@@ -112,6 +112,30 @@
                 if (checked) setItemState(checked);
             });
 
+            // Changement de contrôleur : mise à jour de IDELEVE dans CT
+            const selectControleur = document.getElementById('select-controleur');
+            const wrapper = document.querySelector('.ct-wrapper');
+            const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
+
+            // Fonction pour vérifier si tous les tests sont cochés
+            function checkAllTestsCompleted() {
+                const allGroups = document.querySelectorAll('.ct-choice-group');
+                const finishBtn = document.querySelector('.ct-btn-finish');
+                
+                let allChecked = true;
+                allGroups.forEach(group => {
+                    const hasChecked = group.querySelector('input[type="radio"]:checked');
+                    if (!hasChecked) allChecked = false;
+                });
+                
+                if (finishBtn) {
+                    finishBtn.disabled = !allChecked;
+                }
+            }
+
+            // Vérifier l'état du bouton au chargement
+            checkAllTestsCompleted();
+
             // À chaque changement de radio : colorer + envoyer immédiatement en AJAX
             document.addEventListener('change', e => {
                 const input = e.target;
@@ -120,11 +144,10 @@
                 if (!valueLabels[input.value]) return;
 
                 setItemState(input);
+                checkAllTestsCompleted();
 
                 const item = input.closest('.ct-check-item');
                 const idTest = item ? item.getAttribute('data-idtest') : null;
-                const wrapper = document.querySelector('.ct-wrapper');
-                const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
 
                 if (!idCt || !idTest) {
                     console.warn('IDCT ou IDTEST manquant', {
@@ -156,34 +179,6 @@
                     .catch(() => {
                         alert('Erreur lors de l\'enregistrement de ce test.');
                     });
-            });
-
-            // Changement de contrôleur : mise à jour de IDELEVE dans CT
-            const selectControleur = document.getElementById('select-controleur');
-            const wrapper = document.querySelector('.ct-wrapper');
-            const idCt = wrapper ? wrapper.getAttribute('data-idct') : null;
-
-            // Fonction pour vérifier si tous les tests sont cochés
-            function checkAllTestsCompleted() {
-                const allGroups = document.querySelectorAll('.ct-choice-group');
-                const finishBtn = document.querySelector('.ct-btn-finish');
-                
-                let allChecked = true;
-                allGroups.forEach(group => {
-                    const hasChecked = group.querySelector('input[type="radio"]:checked');
-                    if (!hasChecked) allChecked = false;
-                });
-                
-                if (finishBtn) {
-                    finishBtn.disabled = !allChecked;
-                }
-            }
-
-            // Vérifier à chaque changement de radio
-            document.addEventListener('change', e => {
-                if (e.target.type === 'radio' && e.target.name.startsWith('test_')) {
-                    checkAllTestsCompleted();
-                }
             });
 
             if (selectControleur && idCt) {
