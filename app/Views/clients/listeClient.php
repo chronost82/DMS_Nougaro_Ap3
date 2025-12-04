@@ -35,7 +35,7 @@
             if (session()->getFlashdata('confirm') !== null) {
                 echo '<p>' . session()->getFlashdata('confirm') . '<p>';
                 echo '<a class="btn-edit" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Oui</a>';
-                echo '<a class="btn-edit">Non</a>';
+                echo '<a class="btn-edit"href="'. url_to('liste-clients') . '">Non</a>';
             }
             echo $tableauclient->generate();
             ?>
