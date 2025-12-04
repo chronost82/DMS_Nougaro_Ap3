@@ -11,7 +11,7 @@ class EleveController extends BaseController
     {
         $elevesModel = model('ElevesModel');
         $listeEleves = $elevesModel->findall();
-        return view("eleve/ListeEleve", ["listeEleves" => $listeEleves]);
+        return view("eleve/listeEleve", ["listeEleves" => $listeEleves]);
     }
 
     public function delete($idEleve)
