@@ -80,3 +80,5 @@ $routes->get('modif-annee(:num)','EleveController::modifAnnee/$1',['as' => 'anne
 
 $routes->get('controletechnique-(:num)','ControleTechniqueController::affiche/$1',['as' => 'controle-technique']);
 $routes->post('controletechnique/save-etat', 'ControleTechniqueController::saveEtat');
+$routes->post('controletechnique/save-controleur', 'ControleTechniqueController::saveControleur');
+$routes->post('controletechnique/save-commentaire', 'ControleTechniqueController::saveCommentaire');

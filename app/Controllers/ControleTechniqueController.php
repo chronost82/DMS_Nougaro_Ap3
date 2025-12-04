@@ -10,12 +10,12 @@ class ControleTechniqueController extends BaseController
     public function affiche(int $idClient)
     {
         $testTechniques = model('TestTechniqueModel')->findAll();
-        $eleve = model('EleveModel')->findAll();
+        $eleve = model('ElevesModel')->findAll();
         $ct = model('CTModel')->getCTWithClient($idClient);
         return view('controleTechnique/controleTechnique.php', [
             'tests' => $testTechniques,
             'ct' => $ct,
-            'eleve' => $eleve,
+            'eleves' => $eleve,
         ]);
     }
 
@@ -58,6 +58,48 @@ class ControleTechniqueController extends BaseController
                 ]);
             }
         }
+
+        return $this->response->setJSON(['status' => 'success']);
+    }
+
+    public function saveControleur()
+    {
+        $request = $this->request;
+
+        $idCt    = $request->getPost('idCt');
+        $idEleve = $request->getPost('idEleve');
+
+        if (!$idCt || !$idEleve) {
+            return $this->response->setStatusCode(400)
+                ->setJSON(['status' => 'error', 'message' => 'Données invalides']);
+        }
+
+        $ctModel = model('CTModel');
+
+        $ctModel->update($idCt, [
+            'IDELEVE' => $idEleve,
+        ]);
+
+        return $this->response->setJSON(['status' => 'success']);
+    }
+
+    public function saveCommentaire()
+    {
+        $request = $this->request;
+
+        $idCt        = $request->getPost('idCt');
+        $commentaire = $request->getPost('commentaire');
+
+        if (!$idCt) {
+            return $this->response->setStatusCode(400)
+                ->setJSON(['status' => 'error', 'message' => 'ID contrôle manquant']);
+        }
+
+        $ctModel = model('CTModel');
+
+        $ctModel->update($idCt, [
+            'COMMENTAIRE' => $commentaire,
+        ]);
 
         return $this->response->setJSON(['status' => 'success']);
     }

@@ -205,6 +205,40 @@
 	font-size: 12px;
 }
 
+.ct-comment-section {
+	margin-top: 24px;
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	padding: 16px 20px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+}
+
+.ct-comment-label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 8px;
+	font-size: 14px;
+}
+
+.ct-comment-textarea {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	font-family: inherit;
+	font-size: 14px;
+	line-height: 1.5;
+	resize: vertical;
+	transition: border-color .2s;
+}
+
+.ct-comment-textarea:focus {
+	outline: none;
+	border-color: var(--primary, #2563eb);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+}
+
 @media (max-width: 900px) {
 	.ct-main-card {
 		flex-direction: column;
