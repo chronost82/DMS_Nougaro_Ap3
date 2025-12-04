@@ -6,8 +6,8 @@
         <div style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px;">
             <h1>Liste des clients</h1>
             <?php
-            if ($session->getFlashdata('erreur')!== null) {
-                echo '<p>' . $session->getFlashdata('erreur') . '<p>';
+            if (session()->getFlashdata('erreur') !== null) {
+                echo '<p>' . session()->getFlashdata('erreur') . '<p>';
             }
             ?>
             <form method="post">

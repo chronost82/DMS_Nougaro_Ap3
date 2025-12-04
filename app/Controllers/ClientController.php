@@ -26,12 +26,12 @@ class ClientController extends BaseController
 
             $clientPossede = $PossedeModel->where('IDCLIENT', $idClient)->find();
             $PossedeModel->delete($idClient);
-            $ClientsModel->delete($clientPossede[0]['IDCLIENT']);
             $CTModel->delete($clientPossede[0]['IDCT']);
+            $ClientsModel->delete($clientPossede[0]['IDCLIENT']);
             return redirect("liste-clients");
         }
         else{
-            return redirect("liste-clients");
+            return redirect("liste-clients")->back()->with('erreur', 'Il reste des demandes liées à ce client veuillez les supprimer avant de supprimer ce client.');
         }
     }
 
@@ -55,7 +55,7 @@ class ClientController extends BaseController
             'NUMRANDOM' => $this->request->getPost('numrandom')
         ];
         $ClientsModel->save($clientAModif);
-        return redirect('liste-clients')->back()->with('erreur', 'Il reste des demandes liées à ce client veuillez les supprimer avant de supprimer ce client.');
+        return redirect('liste-clients');
     }
 
     public function mail()
