@@ -170,12 +170,11 @@
 }
 
 .ct-actions-panel {
-	flex: 0 0 170px;
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 20px;
+	justify-content: flex-end;
+	width: 100%;
+	margin-top: 24px;
+	gap: 16px;
 }
 
 .ct-btn-finish {
@@ -184,12 +183,26 @@
 	animation: none;
 }
 
+.ct-btn-finish:disabled {
+	background-color: #d1d5db;
+	color: #6b7280;
+	cursor: not-allowed;
+	opacity: 0.6;
+	border: 1px solid #d1d5db;
+	box-shadow: none;
+}
+
+.ct-btn-finish:disabled:hover {
+	background-color: #d1d5db;
+	box-shadow: none;
+}
+
 .ct-legend {
-	margin-top: 8px;
 	display: flex;
 	gap: 16px;
 	flex-wrap: wrap;
 	font-size: 13px;
+	width: 100%;
 }
 
 .ct-legend-item {

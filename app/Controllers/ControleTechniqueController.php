@@ -19,6 +19,17 @@ class ControleTechniqueController extends BaseController
             $ctModel->update($ct[0]['IDCT'], [
                 'CTENCOURS' => 1
             ]);
+            
+            // Récupérer les états des tests existants pour ce CT
+            $idCt = $ct[0]['IDCT'];
+            $testModel = model('TestModel');
+            $testStates = $testModel->where('IDCT', $idCt)->findAll();
+            $testStatesMap = [];
+            foreach ($testStates as $test) {
+                $testStatesMap[$test['IDTESTTECHNIQUE']] = $test['ETAT'];
+            }
+        } else {
+            $testStatesMap = [];
         }
         
         return view('controleTechnique/controleTechnique.php', [
@@ -26,6 +37,7 @@ class ControleTechniqueController extends BaseController
             'ct' => $ct,
             'eleves' => $eleve,
             'idDemande' => $idDemande,
+            'testStates' => $testStatesMap,
         ]);
     }
 
@@ -75,7 +87,7 @@ class ControleTechniqueController extends BaseController
     public function selection()
     {
         $modelCt = model('CTModel');
-        return view('controleTechnique/SelectionControleTechnique.php', [
+        return view('controleTechnique/selectionControleTechnique.php', [
             'cts' => $modelCt->getAllCTWithClient(),
         ]);
 
@@ -90,7 +102,7 @@ class ControleTechniqueController extends BaseController
 
         if (!$idCt || !$idEleve) {
             return $this->response->setStatusCode(400)
-                ->setJSON(['status' => 'error', 'message' => 'Données invalides']);
+                ->setJSON(['status' => 'error', 'message' => 'Données invalides: idCt=' . $idCt . ', idEleve=' . $idEleve]);
         }
 
         $ctModel = model('CTModel');
