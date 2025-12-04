@@ -10,7 +10,7 @@
                 echo '<p>' . session()->getFlashdata('erreur') . '<p>';
             }
             ?>
-            <form method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ?');">
+            <form method="post">
                 <button class="btn-warning" type="submit" name="recup-mail">Récupération des adresses mails des clients</button>
             </form>
         </div>
@@ -29,8 +29,13 @@
                     esc($client['TEL']),
                     esc($client['EMAIL']),
                     '<a class="btn-edit" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
-                    '<a class="btn-danger" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Supprimer</a>'
+                    '<a class="btn-danger" href="' . url_to('suppr-confirm') . '">Supprimer</a>'
                 );
+            }
+            if (session()->getFlashdata('confirm') !== null) {
+                echo '<p>' . session()->getFlashdata('confirm') . '<p>';
+                echo '<a class="btn-edit" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Oui</a>';
+                echo '<a class="btn-edit">Non</a>';
             }
             echo $tableauclient->generate();
             ?>

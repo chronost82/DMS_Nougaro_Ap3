@@ -85,6 +85,7 @@ class Filters extends BaseFilters
         'before' => [
             // 'honeypot',
             'csrf' => ['except' => ['dashboard/*', 'liste-eleve', 'suppr-eleve',  'logout',  'auth/a/*',  'login*',  'modif-eleve', 'ajout-client',  'suppr-client',  'liste-clients',  'liste-test', 'suppr-test', 'modif-test', 'ajout-test', 'create-test', 'controletechnique/*']],
+
             // 'invalidchars',
             'session' => ['except' => ['/', 'login*', 'auth/a/*', 'logout', 'ajout-demande']],
         ],

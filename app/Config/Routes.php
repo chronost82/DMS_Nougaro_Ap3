@@ -41,7 +41,7 @@ $routes->post('dashboard/modif-demande-en-attente', 'DemandeController::update',
 $routes->get('dashboard/valide-demande-en-attente/(:num)', 'DemandeController::updateToTerminee/$1', ['as' => 'admin-valide-demande-en-attente']);
 
 $routes->get('ajout-demande', 'DemandeController::ajout', ['as' => 'admin-ajout-demande']);
-$routes->post('ajout-demande', 'DemandeController::create', ['as' => 'admin-ajout-demande']);
+$routes->post('ajout-demande', 'DemandeController::create', ['as' => 'admin-ajout-demande', 'filter' => 'csrf']);
 
 //Validé
 $routes->get('dashboard/liste-demandes-valides', 'DemandeValidesController::affiche', ['as' => 'admin-liste-demandes-valides']);
@@ -83,3 +83,7 @@ $routes->post('controletechnique/save-etat', 'ControleTechniqueController::saveE
 $routes->post('controletechnique/save-controleur', 'ControleTechniqueController::saveControleur');
 $routes->post('controletechnique/save-commentaire', 'ControleTechniqueController::saveCommentaire');
 $routes->post('controletechnique/terminer', 'ControleTechniqueController::terminer');
+$routes->get('confirm-suppr', 'ClientController::confirmDelete', ['as' => 'suppr-confirm']);
+
+$routes->get('restitution-controle-technique-(:num)','ControleTechniqueController::restitution/$1',['as' => 'restitution-controle-technique']);
+$routes->get('selection-controle-technique','ControleTechniqueController::selection',['as' => 'selection-controle-technique']);

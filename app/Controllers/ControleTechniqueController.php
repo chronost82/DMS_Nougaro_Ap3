@@ -84,6 +84,15 @@ class ControleTechniqueController extends BaseController
         return $this->response->setJSON(['status' => 'success']);
     }
 
+    public function selection()
+    {
+        $modelCt = model('CTModel');
+        return view('controleTechnique/SelectionControleTechnique.php', [
+            'cts' => $modelCt->getAllCTWithClient(),
+        ]);
+
+    }
+
     public function saveControleur()
     {
         $request = $this->request;
@@ -147,4 +156,5 @@ class ControleTechniqueController extends BaseController
 
         return $this->response->setJSON(['status' => 'success']);
     }
+
 }
