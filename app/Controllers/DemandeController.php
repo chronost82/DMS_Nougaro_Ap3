@@ -333,7 +333,7 @@ class DemandeController extends BaseController
             return redirect()->back()->withInput()->with('error', "Une erreur est survenue lors de la validation de la demande.");
         }
 
-        return redirect()->to(url_to('admin-liste-demandes-en-attentes'))->with('success', 'Demande validée avec succès.');
+        return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=validee')->with('success', 'Demande validée avec succès.');
     }
 
     public function updateToTerminee(int $id)
