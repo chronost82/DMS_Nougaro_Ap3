@@ -11,8 +11,8 @@ class DEMANDE extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = false;
-    protected $allowedFields    = [];
+    protected $protectFields    = true;
+    protected $allowedFields    = ['NOM', 'PRENOM', 'EMAIL', 'TEL', 'MARQUE', 'MODELE', 'ETAT', 'IDCLIENT'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
