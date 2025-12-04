@@ -144,4 +144,5 @@ class ControleTechniqueController extends BaseController
 
         return $this->response->setJSON(['status' => 'success']);
     }
+
 }
