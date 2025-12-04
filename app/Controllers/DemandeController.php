@@ -390,11 +390,11 @@ class DemandeController extends BaseController
     {
         $demandeModel = model('Demande');
         $demande = $this->request->getPost();
-
+        $demande['MODELE'] = $this->request->getPost('modele');
+        unset($demande['modele']);
         $demande['ETAT'] = 'attente';
         $demande['DATEDEMANDE'] = date('Y-m-d');
         $demandeModel->save($demande);
-        // dd($demande);
         $vehiculeModel = model('VehiculeModel');
         $marques = $vehiculeModel->distinct()->select('MARQUE')->orderBy('MARQUE', 'ASC')->findAll();
         // Fournit la liste des paires Marque/Modèle pour filtrer côté client

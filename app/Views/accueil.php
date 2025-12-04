@@ -19,23 +19,23 @@
         <form action="<?= url_to('admin-ajout-demande') ?>" method="post">
             <?=  csrf_field() ?>
             <div class="inputbox">
-                <input type="text" required="required" name="nom" id="nom">
+                <input type="text" required="required" name="NOM" id="nom">
                 <span id="nomSpan">Nom</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required" name="prenom" id="prenom">
+                <input type="text" required="required" name="PRENOM" id="prenom">
                 <span id="prenomSpan">Prenom</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required" name="email" id="email">
+                <input type="text" required="required" name="EMAIL" id="email">
                 <span class="" id="errorEmail">Email</span>
             </div>
             <div class="inputbox">
-                <input type="text" required="required" name="tel" id="tel">
+                <input type="text" required="required" name="TEL" id="tel">
                 <span class="" id="errorTel">Téléphone</span>
             </div>
             <div class="inputbox" id="selectMarque">
-                <select name="marque" id="marque" required="required">
+                <select name="MARQUE" id="marque" required="required">
                     <option value="" disabled selected id="labelMarque">Marque</option>
                     <?php foreach ($marques as $marque): ?>
                         <option value="<?= esc($marque['MARQUE']) ?>"><?= esc($marque['MARQUE']) ?></option>
