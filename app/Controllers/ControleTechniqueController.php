@@ -87,7 +87,7 @@ class ControleTechniqueController extends BaseController
     public function selection()
     {
         $modelCt = model('CTModel');
-        return view('controleTechnique/selectionControleTechnique.php', [
+        return view('controleTechnique/selectionControleTechnique', [
             'cts' => $modelCt->getAllCTWithClient(),
         ]);
 
