@@ -82,3 +82,4 @@ $routes->get('controletechnique-(:num)','ControleTechniqueController::affiche/$1
 $routes->post('controletechnique/save-etat', 'ControleTechniqueController::saveEtat');
 $routes->post('controletechnique/save-controleur', 'ControleTechniqueController::saveControleur');
 $routes->post('controletechnique/save-commentaire', 'ControleTechniqueController::saveCommentaire');
+$routes->post('controletechnique/terminer', 'ControleTechniqueController::terminer');

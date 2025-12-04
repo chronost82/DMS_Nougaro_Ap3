@@ -25,6 +25,7 @@ class ControleTechniqueController extends BaseController
             'tests' => $testTechniques,
             'ct' => $ct,
             'eleves' => $eleve,
+            'idDemande' => $idDemande,
         ]);
     }
 
@@ -109,6 +110,28 @@ class ControleTechniqueController extends BaseController
         $ctModel->update($idCt, [
             'COMMENTAIRE' => $commentaire,
         ]);
+
+        return $this->response->setJSON(['status' => 'success']);
+    }
+
+    public function terminer()
+    {
+        $idDemande = $this->request->getPost('idDemande');
+        $idCt = $this->request->getPost('idCt');
+
+        if (!$idDemande || !$idCt) {
+            return $this->response->setStatusCode(400)
+                ->setJSON(['status' => 'error', 'message' => 'Données manquantes']);
+        }
+
+        $ctModel = model('CTModel');
+        $demandeModel = model('Demande');
+
+        // Mettre CTENCOURS à 0
+        $ctModel->update($idCt, ['CTENCOURS' => 0]);
+
+        // Mettre ETAT à 'terminee' dans la demande
+        $demandeModel->update($idDemande, ['ETAT' => 'terminee']);
 
         return $this->response->setJSON(['status' => 'success']);
     }
