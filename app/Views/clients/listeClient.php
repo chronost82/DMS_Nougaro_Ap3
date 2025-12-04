@@ -9,6 +9,11 @@
             if (session()->getFlashdata('erreur') !== null) {
                 echo '<p>' . session()->getFlashdata('erreur') . '<p>';
             }
+            if (session()->getFlashdata('confirm') !== null) {
+                echo '<p>' . session()->getFlashdata('confirm') . '<p>';
+                echo '<a class="btn-edit" href="' . url_to('client-suppr', session()->getFlashdata('idClientToDelete')) . '">Oui</a>';
+                echo '<a class="btn-edit"href="' . url_to('liste-clients') . '">Non</a>';
+            }
             ?>
             <form method="post">
                 <button class="btn-warning" type="submit" name="recup-mail">Récupération des adresses mails des clients</button>
@@ -29,13 +34,8 @@
                     esc($client['TEL']),
                     esc($client['EMAIL']),
                     '<a class="btn-edit" href="' . url_to('modif-client', $client['IDCLIENT']) . '">Modifier</a>',
-                    '<a class="btn-danger" href="' . url_to('suppr-confirm',$client['IDCLIENT']) . '">Supprimer</a>'
+                    '<a class="btn-danger" href="' . url_to('suppr-confirm', $client['IDCLIENT']) . '">Supprimer</a>'
                 );
-            }
-            if (session()->getFlashdata('confirm') !== null) {
-                echo '<p>' . session()->getFlashdata('confirm') . '<p>';
-                echo '<a class="btn-edit" href="' . url_to('client-suppr', $client['IDCLIENT']) . '">Oui</a>';
-                echo '<a class="btn-edit"href="'. url_to('liste-clients') . '">Non</a>';
             }
             echo $tableauclient->generate();
             ?>

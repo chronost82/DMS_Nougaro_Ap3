@@ -45,9 +45,9 @@ class ClientController extends BaseController
     {
         $demandeModel = model('Demande');
         if ($demandeModel->where('IDCLIENT', $idClient)->find()) {
-            return redirect("liste-clients")->back()->with('erreur', 'Avant de supprimer ce client, veuillez effacer toutes les demandes associées à lui.');
+            return redirect("liste-clients")->back()->with('erreur', 'Avant de supprimer ce client, veuillez effacer toutes les demandes associées à lui.')->with('idClientToDelete',$idClient);
         } else {
-            return redirect("liste-clients")->back()->with('confirm', 'Êtes-vous sure de vouloir supprimer ce client');
+            return redirect("liste-clients")->back()->with('confirm', 'Êtes-vous sure de vouloir supprimer ce client')->with('idClientToDelete',$idClient);
         }
     }
 
