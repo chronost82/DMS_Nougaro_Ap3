@@ -23,8 +23,7 @@ class ClientController extends BaseController
         $testModel = model('TestModel');
         $demandeModel = model('Demande');
         $clientPossede = $possedeModel->where('IDCLIENT', $idClient)->find();
-        $clientCT = $cTModel->where('IDCT', $clientPossede[0]['IDCT'])->find();
-        $clientTest = $testModel->where('IDCT', $clientPossede[0]['IDCT'])->find();
+
         if ($demandeModel->where('IDCLIENT', $idClient)->find()) {
             return redirect("liste-clients")->back()->with('erreur', 'Il reste des demandes liées à ce client veuillez les supprimer avant de supprimer ce client.');
         } else {
