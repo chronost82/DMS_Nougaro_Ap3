@@ -394,8 +394,8 @@ class DemandeController extends BaseController
         $demande = $this->request->getPost();
         $demande['MODELE'] = $this->request->getPost('modele');
         unset($demande['modele']);
-        $demande['ETAT'] = 'attente';
         $demande['DATEDEMANDE'] = date('Y-m-d');
+        $demande['ETAT'] = 'attente';
         $demandeModel->save($demande);
         $vehiculeModel = model('VehiculeModel');
         $marques = $vehiculeModel->distinct()->select('MARQUE')->orderBy('MARQUE', 'ASC')->findAll();

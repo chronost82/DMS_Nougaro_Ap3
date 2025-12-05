@@ -12,7 +12,7 @@ class DEMANDE extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['NOM', 'PRENOM', 'EMAIL', 'TEL', 'MARQUE', 'MODELE', 'ETAT', 'IDCLIENT'];
+    protected $allowedFields    = ['NOM', 'PRENOM', 'EMAIL', 'TEL', 'MARQUE', 'MODELE', 'ETAT', 'IDCLIENT', 'DATEDEMANDE'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
