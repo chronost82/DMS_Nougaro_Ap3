@@ -181,7 +181,8 @@ class ControleTechniqueController extends BaseController
         ]);
 
         // Créer une instance de Dompdf
-        $dompdf = new \Dompdf\Dompdf();
+        $dompdf = new \Dompdf\Dompdf(array('enable_remote' => true));
+        $dompdf->getOptions()->getChroot();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
