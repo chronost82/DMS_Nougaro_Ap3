@@ -83,8 +83,11 @@ $routes->post('controletechnique/save-etat', 'ControleTechniqueController::saveE
 $routes->post('controletechnique/save-controleur', 'ControleTechniqueController::saveControleur');
 $routes->post('controletechnique/save-commentaire', 'ControleTechniqueController::saveCommentaire');
 $routes->post('controletechnique/terminer', 'ControleTechniqueController::terminer');
+
+//Confirmation de suppression par message flash
 $routes->get('confirm-suppr(:num)', 'ClientController::confirmDelete/$1', ['as' => 'suppr-confirm']);
-$routes->get('confirm-suppr-eleve', 'EleveController::confirmDelete', ['as' => 'eleve-confirm-suppr']);
+$routes->get('confirm-suppr-eleve(:num)', 'EleveController::confirmDelete/$1', ['as' => 'eleve-confirm-suppr']);
+$routes->get('confirm-suppr-test(:num)', 'TestController::confirmDelete/$1', ['as' => 'test-confirm-suppr']);
 
 $routes->get('restitution-controle-technique-(:num)','ControleTechniqueController::restitution/$1',['as' => 'restitution-controle-technique']);
 $routes->get('ecran-controle-technique-(:num)','ControleTechniqueController::ecran/$1',['as' => 'ecran-controle-technique']);
