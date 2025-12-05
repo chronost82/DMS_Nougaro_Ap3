@@ -56,7 +56,7 @@
                 <input type="submit" id="valid" value="Envoyer">
             </div>
             <div class="lien">
-                <a href="">Êtes-vous déja inscrit ?</a><br>
+                <!-- <a href="">Êtes-vous déja inscrit ?</a><br> -->
                 <a id="infoPreCt" href="">Qu’est-ce qu’un pré contrôle technique ?</a><br>
                 <a href="pdf/moto concerne.pdf" target="_blank">Quels véhicules sont concernés?</a>
             </div>
