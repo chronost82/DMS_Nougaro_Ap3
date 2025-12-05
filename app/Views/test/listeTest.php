@@ -28,7 +28,7 @@ if (session()->getFlashdata('confirm') !== null) {
                 $tableauTest->addRow(
                     esc($test['LIBELLE']),
                     '<a class="btn-primary" href="' . url_to('modif-test', $test['IDTESTTECHNIQUE']) . '">Modifier</a>',
-                    '<a class="btn-danger" href="' . url_to('test-confirm-suppr') . '">Supprimer</a>'
+                    '<a class="btn-danger" href="' . url_to('test-confirm-suppr', $test['IDTESTTECHNIQUE']) . '">Supprimer</a>'
                 );
             }
             echo $tableauTest->generate();
