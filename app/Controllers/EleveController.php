@@ -21,6 +21,12 @@ class EleveController extends BaseController
         return redirect("liste-eleve");
     }
 
+    public function confirmDelete()
+    {
+        return redirect("liste-clients")->back()->with('confirm', 'Êtes-vous certaine de vouloir effacer cet élève ?');
+    }
+
+
     public function modif($idEleve)
     {
         $elevesModel = model('ElevesModel');
@@ -65,11 +71,11 @@ class EleveController extends BaseController
     {
         $eleveModel = model('ElevesModel');
         $eleveAModif = $eleveModel->find($idEleve);
-        if($eleveAModif['ANNEE']<date('Y')){
-            $modifAnnee =[
-                'ANNEE'=>date('Y'),
+        if ($eleveAModif['ANNEE'] < date('Y')) {
+            $modifAnnee = [
+                'ANNEE' => date('Y'),
             ];
-           $eleveModel->update($idEleve,$modifAnnee);
+            $eleveModel->update($idEleve, $modifAnnee);
         }
         return redirect('liste-eleve');
     }

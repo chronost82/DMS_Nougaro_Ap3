@@ -295,7 +295,7 @@
                         .then(data => {
                             if (data.status === 'success') {
                                 alert('Contrôle technique terminé avec succès.');
-                                window.location.href = '<?= url_to('admin-liste-demandes-en-attentes') ?>';
+                                window.location.href = '<?= url_to('admin-liste-demandes-en-attentes') ?>?status=terminee';
                             } else {
                                 alert('Erreur lors de la finalisation du contrôle technique.');
                             }
