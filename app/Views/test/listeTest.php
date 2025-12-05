@@ -1,6 +1,16 @@
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
+<?php
+if (session()->getFlashdata('confirm') !== null) {
+    echo '<p>' . session()->getFlashdata('confirm') . '<p>';
+    echo '<a class="btn-edit" href="' . url_to('test-suppr', session()->getFlashdata('idTestToDelete')) . '">Oui</a>';
+    echo '<a class="btn-edit"href="' . url_to('test-liste') . '">Non</a>';
+}
+?>
+
+
+?>
 <section class="container">
     <div class="card">
         <div style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px;">
@@ -18,7 +28,7 @@
                 $tableauTest->addRow(
                     esc($test['LIBELLE']),
                     '<a class="btn-primary" href="' . url_to('modif-test', $test['IDTESTTECHNIQUE']) . '">Modifier</a>',
-                    '<a class="btn-danger" href="' . url_to('test-suppr', $test['IDTESTTECHNIQUE']) . '">Supprimer</a>'
+                    '<a class="btn-danger" href="' . url_to('test-confirm-suppr') . '">Supprimer</a>'
                 );
             }
             echo $tableauTest->generate();

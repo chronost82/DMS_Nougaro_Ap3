@@ -21,9 +21,9 @@ class EleveController extends BaseController
         return redirect("liste-eleve");
     }
 
-    public function confirmDelete()
+    public function confirmDelete($idEleve)
     {
-        return redirect("liste-clients")->back()->with('confirm', 'Êtes-vous certaine de vouloir effacer cet élève ?');
+        return redirect("liste-eleve")->back()->with('confirm', 'Êtes-vous sure de vouloir supprimer cet élève')->with('idEleveToDelete', $idEleve);
     }
 
 

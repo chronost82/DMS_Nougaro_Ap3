@@ -19,7 +19,12 @@ class TestController extends BaseController
     {
         $testModel = model('TestTechniqueModel');
         $testModel->delete($idTest);
-       return redirect("test-liste");
+        return redirect("test-liste");
+    }
+
+    public function confirmDelete($idTest)
+    {
+        return redirect("test-liste")->back()->with('confirm', 'Êtes-vous sure de vouloir supprimer ce client')->with('idTestToDelete', $idTest);
     }
 
     public function modif($idTest)
@@ -29,7 +34,7 @@ class TestController extends BaseController
         return view("test/modifTest", ["testAModif" => $testAModif]);
     }
 
-     public function update()
+    public function update()
     {
         $testModel = model('TestTechniqueModel');
 
@@ -49,8 +54,8 @@ class TestController extends BaseController
     public function create()
     {
         $testModel = model('TestTechniqueModel');
-        $ajoutTest =[
-            'LIBELLE'=> $this->request->getPost('libelle')
+        $ajoutTest = [
+            'LIBELLE' => $this->request->getPost('libelle')
         ];
         $testModel->save($ajoutTest);
 
