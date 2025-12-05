@@ -1,18 +1,16 @@
 <?php $this->extend('layout') ?>
 <?= $this->section('content') ?>
-
-<?php
-if (session()->getFlashdata('confirm') !== null) {
-    echo '<p>' . session()->getFlashdata('confirm') . '<p>';
-    echo '<a class="btn-edit" href="' . url_to('suppr-eleve', session()->getFlashdata('idEleveToDelete')) . '">Oui</a>';
-    echo '<a class="btn-edit"href="' . url_to('liste-eleve') . '">Non</a>';
-}
-?>
-?>
 <section class="container">
     <div class="card">
         <div style="padding:16px; border-bottom:1px solid var(--border); background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px;">
             <h1>Liste des élèves</h1>
+            <?php
+            if (session()->getFlashdata('confirm') !== null) {
+                echo '<p>' . session()->getFlashdata('confirm') . '<p>';
+                echo '<a class="btn-edit" href="' . url_to('suppr-eleve', session()->getFlashdata('idEleveToDelete')) . '">Oui</a>';
+                echo '<a class="btn-edit"href="' . url_to('liste-eleve') . '">Non</a>';
+            }
+            ?>
             <a class="btn-primary" href="<?= url_to('ajout-eleve') ?>">Ajouter un élève</a>
         </div>
         <div class="table-wrap" style="padding: 8px 12px 16px;">
