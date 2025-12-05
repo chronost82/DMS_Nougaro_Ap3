@@ -73,7 +73,7 @@ class DemandeController extends BaseController
         $marques = $vehiculeModel->distinct()->select('MARQUE')->orderBy('MARQUE', 'ASC')->findAll();
         $vehicules = $vehiculeModel->select('MARQUE, MODELE')->orderBy('MARQUE', 'ASC')->orderBy('MODELE', 'ASC')->findAll();
 
-        $status = 'attente';
+        $status = $this->request->getGet('status') ?? 'attente';
         return view('dashboard/GestionDemandes.php', ['clients' => $demandes, 'status' => $status, 'marques' => $marques, 'vehicules' => $vehicules]);
     }
 

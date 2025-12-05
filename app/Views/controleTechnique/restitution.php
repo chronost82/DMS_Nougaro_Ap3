@@ -14,23 +14,38 @@
         body {
             font-family: 'Segoe UI', 'Segoe UI', sans-serif;
             color: #222;
-            line-height: 1.8;
-            padding: 30px 20px;
-            font-size: 16px;
+            line-height: 1.5;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .bandeau-lycee {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 5px;
+            page-break-after: avoid;
+        }
+
+        .bandeau-lycee img {
+            max-width: 100%;
+            max-height: 100%;
+            height: auto;
         }
 
         .restitution-header {
+            margin-bottom: 12px;
             text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #0066cc;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #A24246;
+            page-break-after: avoid;
         }
 
         .restitution-header h1 {
-            font-size: 32px;
-            color: #0066cc;
-            margin-bottom: 8px;
+            font-size: 24px;
+            color: #A24246;
+            margin-bottom: 3px;
             font-weight: 700;
+            letter-spacing: 1px;
         }
 
         .restitution-header p {
@@ -39,41 +54,42 @@
         }
 
         .restitution-section {
-            margin-bottom: 30px;
+            margin-bottom: 12px;
             background: #f9f9f9;
             border: 1px solid #ddd;
             border-radius: 6px;
-            padding: 20px;
+            padding: 12px;
             page-break-inside: avoid;
         }
 
         .restitution-section h2 {
-            font-size: 18px;
-            color: #0066cc;
-            margin-bottom: 18px;
-            border-left: 4px solid #0066cc;
-            padding-left: 12px;
+            font-size: 16px;
+            color: #A24246;
+            margin-bottom: 10px;
+            border-left: 5px solid #A24246;
+            padding-left: 10px;
+            letter-spacing: 1px;
             font-weight: 700;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 18px;
+            gap: 10px;
         }
 
         .info-item {
             background: white;
-            padding: 14px 16px;
+            padding: 10px 12px;
             border-radius: 5px;
-            border-left: 4px solid #0066cc;
+            border-left: 4px solid #A24246;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .info-label {
             font-weight: 700;
             font-size: 12px;
-            color: #0066cc;
+            color: #A24246;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             margin-bottom: 8px;
@@ -101,6 +117,7 @@
 
         .tests-table th {
             background: #0066cc;
+                background: #A24246;
             color: white;
             font-weight: 700;
             text-transform: uppercase;
@@ -156,14 +173,14 @@
 
         .commentaire-box {
             background: white;
-            border: 1px solid #cce5ff;
+            border: 1px solid #f0d0d0;
             padding: 16px;
             border-radius: 5px;
             margin-top: 12px;
         }
 
         .commentaire-box h3 {
-            color: #0066cc;
+            color: #A24246;
             font-size: 15px;
             margin-bottom: 10px;
             font-weight: 700;
@@ -208,9 +225,12 @@
     </style>
 </head>
 <body>
+    <div class="bandeau-lycee">
+        <img src="<?= base_url('img/bandeau_lycee.png') ?>" alt="Bandeau Lycée Claude Nougaro">
+    </div>
+
     <div class="restitution-header">
         <h1>Rapport de Précontrole Technique</h1>
-        <p>Restitution complete du précontrole technique effectué</p>
     </div>
 
     <!-- Informations vehicule -->
@@ -242,10 +262,6 @@
                 <div class="info-value"><?= esc($ct['HEURE'] ?? 'N/A') ?></div>
             </div>
         </div>
-    </div>
-
-    <!-- Informations client -->
-    <div class="restitution-section">
         <h2>INFORMATIONS CLIENT</h2>
         <div class="info-grid">
             <div class="info-item">

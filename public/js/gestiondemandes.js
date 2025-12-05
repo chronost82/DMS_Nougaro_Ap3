@@ -86,6 +86,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     statusRadios.forEach(r => r.addEventListener('change', applyFilter));
+    
+    // Récupérer le paramètre status de l'URL et sélectionner le radio correspondant
+    const urlParams = new URLSearchParams(window.location.search);
+    const statusParam = urlParams.get('status');
+    if (statusParam) {
+        const radioToCheck = document.querySelector(`input[name="statusFilter"][data-status="${statusParam}"]`);
+        if (radioToCheck) {
+            radioToCheck.checked = true;
+        }
+    }
+    
     applyFilter();
 
     // Helper pour récupérer les disponibilités côté backend (table CT)
