@@ -55,13 +55,15 @@ class CTModel extends Model
             ->findAll();
     }
 
-        public function getAllCTWithClient(): array
+    public function getAllCTWithClient()
     {
-        return $this->select('CT.*, CLIENT.NOM, CLIENT.PRENOM, POSSEDE.*, VEHICULE.*')
+        $req = $this->select('CT.*, CLIENT.NOM, CLIENT.PRENOM, POSSEDE.*, VEHICULE.*')
             ->join('POSSEDE', 'possede.IDCT = CT.IDCT')
             ->join('CLIENT', 'CLIENT.IDCLIENT = POSSEDE.IDCLIENT')
             ->join('VEHICULE', 'VEHICULE.IDVEHICULE = POSSEDE.IDVEHICULE')
             ->where('CT.CTENCOURS', 1)
             ->findAll();
+
+        return json_encode($req);
     }
 }

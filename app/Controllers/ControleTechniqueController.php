@@ -86,10 +86,7 @@ class ControleTechniqueController extends BaseController
 
     public function selection()
     {
-        $modelCt = model('CTModel');
-        return view('controleTechnique/selectionControleTechnique', [
-            'cts' => $modelCt->getAllCTWithClient(),
-        ]);
+        return view('controleTechnique/selectionControleTechnique');
     }
 
     public function saveControleur()
@@ -205,5 +202,12 @@ class ControleTechniqueController extends BaseController
         return view('controleTechnique/ecran-controle-technique', [
             'idct' => $idct,
         ]);
+    }
+
+    public function selectionAjax()
+    {
+        $modelCt = model('CTModel');
+        $ctResponse = $modelCt->getAllCTWithClient();
+        return $this->response->setJSON($ctResponse);
     }
 }

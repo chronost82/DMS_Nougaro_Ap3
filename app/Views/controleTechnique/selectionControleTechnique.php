@@ -3,13 +3,11 @@
 <div id="divCt">
 </div>
 <script>
-    let updateView = function() {
-        let cts = <?= json_encode($cts)  ?>;
-        let ctEnCours = document.createElement('a');
-        ctEnCours.innerHTML = cts[0].NOM + " " + cts[0].PRENOM + " " + cts[0].MARQUE + " " + cts[0].MODELE;
-        divCt.append(ctEnCours);
+    let updateView = async function() {
+        let response = fetch("<?= url_to('controle-technique-selection-ajax') ?>");
+        let ctList = await response;
     };
 
-    setInterval(updateView(), 2000);
+  updateView();
 </script>
 <?= $this->endsection('content') ?>
