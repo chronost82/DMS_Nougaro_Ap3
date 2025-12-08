@@ -7,12 +7,13 @@
             <h1>Liste des clients</h1>
             <?php
             if (session()->getFlashdata('erreur') !== null) {
-                echo '<p>' . session()->getFlashdata('erreur') . '<p>';
+                echo '<p class="warning">' . session()->getFlashdata('erreur') . '<p>';
             }
             if (session()->getFlashdata('confirm') !== null) {
-                echo '<p>' . session()->getFlashdata('confirm') . '<p>';
-                echo '<a class="btn-edit" href="' . url_to('client-suppr', session()->getFlashdata('idClientToDelete')) . '">Oui</a>';
-                echo '<a class="btn-edit"href="' . url_to('liste-clients') . '">Non</a>';
+                echo '<p class="warning">' . session()->getFlashdata('confirm') . '<p>';
+                echo '<a class="btn-danger" href="' . url_to('client-suppr', session()->getFlashdata('idClientToDelete')) . '">Oui</a>';
+                echo'   ';
+                echo '<a class="btn-primary"href="' . url_to('liste-clients') . '">Non</a>';
             }
             ?>
             <form method="post">

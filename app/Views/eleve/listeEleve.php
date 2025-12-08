@@ -6,9 +6,10 @@
             <h1>Liste des élèves</h1>
             <?php
             if (session()->getFlashdata('confirm') !== null) {
-                echo '<p>' . session()->getFlashdata('confirm') . '<p>';
-                echo '<a class="btn-edit" href="' . url_to('suppr-eleve', session()->getFlashdata('idEleveToDelete')) . '">Oui</a>';
-                echo '<a class="btn-edit"href="' . url_to('liste-eleve') . '">Non</a>';
+                echo '<p class= "warning">' . session()->getFlashdata('confirm') . '<p>';
+                echo '<a class="btn-danger" href="' . url_to('suppr-eleve', session()->getFlashdata('idEleveToDelete')) . '">Oui</a>';
+                echo '  ';
+                echo '<a class="btn-primary"href="' . url_to('liste-eleve') . '">Non</a>';
             }
             ?>
             <a class="btn-primary" href="<?= url_to('ajout-eleve') ?>">Ajouter un élève</a>
@@ -25,9 +26,9 @@
                     esc($eleve['NOM']),
                     esc($eleve['PRENOM']),
                     esc($eleve['ANNEE'] . '-' . $eleve['ANNEE'] + 1),
-                    '<a class="btn" href="' . url_to('annee-modif', $eleve['IDELEVE']) . '">Rafraîchir l\'année de scolarité</a>',
-                    '<a class="btn-warning" href="' . url_to('eleve-modif', $eleve['IDELEVE']) . '">Modifier</a>',
-                    '<a class="btn btn-danger" href="' . url_to('eleve-confirm-suppr', $eleve['IDELEVE']) . '">Supprimer</a>'
+                    '<a class="btn-primary" href="' . url_to('annee-modif', $eleve['IDELEVE']) . '">Rafraîchir l\'année de scolarité</a>',
+                    '<a class="btn-edit" href="' . url_to('eleve-modif', $eleve['IDELEVE']) . '">Modifier</a>',
+                    '<a class="btn-danger" href="' . url_to('eleve-confirm-suppr', $eleve['IDELEVE']) . '">Supprimer</a>'
                 );
             }
             echo $tableauEleves->generate();
