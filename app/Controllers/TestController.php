@@ -24,7 +24,7 @@ class TestController extends BaseController
 
     public function confirmDelete($idTest)
     {
-        return redirect("test-liste")->back()->with('confirm', 'Êtes-vous sûre de vouloir supprimer ce test technique ? (Ce test technique disparaîtra des critères du contrôle technique)')->with('idTestToDelete', $idTest);
+        return redirect("test-liste")->back()->with('confirm', 'Êtes-vous sûr de vouloir supprimer ce test technique ? (Ce test technique disparaîtra des critères du contrôle technique)')->with('idTestToDelete', $idTest);
     }
 
     public function modif($idTest)

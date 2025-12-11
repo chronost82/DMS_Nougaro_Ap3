@@ -6,9 +6,10 @@
             <h1>Liste des tests</h1>
             <?php
             if (session()->getFlashdata('confirm') !== null) {
-                echo '<p>' . session()->getFlashdata('confirm') . '<p>';
-                echo '<a class="btn-edit" href="' . url_to('test-suppr', session()->getFlashdata('idTestToDelete')) . '">Oui</a>';
-                echo '<a class="btn-edit"href="' . url_to('test-liste') . '">Non</a>';
+                echo '<p class ="warning">' . session()->getFlashdata('confirm') . '<p>';
+                echo '<a class="btn-danger" href="' . url_to('test-suppr', session()->getFlashdata('idTestToDelete')) . '">Oui</a>';
+                echo'   '; 
+                echo '<a class="btn-primary"href="' . url_to('test-liste') . '">Non</a>';
             }
             ?>
             <a class="btn-primary" href="<?= url_to('ajout-test') ?>">Nouveau test</a>
