@@ -12,31 +12,57 @@
 <body>
     <div class="ct-main-card" role="form" aria-labelledby="ctFormTitle">
         <ul class="ct-checklist " id="ctFormTitle">
+        </ul>
     </div>
 </body>
 
 <script>
     let updateView = async function() {
-        let response = fetch("<?= url_to('ecran-controle-technique-ajax', $ct['IDCT']) ?>");
-        let ctDetails = await response;
-        ctDetails = await ctDetails.json();
-        ctDetails.forEach(function(element){
-            console.log(element);
-            liTest = document.createElement('li');
-            divTest = document.createElement('div');
-            spanTest = document.createElement('span');
-            liTest.className = "ct-checklist-item";
-            liTest.setAttribute("data-ct-detail-id", element.IDCTDETAIL);
-            divTest.className = "ct-choice-group";
-            spanTest.className = "ct-check-label";
+        let response = await fetch("<?= url_to('ecran-controle-technique-ajax', $ct['IDCT']) ?>");
+        let ctDetails = await response.json();
+        ctFormTitle.innerHTML = '';
+        ctDetails.forEach(function(element, index2) {
+            let liTest = document.createElement('li');
+            liTest.className = "ct-check-item";
+            liTest.setAttribute("data-idtest", element.IDTEST);
+            liTest.setAttribute("data-state", element.ETAT);
 
-            spanTest.innerHTML = element.LIBELLE;
+            let divGroup = document.createElement('div');
+            divGroup.className = "ct-choice-group";
+            divGroup.setAttribute("role", "radiogroup");
+            divGroup.setAttribute("aria-label", element.LIBELLE);
+
+            ["ok", "surv", "def"].forEach(function(value, index) {
+                let label = document.createElement('label');
+                let input = document.createElement('input');
+                input.type = "radio";
+                input.name = index2;
+                input.value = value;
+                if (value === element.ETAT) {
+                    input.checked = true;
+                }
+
+                let span = document.createElement('span');
+                span.className = "ct-square";
+                span.setAttribute("data-color", value === "ok" ? "green" : value === "surv" ? "amber" : "red");
+
+                label.appendChild(input);
+                label.appendChild(span);
+                divGroup.appendChild(label);
+            });
+
+            let spanLabel = document.createElement('span');
+            spanLabel.className = "ct-check-label";
+            spanLabel.textContent = element.LIBELLE;
+
+
+            liTest.appendChild(divGroup);
+            liTest.appendChild(spanLabel);
+
             ctFormTitle.appendChild(liTest);
-            liTest.appendChild(divTest);
-            divTest.appendChild(spanTest);
         });
 
     };
 
-    updateView();
+    setInterval(updateView, 2000);
 </script>
