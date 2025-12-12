@@ -203,7 +203,7 @@ form {
 
 .credit {
     font-size: 13px;
-    
+    text-align: center;
 }
 
 @media only screen and (max-width: 576px) {
@@ -222,11 +222,10 @@ form {
         margin-bottom: 35px;
     }
 
-    .form-contact .inputbox input:not([type="submit"]) {
-        height: 20px;
-        width: 90%;
+    .form-contact .inputbox input:not([type="submit"], [class="marque"]),
+    .form-contact .inputbox select {
         padding: 5px;
-        font-size: 0.9em;
+        /* font-size: 0.9em; */
     }
 
     .form-contact h1 {
@@ -237,6 +236,48 @@ form {
     .form-contact .inputbox span {
         font-size: 0.9em;
         top: 20%;
+        left: 10px;
+    }
+
+    .form-contact .inputbox input:focus~span,
+    .form-contact .inputbox input:valid~span {
+        font-size: 0.9em;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .form-contact {
+        width: 60%;
+    }
+
+    form {
+        width: 80%;
+    }
+
+    .form-contact .inputbox {
+        position: relative;
+        width: 100%;
+        height: 40px;
+        margin-bottom: 35px;
+        font-size: 1.2em;
+    }
+
+    .form-contact .inputbox input:not([type="submit"], [class="marque"]),
+    .form-contact .inputbox select {
+        padding: 5px;
+        
+    }
+
+    .form-contact h1 {
+        font-size: 1.5em;
+        margin: 15px;
+        margin-bottom: 25px;
+    }
+
+    .form-contact .inputbox span {
+        font-size: 0.9em;
+        top: 20%;
+        left: 10px;
     }
 
     .form-contact .inputbox input:focus~span,
