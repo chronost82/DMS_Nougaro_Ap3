@@ -93,5 +93,6 @@ $routes->get('restitution-controle-technique-(:num)','ControleTechniqueControlle
 
 
 $routes->get('ecran-controle-technique-(:num)','ControleTechniqueController::ecran/$1',['as' => 'ecran-controle-technique']);
+$routes->get('ecran-controle-technique-ajax-(:num)','ControleTechniqueController::ecranAjax/$1',['as' => 'ecran-controle-technique-ajax']);
 $routes->get('selection-controle-technique','ControleTechniqueController::selection',['as' => 'selection-controle-technique']);
 $routes->get('controle-technique-selection-ajax','ControleTechniqueController::selectionAjax',['as' => 'controle-technique-selection-ajax']);

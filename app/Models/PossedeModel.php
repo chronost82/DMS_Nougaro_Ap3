@@ -52,4 +52,6 @@ class POSSEDEModel extends Model
             ->join('CT', 'CT.IDCT = POSSEDE.IDCT', 'left')
             ->findAll();
     }
+
+    
 }

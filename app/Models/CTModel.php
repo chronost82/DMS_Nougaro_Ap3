@@ -66,4 +66,17 @@ class CTModel extends Model
 
         return json_encode($req);
     }
+
+    public function ecranAjax(int $idCT)
+    {
+        $req = $this->select('*')
+            ->join('POSSEDE', 'POSSEDE.IDCT = CT.IDCT')
+            ->join('ELEVES', 'ELEVES.IDELEVE = CT.IDELEVE')
+            ->join('TEST', 'TEST.IDCT = CT.IDCT')
+            ->join('TESTSTECHNIQUE', 'TESTSTECHNIQUE.IDTESTTECHNIQUE = TEST.IDTESTTECHNIQUE')
+            ->where('CT.IDCT', $idCT)
+            ->findAll();
+
+        return json_encode($req);
+    }
 }

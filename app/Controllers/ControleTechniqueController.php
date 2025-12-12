@@ -198,10 +198,10 @@ class ControleTechniqueController extends BaseController
 
     public function ecran(int $idCt)
     {
-        $idct = model('CTModel')->find($idCt);
+        $ct = model('CTModel')->find($idCt);
 
-        return view('controleTechnique/ecran-controle-technique', [
-            'idct' => $idct,
+        return view('controleTechnique/ecranControleTechnique', [
+            'ct' => $ct,
         ]);
     }
 
@@ -210,5 +210,12 @@ class ControleTechniqueController extends BaseController
         $modelCt = model('CTModel');
         $ctResponse = $modelCt->getAllCTWithClient();
         return $this->response->setJSON($ctResponse);
+    }
+
+    public function ecranAjax(int $idCt)
+    {
+        $modelCt = model('CTModel');
+        $ctDetails = $modelCt->ecranAjax($idCt);
+        return $this->response->setJSON($ctDetails);
     }
 }
