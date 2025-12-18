@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sessionStorage.setItem("rgpd", "false");
                 modalConfirm.textContent = "D'accord";
                 closeModal();
-                window.history.back();
+                window.location = 'http://dmsnougaro.local/redirection-donnees-personnelles';
             });
             
             modalContentId.append(buttonBack);

@@ -88,7 +88,7 @@ class DemandeController extends BaseController
     public function deleteDemandeValide(int $id)
     {
         $status = $this->request->getGet('status') ?? 'validee';
-        if (empty($id)){
+        if (empty($id)) {
             return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('error', 'ID de la demande invalide.');
         }
         $clientModel = model('ClientModel');
@@ -340,42 +340,42 @@ class DemandeController extends BaseController
     {
         $demandeModel = model('Demande');
         $demande = $demandeModel->find($id);
-        
+
         if (empty($demande) || empty($demande['IDCLIENT'])) {
             return redirect()->back()->with('error', 'Demande introuvable.');
         }
-        
+
         // Récupérer l'IDCT via le client
         $possedeModel = model('PossedeModel');
         $possede = $possedeModel->where('IDCLIENT', $demande['IDCLIENT'])->first();
-        
+
         if (empty($possede) || empty($possede['IDCT'])) {
             return redirect()->back()->with('error', 'Aucun contrôle technique associé à ce client.');
         }
-        
+
         $idCT = $possede['IDCT'];
-        
+
         // Générer NUMCT si inexistant
         $ctModel = model('CTModel');
         $ct = $ctModel->find($idCT);
-        
+
         if (empty($ct['NUMCT'])) {
             // Générer un numéro unique basé sur l'année et un compteur
             $year = date('Y');
             $lastNum = $ctModel->where('NUMCT LIKE', $year . '%')
-                               ->orderBy('NUMCT', 'DESC')
-                               ->first();
-            
+                ->orderBy('NUMCT', 'DESC')
+                ->first();
+
             if ($lastNum && !empty($lastNum['NUMCT'])) {
                 $lastNumInt = (int) substr($lastNum['NUMCT'], 4);
                 $newNum = $year . str_pad($lastNumInt + 1, 6, '0', STR_PAD_LEFT);
             } else {
                 $newNum = $year . '000001';
             }
-            
+
             $ctModel->update($idCT, ['NUMCT' => (int)$newNum]);
         }
-        
+
         // Rediriger vers la page de contrôle technique
         return redirect()->to(url_to('controle-technique', $id));
     }
@@ -415,7 +415,8 @@ class DemandeController extends BaseController
         $year = (int) ($this->request->getGet('year') ?? 0);
         $month = (int) ($this->request->getGet('month') ?? 0);
 
-        $from = null; $to = null;
+        $from = null;
+        $to = null;
         if ($year > 0 && $month > 0) {
             $from = sprintf('%04d-%02d-01', $year, $month);
             $to = date('Y-m-t', strtotime($from));
@@ -442,12 +443,12 @@ class DemandeController extends BaseController
         return $this->response->setJSON($out);
     }
 
-     public function mail()
+    public function mail()
     {
         $demandeModel = model('Demande');
 
         // Récupération des emails
-        $emails = $demandeModel->select('email')->where('etat','attente')->findAll();
+        $emails = $demandeModel->select('email')->where('etat', 'attente')->findAll();
 
         if (empty($emails)) {
             return 'Aucun email trouvé.';
@@ -457,5 +458,9 @@ class DemandeController extends BaseController
         $filename = 'emails_Clients_en_attentes' . date('Y-m-d') . '.txt';
 
         return $this->response->download($filename, $content);
+    }
+
+    public function redirect() {
+        return view('redirectionaccueil');
     }
 }
