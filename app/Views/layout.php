@@ -38,7 +38,7 @@
         </div>
         <nav id="mainNav" class="top-nav__inner">
             <a href="<?= url_to('admin-liste-demandes-en-attentes') ?>" class="<?= nav_btn_class('admin-liste-demandes-en-attentes') ?>">Demandes</a>
-
+            <a href="<?= url_to('selection-controle-technique') ?>">Voir contrôles techniques en cours</a>
             <?php
             if (auth()->user()->inGroup('prof')) {?>
             <a href="<?= url_to('liste-clients') ?>" class="<?= nav_btn_class('liste-clients') ?>">Liste des clients</a>
