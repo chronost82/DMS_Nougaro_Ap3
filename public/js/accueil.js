@@ -232,20 +232,23 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitle.textContent = 'Données personnelles'
 
             modalText.innerHTML = 'Sur ce site web, toutes les données sont utilisées à des fins pédagogiques.<br>Acceptez-vous que vos données soit collectées ?';
-                
+            
+            modalConfirm.textContent = "J'accepte";
             let buttonBack = document.createElement('button');
             buttonBack.type = 'button';
-            buttonBack.textContent = 'Non !';
+            buttonBack.textContent = 'Je refuse';
             buttonBack.className = 'modalClose';
             buttonBack.addEventListener('click', function () {
                 sessionStorage.setItem("rgpd", "false");
+                modalConfirm.textContent = "D'accord";
                 closeModal();
                 window.history.back();
             });
-
+            
             modalContentId.append(buttonBack);
-
+            
             let onConfirm = function () {
+                modalConfirm.textContent = "D'accord";
                 buttonBack.remove();
                 nom.focus();
                 sessionStorage.setItem("rgpd", "true");
