@@ -12,7 +12,7 @@ class ElevesModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["IDELEVE", "NOM", "PRENOM", "ANNEE"];
+    protected $allowedFields    = ["IDELEVE", "NOM", "PRENOM", "ANNEE","DATE_SUPPRESSION"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
