@@ -17,7 +17,7 @@ class EleveController extends BaseController
     public function delete($idEleve)
     {
         $elevesModel = model('ElevesModel');
-        $elevesModel->update($idEleve, ['DATE_SUPPRESSION' => date('Y-m-d H:i:s')]);
+        $elevesModel->update($idEleve, ['DATE_SUPPRESSION' => date('Y-m-d')]);
         return redirect("liste-eleve");
     }
 
