@@ -238,11 +238,11 @@ document.addEventListener('DOMContentLoaded', function () {
             buttonBack.type = 'button';
             buttonBack.textContent = 'Je refuse';
             buttonBack.className = 'modalClose';
+            buttonBack.setAttribute('onclick', 'location=\'<?= url_to(\'redirect-perso-data\') ?>\'')
             buttonBack.addEventListener('click', function () {
                 sessionStorage.setItem("rgpd", "false");
                 modalConfirm.textContent = "D'accord";
                 closeModal();
-                window.location = 'http://dmsnougaro.local/redirection-donnees-personnelles';
             });
             
             modalContentId.append(buttonBack);
