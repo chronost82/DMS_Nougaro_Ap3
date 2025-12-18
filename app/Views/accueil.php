@@ -75,7 +75,7 @@
 
     <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
         <div class="modalOverlay" data-close></div>
-        <div class="modalContent" role="document">
+        <div class="modalContent" role="document" id='modalContentId'>
             <h2 id="modalTitle">Merci de votre demande!</h2>
             <p id="modalText">Vos informations ont bien été prises en compte. Vous serez contacté dans les plus brefs délais.</p>
             <button class="modalClose" data-close>D'accord</button>
