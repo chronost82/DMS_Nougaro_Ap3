@@ -58,7 +58,7 @@ class CTModel extends Model
     public function getAllCTWithClient()
     {
         $req = $this->select('CT.*, CLIENT.NOM, CLIENT.PRENOM, POSSEDE.*, VEHICULE.*')
-            ->join('POSSEDE', 'possede.IDCT = CT.IDCT')
+            ->join('POSSEDE', 'POSSEDE.IDCT = CT.IDCT')
             ->join('CLIENT', 'CLIENT.IDCLIENT = POSSEDE.IDCLIENT')
             ->join('VEHICULE', 'VEHICULE.IDVEHICULE = POSSEDE.IDVEHICULE')
             ->where('CT.CTENCOURS', 1)
@@ -74,6 +74,7 @@ class CTModel extends Model
             ->join('ELEVES', 'ELEVES.IDELEVE = CT.IDELEVE')
             ->join('TEST', 'TEST.IDCT = CT.IDCT')
             ->join('TESTSTECHNIQUE', 'TESTSTECHNIQUE.IDTESTTECHNIQUE = TEST.IDTESTTECHNIQUE')
+            ->join('VEHICULE', 'VEHICULE.IDVEHICULE = POSSEDE.IDVEHICULE')
             ->where('CT.IDCT', $idCT)
             ->findAll();
 

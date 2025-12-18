@@ -199,7 +199,6 @@ class ControleTechniqueController extends BaseController
     public function ecran(int $idCt)
     {
         $ct = model('CTModel')->find($idCt);
-
         return view('controleTechnique/ecranControleTechnique', [
             'ct' => $ct,
         ]);
