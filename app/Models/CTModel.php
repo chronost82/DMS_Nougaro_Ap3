@@ -74,6 +74,7 @@ class CTModel extends Model
             ->join('ELEVES', 'ELEVES.IDELEVE = CT.IDELEVE')
             ->join('TEST', 'TEST.IDCT = CT.IDCT')
             ->join('TESTSTECHNIQUE', 'TESTSTECHNIQUE.IDTESTTECHNIQUE = TEST.IDTESTTECHNIQUE')
+            ->join('VEHICULE', 'VEHICULE.IDVEHICULE = POSSEDE.IDVEHICULE')
             ->where('CT.IDCT', $idCT)
             ->findAll();
 
