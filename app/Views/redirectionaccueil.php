@@ -52,12 +52,18 @@
     </div>
     <script>
         back.onclick = function() {
-            window.location = 'http://dmsnougaro.local/';
+            window.location = window.location.protocol + '//' + window.location.host;
         };
 
         leave.onclick = function() {
             window.location = 'https://www.google.fr';
         };
+
+        window.onload = function () {
+            if (choixRgpd === "true") {
+
+            }
+        }
     </script>
 </body>
 
