@@ -23,18 +23,18 @@ class ClientController extends BaseController
         $testModel = model('TestModel');
         $demandeModel = model('Demande');
         $clientPossede = $possedeModel->where('IDCLIENT', $idClient)->find();
-        $clientTest = $testModel->where('IDCT', $clientPossede['IDCT'])->find();
+        $clientTest = $testModel->where('IDCT', $clientPossede[0]['IDCT'])->find();
 
         if ($demandeModel->where('IDCLIENT', $idClient)->find()) {
             return redirect("liste-clients")->back()->with('erreur', 'Avant de supprimer ce client, veuillez effacer toutes les demandes associées à lui.');
         } else {
             $possedeModel->delete($idClient);
-            if ($testModel->where('IDCT', $clientPossede['IDCT'])->find()) {
+            if ($testModel->where('IDCT', $clientPossede[0]['IDCT'])->find()) {
                 foreach ($clientTest as $test) {
                     $testModel->delete($test['IDTESTTECHNIQUE']);
                 }
             }
-            $cTModel->delete($clientPossede['IDCT']);
+            $cTModel->delete($clientPossede[0]['IDCT']);
 
             $clientsModel->delete($idClient);
             return redirect("liste-clients");
