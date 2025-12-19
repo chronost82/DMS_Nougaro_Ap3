@@ -15,21 +15,15 @@ class ControleTechniqueController extends BaseController
 
         // Marquer le CT comme en cours
         if (!empty($ct) && isset($ct[0]['IDCT'])) {
-            $ctModel = model('CTModel');
-            $ctModel->update($ct[0]['IDCT'], [
-                'CTENCOURS' => 1
-            ]);
-
             // Récupérer les états des tests existants pour ce CT
             $idCt = $ct[0]['IDCT'];
             $testModel = model('TestModel');
             $testStates = $testModel->where('IDCT', $idCt)->findAll();
+            // testStatesMap est l'etat des tests avec comme cle l'IDTESTTECHNIQUE
             $testStatesMap = [];
             foreach ($testStates as $test) {
                 $testStatesMap[$test['IDTESTTECHNIQUE']] = $test['ETAT'];
             }
-        } else {
-            $testStatesMap = [];
         }
 
         return view('controleTechnique/controleTechnique.php', [
@@ -105,6 +99,7 @@ class ControleTechniqueController extends BaseController
 
         $ctModel->update($idCt, [
             'IDELEVE' => $idEleve,
+            'CTENCOURS' => 1
         ]);
 
         return $this->response->setJSON(['status' => 'success']);

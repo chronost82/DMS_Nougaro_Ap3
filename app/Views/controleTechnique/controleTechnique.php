@@ -80,15 +80,16 @@
                 <?php endif; ?>
             </ul>
 
+            <div class="ct-comment-section" <?= !$hasControleur ? 'style="display:none;"' : '' ?>>
+                <label for="commentaire-ct" class="ct-comment-label">Commentaires :</label>
+                <textarea id="commentaire-ct" class="ct-comment-textarea" rows="4" placeholder="Ajoutez vos observations ou remarques sur le contrôle..."><?= esc($ct['COMMENTAIRE'] ?? '') ?></textarea>
+            </div>
+
             <div class="ct-actions-panel" <?= !$hasControleur ? 'style="display:none;"' : '' ?>>
                 <button class="btn-primary ct-btn-finish" type="button" title="Terminer le contrôle" disabled>Terminer</button>
             </div>
         </div>
 
-        <div class="ct-comment-section" <?= !$hasControleur ? 'style="display:none;"' : '' ?>>
-            <label for="commentaire-ct" class="ct-comment-label">Commentaires :</label>
-            <textarea id="commentaire-ct" class="ct-comment-textarea" rows="4" placeholder="Ajoutez vos observations ou remarques sur le contrôle..."><?= esc($ct['COMMENTAIRE'] ?? '') ?></textarea>
-        </div>
     </div>
 
     <script>
@@ -121,13 +122,13 @@
             function checkAllTestsCompleted() {
                 const allGroups = document.querySelectorAll('.ct-choice-group');
                 const finishBtn = document.querySelector('.ct-btn-finish');
-                
+
                 let allChecked = true;
                 allGroups.forEach(group => {
                     const hasChecked = group.querySelector('input[type="radio"]:checked');
                     if (!hasChecked) allChecked = false;
                 });
-                
+
                 if (finishBtn) {
                     finishBtn.disabled = !allChecked;
                 }
@@ -182,55 +183,55 @@
             });
 
             if (selectControleur && idCt) {
-                    selectControleur.addEventListener('change', () => {
-                        const idEleve = selectControleur.value;
-                        
-                        // Activer/désactiver les radios selon la sélection
-                        const checklist = document.querySelector('.ct-checklist');
-                        const warningBox = document.querySelector('.ct-warning-box');
-                        const allRadios = document.querySelectorAll('.ct-checklist input[type="radio"]');
-                        const actionsPanel = document.querySelector('.ct-actions-panel');
-                        const commentSection = document.querySelector('.ct-comment-section');
-                        
-                        if (idEleve) {
-                            // Activer les radios
-                            allRadios.forEach(radio => radio.disabled = false);
-                            if (checklist) checklist.classList.remove('ct-disabled');
-                            if (warningBox) warningBox.style.display = 'none';
-                            if (actionsPanel) actionsPanel.style.display = 'flex';
-                            if (commentSection) commentSection.style.display = 'block';
-                            checkAllTestsCompleted();
-                            
-                            // Sauvegarder le contrôleur
-                            const params = new URLSearchParams();
-                            params.append('idCt', idCt);
-                            params.append('idEleve', idEleve);
+                selectControleur.addEventListener('change', () => {
+                    const idEleve = selectControleur.value;
 
-                            fetch('<?= base_url('controletechnique/save-controleur') ?>', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                                        'X-Requested-With': 'XMLHttpRequest'
-                                    },
-                                    body: params.toString()
-                                })
-                                .then(r => r.json())
-                                .then(data => {
-                                    if (data.status !== 'success') {
-                                        alert('Erreur lors de la mise à jour du contrôleur.');
-                                    }
-                                })
+                    // Activer/désactiver les radios selon la sélection
+                    const checklist = document.querySelector('.ct-checklist');
+                    const warningBox = document.querySelector('.ct-warning-box');
+                    const allRadios = document.querySelectorAll('.ct-checklist input[type="radio"]');
+                    const actionsPanel = document.querySelector('.ct-actions-panel');
+                    const commentSection = document.querySelector('.ct-comment-section');
+
+                    if (idEleve) {
+                        // Activer les radios
+                        allRadios.forEach(radio => radio.disabled = false);
+                        if (checklist) checklist.classList.remove('ct-disabled');
+                        if (warningBox) warningBox.style.display = 'none';
+                        if (actionsPanel) actionsPanel.style.display = 'flex';
+                        if (commentSection) commentSection.style.display = 'block';
+                        checkAllTestsCompleted();
+
+                        // Sauvegarder le contrôleur
+                        const params = new URLSearchParams();
+                        params.append('idCt', idCt);
+                        params.append('idEleve', idEleve);
+
+                        fetch('<?= base_url('controletechnique/save-controleur') ?>', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                body: params.toString()
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                if (data.status !== 'success') {
+                                    alert('Erreur lors de la mise à jour du contrôleur.');
+                                }
+                            })
                             .catch(() => {
                                 alert('Erreur réseau lors de la mise à jour du contrôleur.');
                             });
-                        } else {
-                            // Désactiver les radios
-                            allRadios.forEach(radio => radio.disabled = true);
-                            if (checklist) checklist.classList.add('ct-disabled');
-                            if (warningBox) warningBox.style.display = 'block';
-                            if (actionsPanel) actionsPanel.style.display = 'none';
-                            if (commentSection) commentSection.style.display = 'none';
-                        }
+                    } else {
+                        // Désactiver les radios
+                        allRadios.forEach(radio => radio.disabled = true);
+                        if (checklist) checklist.classList.add('ct-disabled');
+                        if (warningBox) warningBox.style.display = 'block';
+                        if (actionsPanel) actionsPanel.style.display = 'none';
+                        if (commentSection) commentSection.style.display = 'none';
+                    }
                 });
             }
 
