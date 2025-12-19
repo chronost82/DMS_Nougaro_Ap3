@@ -12,7 +12,7 @@ class CTModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['IDELEVE', 'COMMENTAIRE', 'CTENCOURS', 'NUMCT', 'DATECT', 'HEURE'];
+    protected $allowedFields    = ['IDCT', 'IDELEVE', 'COMMENTAIRE', 'CTENCOURS', 'NUMCT', 'DATECT', 'HEURE'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
