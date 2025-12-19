@@ -42,6 +42,8 @@ $routes->get('dashboard/valide-demande-en-attente/(:num)', 'DemandeController::u
 
 $routes->get('ajout-demande', 'DemandeController::ajout', ['as' => 'admin-ajout-demande']);
 $routes->post('ajout-demande', 'DemandeController::create', ['as' => 'admin-ajout-demande', 'filter' => 'csrf']);
+//Redirection refus collecte de données
+$routes->get('redirection-donnees-personnelles', 'DemandeController::redirect', ['as' => 'redirect-perso-data']);
 
 //Validé
 $routes->get('dashboard/liste-demandes-valides', 'DemandeValidesController::affiche', ['as' => 'admin-liste-demandes-valides']);

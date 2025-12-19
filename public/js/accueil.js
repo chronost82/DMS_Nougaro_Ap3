@@ -12,13 +12,6 @@ function isValidPhone(tel) {
     return regex.test(tel);
 }
 
-window.onload = function () {
-    let nameEl = document.getElementById("nom");
-    if (nameEl && typeof nameEl.focus === 'function') {
-        nameEl.focus();
-    }
-};
-
 function selectOptionModele() {
     let selectMarque = document.getElementById('marque');
     let selectModele = document.getElementById('modele');
@@ -104,7 +97,7 @@ function selectOptionModele() {
 
 // Filtre les modèles selon la marque choisie (sans requête serveur)
 document.addEventListener('DOMContentLoaded', function () {
-
+    let choixRgpd = sessionStorage.getItem("rgpd");
     selectOptionModele();
 
     // Modal + soumission contrôlée
@@ -146,8 +139,6 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.classList.add('open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        // focus bouton de confirmation si présent
-        if (modalConfirm && typeof modalConfirm.focus === 'function') modalConfirm.focus();
     }
 
     function closeModal() {
@@ -233,6 +224,47 @@ document.addEventListener('DOMContentLoaded', function () {
             if (modal) openModal();
         };
     }
+
+    setTimeout(() => {
+        if (choixRgpd === null || choixRgpd === "false") {
+            openModal();
+
+            modalTitle.textContent = 'Données personnelles'
+
+            modalText.innerHTML = 'Sur ce site web, toutes les données sont utilisées à des fins pédagogiques.<br>Acceptez-vous que vos données soit collectées ?';
+            
+            modalConfirm.textContent = "J'accepte";
+            let buttonBack = document.createElement('button');
+            buttonBack.type = 'button';
+            buttonBack.textContent = 'Je refuse';
+            buttonBack.className = 'modalClose';
+            buttonBack.addEventListener('click', function () {
+                sessionStorage.setItem("rgpd", "false");
+                modalConfirm.textContent = "D'accord";
+                window.location = window.location.protocol + '//' + window.location.host + '/redirection-donnees-personnelles'
+                closeModal();
+            });
+            
+            modalContentId.append(buttonBack);
+            
+            let onConfirm = function () {
+                modalConfirm.textContent = "D'accord";
+                buttonBack.remove();
+                nom.focus();
+                sessionStorage.setItem("rgpd", "true");
+                closeModal();
+
+                if (modalConfirm) modalConfirm.removeEventListener('click', onConfirm);
+            };
+
+            if (modalConfirm) {
+                // retirer écouteurs précédents pour sécurité puis ajouter
+                modalConfirm.removeEventListener('click', onConfirm);
+                modalConfirm.addEventListener('click', onConfirm);
+                    
+            }
+        }
+    }, 500);
 });
 
 marque.onchange = function () {

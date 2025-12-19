@@ -10,14 +10,14 @@ class EleveController extends BaseController
     public function affiche()
     {
         $elevesModel = model('ElevesModel');
-        $listeEleves = $elevesModel->findall();
+        $listeEleves = $elevesModel->where('DATE_SUPPRESSION IS NULL')->findall();
         return view("eleve/listeEleve", ["listeEleves" => $listeEleves]);
     }
 
     public function delete($idEleve)
     {
         $elevesModel = model('ElevesModel');
-        $elevesModel->delete($idEleve);
+        $elevesModel->update($idEleve, ['DATE_SUPPRESSION' => date('Y-m-d')]);
         return redirect("liste-eleve");
     }
 
