@@ -92,7 +92,11 @@ class DemandeController extends BaseController
             return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('error', 'ID de la demande invalide.');
         }
         $clientModel = model('ClientModel');
-        $clientModel->deleteAllById($id);
+        try {
+            $clientModel->deleteAllById($id);
+        } catch (\Exception $e) {
+            return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('error', $e->getMessage());
+        }
         return redirect()->to(url_to('admin-liste-demandes-en-attentes') . '?status=' . $status)->with('success', 'Demande et données associées supprimées avec succès.');
     }
 

@@ -54,6 +54,12 @@ class CLIENTModel extends Model
 
     public function deleteAllById(int $id): void
     {
+        // Si le CT est en cours alors on ne peut pas supprimer le client
+        $ctModel = model("CTModel");
+        $ctEnCours = $ctModel->join('POSSEDE', 'POSSEDE.IDCT = CT.IDCT')->where('POSSEDE.IDCLIENT', $id)->where('CTENCOURS', 1)->first();
+        if (!empty($ctEnCours)) {
+            throw new \Exception("Impossible de supprimer le client car un contrôle technique est en cours.");
+        }
         // Supprimer les demandes associées au client
         $demandeModel = model("Demande");
         $demandeModel->where('IDCLIENT', $id)->delete();
