@@ -56,7 +56,7 @@
 
         window.onload = function () {
             if (choixRgpd === "true") {
-
+                window.location = window.location.protocol + '//' + window.location.host;
             }
         }
     </script>
