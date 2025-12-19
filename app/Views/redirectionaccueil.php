@@ -48,15 +48,10 @@
         <h1>Pour accéder au site</h1>
         <h2>Vous devez accepter la collecte des données pour faire une demande.</h2>
         <button id="back">Retourner sur le site</button>
-        <button id="leave">Quitter le site</button>
     </div>
     <script>
         back.onclick = function() {
             window.location = window.location.protocol + '//' + window.location.host;
-        };
-
-        leave.onclick = function() {
-            window.location = 'https://www.google.fr';
         };
 
         window.onload = function () {
