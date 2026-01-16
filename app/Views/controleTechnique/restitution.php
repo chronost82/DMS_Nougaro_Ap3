@@ -324,6 +324,7 @@
     <?php endif; ?>
 
     <div class="footer">
+        <p style="margin-top: 12px;">Cet outil de pré-contrôle technique est destiné exclusivement à des fins pédagogiques et ne possède aucune valeur officielle.</p>
         <p style="margin-top: 12px;">Copyright <?= date('Y') ?> - Tous droits reserves</p>
     </div>
 </body>
