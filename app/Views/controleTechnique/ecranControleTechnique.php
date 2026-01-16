@@ -24,7 +24,7 @@
     let updateView = async function() {
         let response = await fetch("<?= url_to('ecran-controle-technique-ajax', $ct['IDCT']) ?>");
         let ctDetails = await response.json();
-        infoEleve.innerHTML = "Véhicule controllé par : " + ctDetails[0]['PRENOM'] + ' ' + ctDetails[0]['NOM'];
+        infoEleve.innerHTML = "Véhicule controlé par : " + ctDetails[0]['PRENOM'] + ' ' + ctDetails[0]['NOM'];
         infoVehicule.innerHTML = "Véhicule : " + ctDetails[0]['MARQUE'] + ' ' + ctDetails[0]['MODELE'];
         immatriculation.innerHTML = "Immatriculation : " + ctDetails[0]['IMAT'];
         ctFormTitle.innerHTML = '';
@@ -42,6 +42,7 @@
             ["ok", "surv", "def"].forEach(function(value, index) {
                 let label = document.createElement('label');
                 let input = document.createElement('input');
+                input.disabled = true;
                 input.type = "radio";
                 input.name = index2;
                 input.value = value;
