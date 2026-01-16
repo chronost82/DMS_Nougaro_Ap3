@@ -218,13 +218,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         const ymd = fmtDateYMD(dateObj);
                         cell.dataset.date = ymd;
                         if (state.selectedDate === ymd) cell.classList.add('selected');
-                        const isWeekend = [0, 6].includes(dateObj.getDay()); // 0=Dim, 6=Sam
+                        // Ne considérer que le dimanche comme indisponible ; le samedi devient réservable
+                        const isSunday = dateObj.getDay() === 0; // 0=Dim
                         const isPast = dateObj < today;
                         const isOriginalDate = state.originalDate === ymd;
-                        const shouldDisable = (isWeekend || isPast) && !isOriginalDate;
+                        const shouldDisable = (isSunday || isPast) && !isOriginalDate;
                         if (shouldDisable) {
                             cell.disabled = true;
-                            cell.title = isWeekend ? 'Week-end indisponible' : 'Date passée indisponible';
+                            cell.title = isSunday ? 'Dimanche indisponible' : 'Date passée indisponible';
                         } else {
                             cell.addEventListener('click', () => {
                                 state.selectedDate = ymd;

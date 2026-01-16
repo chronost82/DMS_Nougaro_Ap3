@@ -1,8 +1,8 @@
 <?php $this->extend('layout') ?>
 
 <?= $this->section('meta') ?>
-<link rel="stylesheet" href="<?= base_url('css/gestiondemandes.css') ?>">
-<script src="<?= base_url('js/gestiondemandes.js') ?>" defer></script>
+<link rel="stylesheet" href="<?= base_url('css/gestiondemandes.css') ?>?v=<?= time() ?>">
+<script src="<?= base_url('js/gestiondemandes.js') ?>?v=<?= time() ?>" defer></script>
 <?php $this->endSection() ?>
 
 <?php
@@ -228,7 +228,7 @@ $valOrPlaceholder = static function ($v) {
                 <!-- Champs utilisés pour la soumission, alimentés par le calendrier -->
                 <input type="hidden" name="date" id="f-date">
                 <input type="hidden" name="heure" id="f-heure">
-                <small class="muted">Créneaux 08:00–18:00, 2 rdv max par créneau, hors week-ends et jours fériés.</small>
+                <small class="muted">Créneaux 08:00–18:00, 2 rdv max par créneau, hors dimanches et jours fériés — le samedi est réservable.</small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" data-close-modal>Annuler</button>
