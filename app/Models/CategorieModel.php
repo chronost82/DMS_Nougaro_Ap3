@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class TestTechniqueModel extends Model
+class CategorieModel extends Model
 {
     protected $table            = 'CATEGORIE';
     protected $primaryKey       = 'ID';
