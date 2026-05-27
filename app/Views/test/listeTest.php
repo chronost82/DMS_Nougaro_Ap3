@@ -20,7 +20,7 @@
             $tableauTest->setTemplate([
                 'table_open' => '<table id="testsTable">'
             ]);
-            $tableauTest->setHeading('Libellé du test', 'Actions', ' ');
+            $tableauTest->setHeading('Libellé du test','Catégorie', 'Actions', ' ');
             foreach ($listeTest as $test) {
                 $tableauTest->addRow(
                     esc($test['LIBELLE']),
